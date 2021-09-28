@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React from 'react';
-import { Redirect } from 'react-router';
+import { RouteComponentProps, withRouter  } from 'react-router-dom';
 
 interface LoginCredentials {
     email?: string,
     password?: string
 }
-
-class SignIn extends React.Component<LoginCredentials> {
+ 
+class SignIn extends React.Component<LoginCredentials&RouteComponentProps<any>> {
     state: LoginCredentials = {
         email: '',
         password: ''
@@ -21,17 +21,13 @@ class SignIn extends React.Component<LoginCredentials> {
           password: this.state.password
         }, { withCredentials: true })
         .then(response => {
-          console.log('Data', response)
+          //console.log('Data', response)
           if (response) {
-            <Redirect to='/me' push />            
-          }
+             this.props.history.push("/me");  
+          }    
         }          
     )    
   }
-
-  
-
-    
     render() {
       return (
         <form onSubmit={this.handleSubmit}>          
@@ -60,4 +56,4 @@ class SignIn extends React.Component<LoginCredentials> {
   }  
 }
 
-export default SignIn
+export default withRouter(SignIn)
