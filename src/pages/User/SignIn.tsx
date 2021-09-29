@@ -21,7 +21,9 @@ class SignIn extends React.Component<LoginCredentials&RouteComponentProps<any>> 
           password: this.state.password
         }, { withCredentials: true })
         .then(response => {
-          //console.log('Data', response)
+          console.log('Data', response)
+          localStorage.setItem('accessToken', response.data.tokens.accessToken)
+          localStorage.setItem('refreshToken', response.data.tokens.refreshToken)
           if (response) {
              this.props.history.push("/me");  
           }    
