@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { RouteComponentProps, withRouter  } from 'react-router-dom';
 
 interface IUSER {
     id?: string,
@@ -13,7 +14,7 @@ interface IUSER {
     updatedAt?: Date
 }
 
-export default class User extends React.Component {
+class User extends React.Component<IUSER&RouteComponentProps<any>> {
     state: IUSER = {
         id: '',
         firstName: '',
@@ -25,7 +26,9 @@ export default class User extends React.Component {
     }
 
     componentDidMount = async () => {
-        await axios.get('http://localhost:4000/api/users/me',{withCredentials: true})
+        const accessToken = localStorage.getItem('accessToken');
+        await axios.get('http://localhost:4000/api/users/me',
+            {headers: { Authorization: `JWT ${accessToken}` }})
             .then(response => {
                 console.log('getData', response)
                 this.setState({
@@ -34,12 +37,24 @@ export default class User extends React.Component {
                 })
             })
     }
+    onClick =  () => (this.props.history.push("/allUsers"))
     render() {
         return (
             <div>
             <h1> {this.state.email} </h1>
                 <h2> {this.state.firstName} </h2>
+                { this.state.isAdmin && this.state.isAdmin === true}{
+                    <button type="button" onClick = {this.onClick} >
+                        
+                       {/*  <li className="nav-item">
+                            <Link className="nav-link" to={"/allUsers"}>AllUsers</Link>                            
+                        </li>                  */}       
+                    </button >
+                }
+                
                 </div>
         )
     }
 }
+
+export default withRouter(User)
