@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import { RouteComponentProps, withRouter  } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import FormGroup from '@mui/material/FormGroup';
 
 interface LoginCredentials {
     email?: string,
@@ -13,7 +17,7 @@ class SignIn extends React.Component<LoginCredentials&RouteComponentProps<any>> 
         password: ''
     }
 
-  handleSubmit = async (event: React.FormEvent) => {
+  onButtonClick = async (event: React.FormEvent) => {
       event.preventDefault();
       await axios.post('http://localhost:4000/api/users/login',
         {        
@@ -30,30 +34,46 @@ class SignIn extends React.Component<LoginCredentials&RouteComponentProps<any>> 
         }          
     )    
   }
-    render() {
-      return (
-        <form onSubmit={this.handleSubmit}>          
+  render() {
+      
+    return (
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div>
           <h3>Sign In</h3>
-          <div className="form-group">            
-            <label>Email address</label>            
-            <input type="email" className="form-control" placeholder="Enter email" value={this.state.email} onChange={(event) => this.setState({                      
-              email: event.target.value              
-            })} />            
-          </div>
+          <FormGroup >
+            <TextField        
+              required
+              label="Email"
+              type="email"                
+              value={this.state.email}              
+              onChange={(event) => this.setState({              
+                email: event.target.value                
+              })}              
+            />            
+            <TextField              
+              required              
+              label="Password"              
+              type="password"          
+              value={this.state.password}              
+              onChange={(event) => this.setState({              
+                password: event.target.value                
+              })}              
+            />
+            <Button onClick={this.onButtonClick} variant='contained' color='primary'>Submit</Button>            
+            <p className="forgot-password text-right">              
+              Forgot <a href="#">password?</a>              
+            </p>            
           
-          <div className="form-group">            
-            <label>Password</label>            
-            <input type="password" className="form-control" placeholder="Enter password" value={this.state.password} onChange={(event) => this.setState({              
-              password: event.target.value              
-            })} />
-          </div>
-
-          <button type="submit" className="btn btn-primary btn-block">Submit</button>          
-          <p className="forgot-password text-right">            
-            Forgot <a href="#">password?</a>            
-          </p>
-          
-        </form>     
+          </FormGroup>
+        </div>        
+      </Box>      
     )
   }  
 }
