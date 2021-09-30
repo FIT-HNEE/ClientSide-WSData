@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { RouteComponentProps, withRouter  } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 interface IUSER {
     id?: string,
@@ -44,12 +45,12 @@ class User extends React.Component<IUSER&RouteComponentProps<any>> {
             <h1> {this.state.email} </h1>
                 <h2> {this.state.firstName} </h2>
                 { this.state.isAdmin && this.state.isAdmin === true}{
-                    <button type="button" onClick = {this.onClick} >
+                    <Button variant='contained' color='primary' onClick = {this.onClick} >
                         
                        {/*  <li className="nav-item">
                             <Link className="nav-link" to={"/allUsers"}>AllUsers</Link>                            
                         </li>                  */}       
-                    </button >
+                    </Button >
                 }
                 
                 </div>
