@@ -46,7 +46,7 @@ class User extends React.Component<IUSER&RouteComponentProps<any>> {
                 <h2> {this.state.firstName} </h2>
                 { this.state.isAdmin && this.state.isAdmin === true}{
                     <Button variant='contained' color='primary' onClick = {this.onClick} >
-                        
+                        All Users Data
                        {/*  <li className="nav-item">
                             <Link className="nav-link" to={"/allUsers"}>AllUsers</Link>                            
                         </li>                  */}       
