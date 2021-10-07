@@ -101,10 +101,7 @@ export default class AllUsers extends React.Component {
                         </Table>
                         </TableContainer>
                 </Paper> 
-                <Button
-                    variant='contained'
-                    color='primary'                    
-                    onClick={() => (localStorage.clear())} > LOGOUT </Button>
+                
               
             
             </div>
