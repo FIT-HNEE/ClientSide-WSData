@@ -1,4 +1,5 @@
-import { Route,BrowserRouter, Switch } from 'react-router-dom';
+import React from "react";
+import { Route, Switch, RouteComponentProps, withRouter  } from 'react-router-dom';
 import AllUsers from '../pages/User/AllUsers';
 import SignIn from '../pages/User/SignIn';
 import SignUp from '../pages/User/SignUp';
@@ -12,10 +13,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 
 
-function NavBar() {    
+const NavBar: React.FC<RouteComponentProps> = (props) => {    
 
     return (
-        <BrowserRouter>
+        <>
         <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
@@ -30,11 +31,38 @@ function NavBar() {
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
-          </Typography>
-                        <Button color="inherit" href="/sign-in" >Login</Button>
-                        <Button color="inherit" href="/sign-up" >Sign up</Button>
-                        <Button color="inherit" href="/me" >User</Button>
-                        <Button color="inherit" href="/AllUsers" >AllUsers</Button>
+              </Typography>
+              {(() => {
+                const accessToken = localStorage.getItem('accessToken');
+                console.log('Access Token here', accessToken)
+
+                if (accessToken && accessToken !== null) {
+                  return (
+                    <> 
+                      <Button color="inherit" href="/me" >User</Button>                      
+                      <Button color="inherit" href="/AllUsers" >AllUsers</Button>
+                      <Button
+                    variant='contained'
+                    color='primary'                    
+                        onClick={() => {
+                          localStorage.clear()
+                          props.history.push("/sign-in");
+                        }} > LOGOUT </Button>
+                    </>                    
+                  )
+                } else {
+                  return (
+                    <> 
+                    <Button color="inherit" href="/sign-in" >Login</Button>                    
+                    <Button color="inherit" href="/sign-up" >Sign up</Button>                    
+                  </> 
+                  )
+                                   
+                }
+              })
+              ()}
+                       
+                        
         </Toolbar>
       </AppBar>
     </Box>    
@@ -53,9 +81,9 @@ function NavBar() {
                 <Route path="/allUsers" component={AllUsers} />
                 
             </Switch>
-            </BrowserRouter>
+            </>
         
     )
 }
 
-export default NavBar;
+export default withRouter(NavBar);
