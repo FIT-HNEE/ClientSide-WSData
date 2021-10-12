@@ -1,5 +1,4 @@
-
-const Data  = (props: any) => {
+const WeatherData  = (props: any) => {
     console.log('PROPS', props)
     return (
         <>
@@ -8,4 +7,4 @@ const Data  = (props: any) => {
     )
 }
 
-export default Data
+export default WeatherData
