@@ -30,7 +30,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Weather Data APP
               </Typography>
               {(() => {
                 const accessToken = localStorage.getItem('accessToken');
