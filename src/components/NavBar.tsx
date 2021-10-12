@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
-import SearchData from "../pages/WeatherData/SearchData";
-import Data from "../pages/WeatherData/Data";
+import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
+import WeatherData from "../pages/WeatherData/WeatherData";
 
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {    
@@ -56,8 +56,8 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                   return (
                     <> 
                       <Button color="inherit" href="/sign-in" >Login</Button>
-                      <Button color="inherit" href="/SearchData" >SearchWeatherData</Button>
-                      <Button color="inherit" href="/data" >DATA</Button>
+                      <Button color="inherit" href="/WeatherDataFetching" >SearchWeatherData</Button>
+                      <Button color="inherit" href="/WeatherData" >WeatherData</Button>
                       <Button color="inherit" href="/sign-up" >Sign up</Button>
                       
                   </> 
@@ -83,9 +83,9 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 
           <Route path="/me" component={User} />
 
-          <Route path="/SearchData" component={SearchData} />
+          <Route path="/WeatherDataFetching" component={WeatherDataFetching} />
 
-          <Route path="/data" component={Data} />
+          <Route path="/WeatherData" component={WeatherData} />
                 
           <Route path="/allUsers" component={AllUsers} />          
                 
