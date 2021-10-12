@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
+import SearchData from "../pages/WeatherData/SearchData";
+import Data from "../pages/WeatherData/Data";
 
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {    
@@ -30,7 +32,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Welcome
               </Typography>
               {(() => {
                 const accessToken = localStorage.getItem('accessToken');
@@ -53,8 +55,11 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 } else {
                   return (
                     <> 
-                    <Button color="inherit" href="/sign-in" >Login</Button>                    
-                    <Button color="inherit" href="/sign-up" >Sign up</Button>                    
+                      <Button color="inherit" href="/sign-in" >Login</Button>
+                      <Button color="inherit" href="/SearchData" >SearchWeatherData</Button>
+                      <Button color="inherit" href="/data" >DATA</Button>
+                      <Button color="inherit" href="/sign-up" >Sign up</Button>
+                      
                   </> 
                   )
                                    
@@ -68,19 +73,24 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
     </Box>    
             
 
-            <Switch>
+        <Switch>
+                          
+          <Route exact path='/' component={SignIn} />          
                 
-                <Route exact path='/' component={SignIn} />
+          <Route path="/sign-in" component={SignIn} />          
                 
-                <Route path="/sign-in" component={SignIn} />
+          <Route path="/sign-up" component={SignUp} />          
                 
-                <Route path="/sign-up" component={SignUp} />
+          <Route path="/me" component={User} />
+
+          <Route path="/SearchData" component={SearchData} />
+
+          <Route path="/data" component={Data} />
                 
-                <Route path="/me" component={User} />
+          <Route path="/allUsers" component={AllUsers} />          
                 
-                <Route path="/allUsers" component={AllUsers} />
-                
-            </Switch>
+        </Switch>
+        
             </>
         
     )
