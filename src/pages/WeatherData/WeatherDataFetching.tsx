@@ -28,7 +28,7 @@ interface WeatherDataCredentials {
  
 
 
-class SearchData extends React.Component<RouteComponentProps, WeatherDataCredentials> {
+class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDataCredentials> {
     constructor(props: RouteComponentProps) {
         super(props)
     
@@ -117,4 +117,4 @@ class SearchData extends React.Component<RouteComponentProps, WeatherDataCredent
   }  
 }
 
-export default withRouter(SearchData)
+export default withRouter(WeatherDataFetching)
