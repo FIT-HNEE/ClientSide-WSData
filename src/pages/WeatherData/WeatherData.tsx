@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import { styled } from '@mui/material/styles';
+import { makeStyles } from "@mui/styles";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,11 +30,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const WeatherData = (props: any) => {
+const useStyles = makeStyles(() => ({
+  customTableContainer: {
+        overflowX: "scroll",
+        height: "80vh"
+      
+  }
+}));
+         
+const WeatherData = (props: any) => {    
     
     const [page, setPage] = React.useState(0);
 
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const classes = useStyles();
 
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -50,11 +61,11 @@ const WeatherData = (props: any) => {
 
     return (
         <Paper>
-            <TableContainer>
+            <TableContainer classes={{ root: classes.customTableContainer }}>
                 
-                <Table aria-label="simple table">
+                <Table stickyHeader>
 
-                    <TableHead>
+                    <TableHead >
 
                         <TableRow>
                             
