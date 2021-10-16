@@ -3,28 +3,50 @@ import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
+import { styled } from '@mui/material/styles';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 const WeatherData = (props: any) => {
     
     const [page, setPage] = React.useState(0);
+
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+
     const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-    const weatherData = props.location.state.WeatherData
+        setPage(newPage);        
+    };
     
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {      
+        setRowsPerPage(+event.target.value);        
+        setPage(0);        
+    };
+    
+    const weatherData = props.location.state.WeatherData    
 
     return (
         <Paper>
@@ -36,57 +58,57 @@ const WeatherData = (props: any) => {
 
                         <TableRow>
                             
-                            <TableCell align="right">{weatherData.header.dateTime}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.dateTime}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k1}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k1}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k2}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k2}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k3}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k3}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k4}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k4}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k5}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k5}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k6}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k6}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k7}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k7}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k8}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k8}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k9}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k9}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k10}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k10}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k11}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k11}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k12}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k12}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k13}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k13}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k14}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k14}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k15}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k15}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k16}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k16}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k17}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k17}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k18}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k18}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k19}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k19}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k20}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k20}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k21}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k21}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k22}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k22}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k23}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k23}</StyledTableCell>
                             
-                            <TableCell align="right">{weatherData.header.k24}</TableCell>
+                            <StyledTableCell align="right">{weatherData.header.k24}</StyledTableCell>
 
-                            <TableCell align="right">{weatherData.header.k25}</TableCell>  
+                            <StyledTableCell align="right">{weatherData.header.k25}</StyledTableCell>  
                                 
                         </TableRow>
                         
@@ -100,65 +122,65 @@ const WeatherData = (props: any) => {
                                 
                             return (
                         
-                                <TableRow key={row.dateTime}>
+                                <StyledTableRow  key={row.dateTime}>
                                     
-                                    <TableCell component="th" scope="row">
+                                    <StyledTableCell component="th" scope="row">
                                         
                                         {row.dateTime}
                                         
-                                    </TableCell>
+                                    </StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k1}</TableCell>
+                                    <StyledTableCell align="right">{row.k1}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k2}</TableCell>
+                                    <StyledTableCell align="right">{row.k2}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k3}</TableCell>
+                                    <StyledTableCell align="right">{row.k3}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k4}</TableCell>
+                                    <StyledTableCell align="right">{row.k4}</StyledTableCell>
 
-                                    <TableCell align="right">{row.k5}</TableCell>
+                                    <StyledTableCell align="right">{row.k5}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k6}</TableCell>
+                                    <StyledTableCell align="right">{row.k6}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k7}</TableCell>
+                                    <StyledTableCell align="right">{row.k7}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k8}</TableCell>
+                                    <StyledTableCell align="right">{row.k8}</StyledTableCell>
 
-                                    <TableCell align="right">{row.k9}</TableCell>
+                                    <StyledTableCell align="right">{row.k9}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k10}</TableCell>
+                                    <StyledTableCell align="right">{row.k10}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k11}</TableCell>
+                                    <StyledTableCell align="right">{row.k11}</StyledTableCell>
 
-                                    <TableCell align="right">{row.k12}</TableCell>
+                                    <StyledTableCell align="right">{row.k12}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k13}</TableCell>
+                                    <StyledTableCell align="right">{row.k13}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k14}</TableCell>
+                                    <StyledTableCell align="right">{row.k14}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k15}</TableCell>
+                                    <StyledTableCell align="right">{row.k15}</StyledTableCell>
 
-                                    <TableCell align="right">{row.k16}</TableCell>
+                                    <StyledTableCell align="right">{row.k16}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k17}</TableCell>
+                                    <StyledTableCell align="right">{row.k17}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k18}</TableCell>
+                                    <StyledTableCell align="right">{row.k18}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k19}</TableCell>
+                                    <StyledTableCell align="right">{row.k19}</StyledTableCell>
 
-                                    <TableCell align="right">{row.k20}</TableCell>
+                                    <StyledTableCell align="right">{row.k20}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k21}</TableCell>
+                                    <StyledTableCell align="right">{row.k21}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k22}</TableCell>
+                                    <StyledTableCell align="right">{row.k22}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k23}</TableCell>
+                                    <StyledTableCell align="right">{row.k23}</StyledTableCell>
 
-                                    <TableCell align="right">{row.k24}</TableCell>
+                                    <StyledTableCell align="right">{row.k24}</StyledTableCell>
                                     
-                                    <TableCell align="right">{row.k25}</TableCell>
+                                    <StyledTableCell align="right">{row.k25}</StyledTableCell>
                 
-                                </TableRow>
+                                </StyledTableRow >
                             )                            
                         })}
                         
