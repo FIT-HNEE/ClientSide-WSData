@@ -14,6 +14,7 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import Stack from '@mui/material/Stack';
 import moment from 'moment'
 import { parseISO } from 'date-fns/esm';
+import fileDownload from 'js-file-download'
 
 interface WeatherDataCredentials {
     StationName?: string,
@@ -42,8 +43,12 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
   
     
   onButtonClick = async (event: React.FormEvent) => {
-    event.preventDefault();    
-    const response = await axios.post("http://localhost:4000/api/weatherData", {
+
+    event.preventDefault();
+    var element = event.target as HTMLElement
+
+    if (element.id !== 'download') {
+      const response = await axios.post("http://localhost:4000/api/weatherData", {
     
       StationName: this.state.StationName,      
       StartDay: this.state.StartDay,    
@@ -59,8 +64,20 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
         WeatherData: data,        
       },      
     });
+    } else {
+      axios.post("http://localhost:4000/api/weatherData", {
     
-  };
+      StationName: this.state.StationName,      
+      StartDay: this.state.StartDay,    
+      EndDay: this.state.EndDay,    
+      }, {
+        responseType: 'blob',
+      }).then((res) => {
+        console.log('DATA', res.data.data)
+        fileDownload(res.data, "data.csv")
+      })      
+    }    
+  };  
 
   render() {    
     return (
@@ -122,6 +139,8 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
                </Stack>
             </LocalizationProvider>   
             <Button onClick={this.onButtonClick} variant='contained' color='primary'>Search Data</Button>
+
+            <Button id="download" onClick={this.onButtonClick} variant='contained' color='primary'>Download Data</Button>
           </FormGroup>
         </div>        
       </Box>      
