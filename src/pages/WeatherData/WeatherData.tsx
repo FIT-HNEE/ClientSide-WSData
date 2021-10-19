@@ -93,9 +93,10 @@ const WeatherData = (props: any) => {
 
                         <TableRow >
 
-                           <StickyTableCell>  
+                           <StickyTableCell classes={{ root: classes.headerCell }}> 
                             
-                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.dateTime}</TableCell>
+                                {weatherData.header.dateTime}
+                                
                             </StickyTableCell>
                             
                             <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k1}</TableCell>
@@ -163,14 +164,7 @@ const WeatherData = (props: any) => {
                         
                                 <StyledTableRow key={row.dateTime}>
                                     
-                                    <StickyTableCell>
-                                    
-                                    <TableCell classes={{ root: classes.dateTime }} component="th" scope="row">
-                                        
-                                        {row.dateTime}
-                                        
-                                    </TableCell>
-                                    </StickyTableCell>
+                                    <StickyTableCell classes={{ root: classes.dateTime }}> {row.dateTime} </StickyTableCell>
                                     
                                     <TableCell align="center">{row.k1}</TableCell>
                                     
