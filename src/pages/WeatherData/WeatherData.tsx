@@ -8,9 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import { styled } from '@mui/material/styles';
-import { makeStyles } from "@mui/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+/* const TableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -18,12 +18,28 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
+})); */
+
+const StickyTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#ddd",    
+    left: 0,
+    position: "sticky",
+    zIndex: theme.zIndex.appBar + 2
+  },
+  [`&.${tableCellClasses.body}`]: {
+     backgroundColor: "#ddd",
+   
+    left: 0,
+    position: "sticky",
+    zIndex: theme.zIndex.appBar + 1
+  }
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+ /*  '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
-  },
+  }, */
   // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
@@ -35,7 +51,15 @@ const useStyles = makeStyles(() => ({
         overflowX: "scroll",
         height: "80vh"
       
-  }
+    },
+    headerCell: {        
+        background: '#ddd',        
+    },
+    dateTime: {        
+        //fontSize: "12px",
+        padding: "0px"
+    },
+    
 }));
          
 const WeatherData = (props: any) => {    
@@ -63,63 +87,67 @@ const WeatherData = (props: any) => {
         <Paper>
             <TableContainer classes={{ root: classes.customTableContainer }}>
                 
-                <Table stickyHeader>
+                <Table stickyHeader aria-label="sticky table">
 
                     <TableHead >
 
-                        <TableRow>
-                            
-                            <StyledTableCell align="right">{weatherData.header.dateTime}</StyledTableCell>
-                            
-                            <StyledTableCell align="right">{weatherData.header.k1}</StyledTableCell>
-                            
-                            <StyledTableCell align="right">{weatherData.header.k2}</StyledTableCell>
+                        <TableRow >
 
-                            <StyledTableCell align="right">{weatherData.header.k3}</StyledTableCell>
+                           <StickyTableCell>  
                             
-                            <StyledTableCell align="right">{weatherData.header.k4}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.dateTime}</TableCell>
+                            </StickyTableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k5}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k1}</TableCell>
+                            
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k2}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k6}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k3}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k7}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k4}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k8}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k5}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k9}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k6}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k10}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k7}</TableCell>
+                            
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k8}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k11}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k9}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k12}</StyledTableCell>
-                            
-                            <StyledTableCell align="right">{weatherData.header.k13}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k10}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k14}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k11}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k15}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k12}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k16}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k13}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k17}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k14}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k18}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k15}</TableCell>
+                            
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k16}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k19}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k17}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k20}</StyledTableCell>
-                            
-                            <StyledTableCell align="right">{weatherData.header.k21}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k18}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k22}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k19}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k23}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k20}</TableCell>
                             
-                            <StyledTableCell align="right">{weatherData.header.k24}</StyledTableCell>
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k21}</TableCell>
 
-                            <StyledTableCell align="right">{weatherData.header.k25}</StyledTableCell>  
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k22}</TableCell>
+                            
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k23}</TableCell>
+                            
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k24}</TableCell>
+
+                            <TableCell classes={{ root: classes.headerCell }}>{weatherData.header.k25}</TableCell>  
+                            
                                 
                         </TableRow>
                         
@@ -133,63 +161,68 @@ const WeatherData = (props: any) => {
                                 
                             return (
                         
-                                <StyledTableRow  key={row.dateTime}>
+                                <StyledTableRow key={row.dateTime}>
                                     
-                                    <StyledTableCell component="th" scope="row">
+                                    <StickyTableCell>
+                                    
+                                    <TableCell classes={{ root: classes.dateTime }} component="th" scope="row">
                                         
                                         {row.dateTime}
                                         
-                                    </StyledTableCell>
+                                    </TableCell>
+                                    </StickyTableCell>
                                     
-                                    <StyledTableCell align="right">{row.k1}</StyledTableCell>
+                                    <TableCell align="center">{row.k1}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k2}</StyledTableCell>
+                                    <TableCell align="center">{row.k2}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k3}</StyledTableCell>
+                                    <TableCell align="center">{row.k3}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k4}</StyledTableCell>
+                                    <TableCell align="center">{row.k4}</TableCell>
 
-                                    <StyledTableCell align="right">{row.k5}</StyledTableCell>
+                                    <TableCell align="center">{row.k5}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k6}</StyledTableCell>
+                                    <TableCell align="center">{row.k6}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k7}</StyledTableCell>
+                                    <TableCell align="center">{row.k7}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k8}</StyledTableCell>
+                                    <TableCell align="center">{row.k8}</TableCell>
 
-                                    <StyledTableCell align="right">{row.k9}</StyledTableCell>
+                                    <TableCell align="center">{row.k9}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k10}</StyledTableCell>
+                                    <TableCell align="center">{row.k10}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k11}</StyledTableCell>
+                                    <TableCell align="center">{row.k11}</TableCell>
 
-                                    <StyledTableCell align="right">{row.k12}</StyledTableCell>
+                                    <TableCell align="center">{row.k12}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k13}</StyledTableCell>
+                                    <TableCell align="center">{row.k13}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k14}</StyledTableCell>
+                                    <TableCell align="center">{row.k14}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k15}</StyledTableCell>
+                                    <TableCell align="center">{row.k15}</TableCell>
 
-                                    <StyledTableCell align="right">{row.k16}</StyledTableCell>
+                                    <TableCell align="center">{row.k16}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k17}</StyledTableCell>
+                                    <TableCell align="center">{row.k17}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k18}</StyledTableCell>
+                                    <TableCell align="center">{row.k18}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k19}</StyledTableCell>
+                                    <TableCell align="center">{row.k19}</TableCell>
 
-                                    <StyledTableCell align="right">{row.k20}</StyledTableCell>
+                                    <TableCell align="center">{row.k20}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k21}</StyledTableCell>
+                                    <TableCell align="center">{row.k21}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k22}</StyledTableCell>
+                                    <TableCell align="center">{row.k22}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k23}</StyledTableCell>
+                                    <TableCell align="center">{row.k23}</TableCell>
 
-                                    <StyledTableCell align="right">{row.k24}</StyledTableCell>
+                                    <TableCell align="center">{row.k24}</TableCell>
                                     
-                                    <StyledTableCell align="right">{row.k25}</StyledTableCell>
+                                    <TableCell align="center">{row.k25}</TableCell>
+
+                                    
                 
                                 </StyledTableRow >
                             )                            
