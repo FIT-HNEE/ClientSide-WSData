@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
+import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
+import WeatherData from "../pages/WeatherData/WeatherData";
 
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {    
@@ -53,8 +55,11 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 } else {
                   return (
                     <> 
-                    <Button color="inherit" href="/sign-in" >Login</Button>                    
-                    <Button color="inherit" href="/sign-up" >Sign up</Button>                    
+                      <Button color="inherit" href="/sign-in" >Login</Button>
+                      <Button color="inherit" href="/WeatherDataFetching" >SearchWeatherData</Button>
+                      <Button color="inherit" href="/WeatherData" >WeatherData</Button>
+                      <Button color="inherit" href="/sign-up" >Sign up</Button>
+                      
                   </> 
                   )
                                    
@@ -68,19 +73,24 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
     </Box>    
             
 
-            <Switch>
+        <Switch>
+                          
+          <Route exact path='/' component={SignIn} />          
                 
-                <Route exact path='/' component={SignIn} />
+          <Route path="/sign-in" component={SignIn} />          
                 
-                <Route path="/sign-in" component={SignIn} />
+          <Route path="/sign-up" component={SignUp} />          
                 
-                <Route path="/sign-up" component={SignUp} />
+          <Route path="/me" component={User} />
+
+          <Route path="/WeatherDataFetching" component={WeatherDataFetching} />
+
+          <Route path="/WeatherData" component={WeatherData} />
                 
-                <Route path="/me" component={User} />
+          <Route path="/allUsers" component={AllUsers} />          
                 
-                <Route path="/allUsers" component={AllUsers} />
-                
-            </Switch>
+        </Switch>
+        
             </>
         
     )
