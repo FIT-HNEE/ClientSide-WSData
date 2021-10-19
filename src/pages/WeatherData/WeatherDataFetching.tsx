@@ -14,7 +14,8 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import Stack from '@mui/material/Stack';
 import moment from 'moment'
 import { parseISO } from 'date-fns/esm';
-import fileDownload from 'js-file-download'
+//import fileDownload from 'js-file-download'
+import { arrayToExcel } from '../../components/ArraytoExcel'
 
 interface WeatherDataCredentials {
     StationName?: string,
@@ -65,17 +66,14 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
       },      
     });
     } else {
-      axios.post("http://localhost:4000/api/weatherData", {
+      const response = await axios.post("http://localhost:4000/api/weatherData", {
     
       StationName: this.state.StationName,      
       StartDay: this.state.StartDay,    
       EndDay: this.state.EndDay,    
-      }, {
-        responseType: 'blob',
-      }).then((res) => {
-        console.log('DATA', res.data.data)
-        fileDownload(res.data, "data.csv")
-      })      
+      })
+      const data = await response.data
+        await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`)
     }    
   };  
 
