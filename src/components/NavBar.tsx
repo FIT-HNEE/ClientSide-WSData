@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
 import WeatherData from "../pages/WeatherData/WeatherData";
+import Figures from "./dataVisualization/Figures";
 
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {    
@@ -59,7 +60,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                       <Button color="inherit" href="/WeatherDataFetching" >SearchWeatherData</Button>
                       <Button color="inherit" href="/WeatherData" >WeatherData</Button>
                       <Button color="inherit" href="/sign-up" >Sign up</Button>
-                      
+                      <Button color="inherit" href="/figures" >Figures</Button>
                   </> 
                   )
                                    
@@ -75,7 +76,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
 
         <Switch>
                           
-          <Route exact path='/' component={SignIn} />          
+          <Route exact path='/figures' component={Figures} />          
                 
           <Route path="/sign-in" component={SignIn} />          
                 
