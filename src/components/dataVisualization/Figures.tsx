@@ -23,6 +23,7 @@ class Figures extends React.Component <RouteComponentProps,IDataProps >{
         const canvas = document.getElementById('myChart') as HTMLCanvasElement;        
         const ctx: any = canvas.getContext('2d');
         const data = this.state.data.WeatherData.data
+        const header = this.state.data.WeatherData.header
         console.log('data', this.state.data.WeatherData)
         //console.log('data',this.props)
 
@@ -43,6 +44,15 @@ class Figures extends React.Component <RouteComponentProps,IDataProps >{
                 luftTemp                
             )
         })
+
+        const temp1 = await data.map((dt: any) => {
+            
+            const luftTemp = dt.k3
+           
+            return (
+                luftTemp                
+            )
+        })
             
         await new Chart(ctx, {
     
@@ -54,13 +64,25 @@ class Figures extends React.Component <RouteComponentProps,IDataProps >{
                 
                 datasets: [{
             
-                    label: 'Lufttemp_o - °C',
+                    label: header.k4,
                     
                     data: temp,
-            
-                    borderWidth: 1
-            
-                }]                
+
+                    fill: false,
+                    borderColor: "#bae755",
+                    borderDash: [5, 5],
+                    backgroundColor: "#bae755",
+                    pointBackgroundColor: "#bae755",
+                    pointBorderColor: "#55bae7",
+                    pointHoverBackgroundColor: "#bae755",
+                    pointHoverBorderColor: "#55bae7",
+
+                },                    
+                    {                                
+                        label: header.k3,                        
+                        data: temp1,
+                        backgroundColor: "rgb(255,0,0)"
+                    }]                
             },
             
             options: {
