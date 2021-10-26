@@ -102,9 +102,8 @@ class Figures extends React.Component <RouteComponentProps,IDataProps >{
     render() {
 
     return (
-        <div>
-            <h1> Hello </h1>
-            <canvas {...this.props} id="myChart" width="200" height="200"></canvas>
+        <div className="chart-container" style={{position: "relative", height: '40vh', width: '80vw'}}  >            
+            <canvas id="myChart"></canvas>
         </div>
     )
 }}
