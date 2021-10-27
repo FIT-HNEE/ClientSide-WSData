@@ -8,13 +8,14 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import image from '../images/FBG.jpg'
 import Button from '@mui/material/Button';
 import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
 import WeatherData from "../pages/WeatherData/WeatherData";
 import Figures from "./dataVisualization/Figures";
-
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import HomePage from "../pages/Home/HomePage";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {    
 
@@ -23,15 +24,9 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          
+          <Avatar alt="Remy Sharp" src={image} />
+      
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Weather Data APP
               </Typography>
@@ -60,7 +55,6 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                       <Button color="inherit" href="/WeatherDataFetching" >SearchWeatherData</Button>
                       <Button color="inherit" href="/WeatherData" >WeatherData</Button>
                       <Button color="inherit" href="/sign-up" >Sign up</Button>
-                      <Button color="inherit" href="/figures" >Figures</Button>
                   </> 
                   )
                                    
@@ -75,8 +69,10 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
             
 
         <Switch>
-                          
-          <Route exact path='/figures' component={Figures} />          
+
+          <Route exact path='/' component={HomePage} />                          
+          
+          <Route exact path='/figures' component={Figures} />
                 
           <Route path="/sign-in" component={SignIn} />          
                 
