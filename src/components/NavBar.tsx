@@ -14,14 +14,13 @@ import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
 import WeatherData from "../pages/WeatherData/WeatherData";
 import Figures from "./dataVisualization/Figures";
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import HomePage from "../pages/Home/HomePage";
 
 const NavBar: React.FC<RouteComponentProps> = (props) => {    
 
     return (
         <>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ mb: 4 }}>
       <AppBar position="static">
         <Toolbar>
           
