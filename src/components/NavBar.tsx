@@ -24,24 +24,12 @@ import WeatherData from "../pages/WeatherData/WeatherData";
 import Figures from "./dataVisualization/Figures";
 import HomePage from "../pages/Home/HomePage";
 const drawerWidth = 240;
-const useStyles = makeStyles(() => ({
-  drawerContainer: {},
-  
 
-drawer: {
-  width: drawerWidth,
-  flexShrink: 0,
-  maxHeight: '20px'
-  //backgroundColor: "rgba(0,0,0,0.6)" Don't target here
-},
-drawerPaper: {
-  width: drawerWidth,
-  backgroundColor: "rgba(120,120,120,0.2)", //target here
-  maxHeight: '20px'
-},
+const useStyles = makeStyles(() => ({
+
     iconButtonContainer: {
       marginLeft: 'auto',
-      color: 'white',
+      color: '#1976d2',
     },
 
     menuIconToggle: {
@@ -73,13 +61,25 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
               {isMatch ? (
                 <>
                   <Drawer
+                      sx={{
+                          width: drawerWidth,
+                          flexShrink: 0,
+                          '& .MuiDrawer-paper': {
+                            width: drawerWidth,
+                            boxSizing: 'border-box',
+                            position: 'absolute',
+                            background: '#1976d2 ',
+                            color: 'white ',
+                            top: '64px ',
+                            height: '300%',
+                          },
+                        }}
                     anchor='right'
-                    className={classes.drawer}
                     variant="persistent"
-                    classes={{ paper: classes.drawerContainer }}
                     onClose={() => setOpenDrawer(false)}
                     open={openDrawer}
                     onClick={() => setOpenDrawer(true)}>
+                      
                   {(() => {
                 const accessToken = localStorage.getItem('accessToken');
                 console.log('Access Token here', accessToken)
@@ -113,6 +113,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
               })
               ()}
                   </Drawer>
+                  
                   <IconButton
                     className={classes.iconButtonContainer}
                     onClick={() => setOpenDrawer(!openDrawer)}
