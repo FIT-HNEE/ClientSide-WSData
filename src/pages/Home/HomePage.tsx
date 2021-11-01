@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,7 +11,7 @@ export default class HomePage extends Component {
     
     render() {
         return (
-            <Container maxWidth="xl">
+            <>
                 <Grid container spacing={5} >
 
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -113,7 +112,7 @@ export default class HomePage extends Component {
 
                 </Grid>
                 
-            </Container>            
+            </>            
         )
     }
 }
