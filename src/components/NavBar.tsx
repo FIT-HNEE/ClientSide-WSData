@@ -14,7 +14,8 @@ import {
   useMediaQuery,
   useTheme,  
   IconButton,
-   Drawer
+  Drawer,
+   Container
 } from '@mui/material'
 import { makeStyles } from "@mui/styles";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -23,12 +24,10 @@ import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
 import WeatherData from "../pages/WeatherData/WeatherData";
 import Figures from "./dataVisualization/Figures";
 import HomePage from "../pages/Home/HomePage";
-const drawerWidth = 240;
 
 const useStyles = makeStyles(() => ({
 
     iconButtonContainer: {
-      marginLeft: 'auto',
       color: '#1976d2',
     },
 
@@ -48,31 +47,38 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
   
 
     return (
-        <>
+        <Container maxWidth = 'xl'>
         <Box sx={{ mb: 4 }}>
       <AppBar position="static">
         <Toolbar>
           
-          <Avatar alt="Remy Sharp" src={image} />
-      
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                <Button color="inherit" href="/" >Weather Data APP</Button>            
-              </Typography>
+          <Avatar alt="Remy Sharp" src={image} />      
+              
+              
               {isMatch ? (
                 <>
+                  <Typography variant="h6" component="div" sx={{ flexGrow: 2 }}>
+                <Button color="inherit" href="/" >Weather Data APP</Button>            
+              </Typography>
+                  <IconButton                    
+                    className={classes.iconButtonContainer}
+                    onClick={() => setOpenDrawer(!openDrawer)}
+                    disableRipple>
+                    <MenuIcon className={classes.menuIconToggle} />
+                  </IconButton>
                   <Drawer
                       sx={{
-                          width: drawerWidth,
+                          
                           flexShrink: 0,
                           '& .MuiDrawer-paper': {
-                            width: drawerWidth,
+                            
                             boxSizing: 'border-box',
                             position: 'absolute',
                             background: '#1976d2 ',
                             color: 'white ',
                             top: '64px ',
                             height: '300%',
-                          },
+                      }
                         }}
                     anchor='right'
                     variant="persistent"
@@ -112,22 +118,20 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 }
               })
               ()}
-                  </Drawer>
-                  
-                  <IconButton
-                    className={classes.iconButtonContainer}
-                    onClick={() => setOpenDrawer(!openDrawer)}
-                    disableRipple>
-                    <MenuIcon className={classes.menuIconToggle} />
-                  </IconButton>
+                  </Drawer> 
                 </>) : (
+                  
                   (() => {
                 const accessToken = localStorage.getItem('accessToken');
-                console.log('Access Token here', accessToken)
+                    console.log('Access Token here', accessToken)
+                    
 
                 if (accessToken && accessToken !== null) {
                   return (
-                    <> 
+                    <>
+                      <Typography variant="h6" component="div">
+                <Button color="inherit" href="/" >Weather Data APP</Button>            
+              </Typography>
                       <Button color="inherit" href="/me" >User</Button>                      
                       <Button color="inherit" href="/AllUsers" >AllUsers</Button>
                       <Button
@@ -142,6 +146,9 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 } else {
                   return (
                     <>
+                      <Typography variant="h6" component="div" sx={{ flexGrow: 2 }}>
+                <Button color="inherit" href="/" >Weather Data APP</Button>            
+              </Typography>
                       <Button color="inherit" href="/">Home</Button>
                       <Button color="inherit" href="/sign-in" >Login</Button>
                       <Button color="inherit" href="/WeatherDataFetching" >SearchWeatherData</Button>                      
@@ -181,7 +188,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 
         </Switch>
         
-            </>
+            </Container>
         
     )
 }
