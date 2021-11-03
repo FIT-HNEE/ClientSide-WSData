@@ -12,6 +12,13 @@ interface LastSevenDaysData {
     data: string[],
     header: null
 }
+
+var cardStyle = {
+    display: 'block',
+    
+    transitionDuration: '0.3s',
+    height: '45vw'
+}
 export default class HomePage extends React.Component<LastSevenDaysData> {
 
     state = {
@@ -113,7 +120,7 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
             
                     y: {
                 
-                        beginAtZero: false
+                        beginAtZero: false,
                         
                     }                    
                 }                
@@ -175,7 +182,7 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <Card >
+                        <Card style={cardStyle}>
                             <div className="chart-container" style={{position: "relative", height: '40vh', width: '80vw'}}  >            
                                     <canvas id="myChart"></canvas>
                                 </div>
