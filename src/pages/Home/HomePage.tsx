@@ -8,9 +8,13 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import Chart from 'chart.js/auto'
 
+interface ILABELDATA {
+    k3?: string
+}
+
 interface LastSevenDaysData {
     data: string[],
-    header: null
+    header: ILABELDATA
 }
 
 var cardStyle = {
@@ -23,7 +27,10 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
 
     state = {
         data: [],
-        header: {}
+        header: {
+            k3: '',
+            k4: ''
+        }
     }
 
     componentDidMount = async() => {
@@ -61,27 +68,27 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
 
         console.log('Date', Date)
 
-        const temp = await data.map((dt: any) => {
+        const surfaceAirTempUpper = await data.map((dt: any) => {
             
-            const luftTemp = dt.k4
+            const surfaceAirTemp = dt.k3
            
             return (
-                luftTemp                
+                surfaceAirTemp                
             )
         })
 
-        console.log('temp', temp)
+        console.log('surfaceAirTemp', surfaceAirTempUpper)
 
-        const temp1 = await data.map((dt: any) => {
+        const surfaceAirTempLower = await data.map((dt: any) => {
             
-            const luftTemp = dt.k3
+            const surfaceAirTemp = dt.k4
            
             return (
-                luftTemp                
+                surfaceAirTemp                
             )
-        })
+        })        
 
-        console.log('temp1', temp1)
+        console.log('surfaceAirTemp1', surfaceAirTempLower)
             
         await new Chart(ctx, {
     
@@ -93,9 +100,9 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
                 
                 datasets: [{
             
-                    label: '',
+                    label: `${header.k3}`,
                     
-                    data: temp,
+                    data: surfaceAirTempUpper,
 
                     fill: false,
                     borderColor: "#bae755",
@@ -108,8 +115,8 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
 
                 },                    
                     {                                
-                        label: '',                        
-                        data: temp1,
+                        label: `${header.k4}`,                        
+                        data: surfaceAirTempLower,
                         backgroundColor: "rgb(255,0,0)"
                     }]                
             },
