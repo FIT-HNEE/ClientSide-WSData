@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import Chart from 'chart.js/auto'
+import moment from 'moment'
 
 interface ILABELDATA {
     k3?: string
@@ -60,9 +61,9 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
             
             const str = dt.dateTime
             //const dateTime = str.substring(0, str.length-9);
-            
+            const date = moment(str).format('Do MMM YY')
             return (
-                str
+                date
             )
         })
 
@@ -120,21 +121,27 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
                         plugins: {
                         title: {
                             display: true,
-                            text: 'Chart with Tick Configuration'
+                            text: `Chart for ${header.k3} & ${header.k4} `
                         }
                         },
                         scales: {
                             x: {
-                            
+                                
+                                grid: {
+                                display: false,
+                                },
                                 ticks: {
                                     autoSkip: false,
                                     //maxTicksLimit: 8,
-                                    maxRotation: 90,
+                                    align: 'start',
+                                    maxRotation: 0,
+                                    minRotation: 0,
+                                    //crossAlign: 'far',
                                     callback: function (val: any, index) {
-                                // Hide the label of every 2nd dataset
+                                // show the label of every 95th element in date labels
                                 return index % 96 === 0 ? this.getLabelForValue(val) : '';
                                     },
-                                    color: 'red',
+                                    color: 'blue',
                                 }                            
                         }
                         }
