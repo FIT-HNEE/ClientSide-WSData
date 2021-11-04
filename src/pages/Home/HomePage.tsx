@@ -9,13 +9,10 @@ import axios from 'axios';
 import Chart from 'chart.js/auto'
 import moment from 'moment'
 
-interface ILABELDATA {
-    k3?: string
-}
 
 interface LastSevenDaysData {
     data: string[],
-    header: ILABELDATA
+    header: null
 }
 
 var cardStyle = {
