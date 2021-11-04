@@ -48,8 +48,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
     event.preventDefault();
     var element = event.target as HTMLElement
 
-    if (element.id !== 'download') {
-      const response = await axios.post("http://localhost:4000/api/weatherData", {
+    const response = await axios.post("http://localhost:4000/api/weatherData", {
     
       StationName: this.state.StationName,      
       StartDay: this.state.StartDay,    
@@ -59,12 +58,24 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
     
     const data = await response.data
 
+    if (element.id === 'download') {      
+
     this.props.history.push({    
       pathname: "/WeatherData",      
       state: {      
         WeatherData: data,        
       },      
     });
+      
+    } else if (element.id === 'charts') {
+
+      this.props.history.push({    
+      pathname: "/figures",      
+      state: {      
+        WeatherData: data,        
+      },      
+    });
+
     } else {
       const response = await axios.post("http://localhost:4000/api/weatherData", {
     
@@ -136,9 +147,10 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
                 />
                </Stack>
             </LocalizationProvider>   
-            <Button onClick={this.onButtonClick} variant='contained' color='primary'>Search Data</Button>
+            <Button id="download" onClick={this.onButtonClick} variant='contained' color='primary'>Search Data</Button>
 
-            <Button id="download" onClick={this.onButtonClick} variant='contained' color='primary'>Download Data</Button>
+            <Button onClick={this.onButtonClick} variant='contained' color='primary'>Download Data</Button>
+            <Button id="charts" onClick={this.onButtonClick} variant='contained' color='primary'>Figures</Button>
           </FormGroup>
         </div>        
       </Box>      
