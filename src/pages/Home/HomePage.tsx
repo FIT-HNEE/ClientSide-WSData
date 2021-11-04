@@ -59,10 +59,10 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
         const Date = await data.map((dt: any) => {
             
             const str = dt.dateTime
-            const dateTime = str.substring(0, str.length-9);
+            //const dateTime = str.substring(0, str.length-9);
             
             return (
-                dateTime
+                str
             )
         })
 
@@ -105,13 +105,7 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
                     data: surfaceAirTempUpper,
 
                     fill: false,
-                    borderColor: "#bae755",
-                    borderDash: [5, 5],
-                    backgroundColor: "#bae755",
-                    pointBackgroundColor: "#bae755",
-                    pointBorderColor: "#55bae7",
-                    pointHoverBackgroundColor: "#bae755",
-                    pointHoverBorderColor: "#55bae7",
+                    backgroundColor: "#bae755",                    
 
                 },                    
                     {                                
@@ -121,17 +115,30 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
                     }]                
             },
             
-            options: {
-        
-                scales: {
-            
-                    y: {
-                
-                        beginAtZero: false,
-                        
-                    }                    
-                }                
-            }            
+           options: {
+                        responsive: true,
+                        plugins: {
+                        title: {
+                            display: true,
+                            text: 'Chart with Tick Configuration'
+                        }
+                        },
+                        scales: {
+                            x: {
+                            
+                                ticks: {
+                                    autoSkip: false,
+                                    //maxTicksLimit: 8,
+                                    maxRotation: 90,
+                                    callback: function (val: any, index) {
+                                // Hide the label of every 2nd dataset
+                                return index % 96 === 0 ? this.getLabelForValue(val) : '';
+                                    },
+                                    color: 'red',
+                                }                            
+                        }
+                        }
+                },           
         });        
     }
     render() {
