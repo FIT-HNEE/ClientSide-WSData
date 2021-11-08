@@ -5,56 +5,45 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
 import Chart from 'chart.js/auto'
 import moment from 'moment'
+import {connect} from "react-redux";
+import {GetPWData} from '../../actions/PastWeatherActions'
 
-
-interface LastSevenDaysData {
-    data: string[],
-    header: null
+interface LastSevenDaysWeatherProps {
+    GetPWData: Function
+   PWDType: {data: string[]
+    
+    header: {            
+        k1: ''
+        k2: ''
+        k3: ''
+        k4: ''
+    }}
+    
 }
 
-var cardStyle = {
-    display: 'block',
-    
+const cardStyle = {
+    display: 'block',    
     transitionDuration: '0.3s',
     height: '45vw'
 }
-export default class HomePage extends React.Component<LastSevenDaysData> {
+class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
-    state = {
-        data: [],
-        header: {
-            k3: '',
-            k4: ''
-        }
-    }
-
-    componentDidMount = async() => {
-        await this.fetchData()
+    componentDidMount = async () => {
+        await this.props.GetPWData()        
         await this.chart()
     }
-
-    fetchData = async() => {
-        const response = await axios.get("http://localhost:4000/api/weatherData/lastSevenDays");
-        const data = await response.data
-        return this.setState({
-            data: data.data,
-            header: data.header
-        })
-    }
-
+    
     chart = async () => {
-
         const canvas = document.getElementById('myChart') as HTMLCanvasElement;        
         const ctx: any = canvas.getContext('2d');
-        const data = this.state.data
-        const header = this.state.header
-        console.log('data', this.state.data)
-        console.log('header', this.state.header)
+        const dataArray = this.props.PWDType.data
+        const header = this.props.PWDType.header
+        console.log('data', dataArray)
+        console.log('header', header)
 
-        const Date = await data.map((dt: any) => {
+        const Date = await dataArray.map((dt: any) => {
             
             const str = dt.dateTime
             //const dateTime = str.substring(0, str.length-9);
@@ -66,7 +55,7 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
 
         console.log('Date', Date)
 
-        const surfaceAirTempUpper = await data.map((dt: any) => {
+        const surfaceAirTempUpper = await dataArray.map((dt: any) => {
             
             const surfaceAirTemp = dt.k3
            
@@ -77,7 +66,7 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
 
         console.log('surfaceAirTemp', surfaceAirTempUpper)
 
-        const surfaceAirTempLower = await data.map((dt: any) => {
+        const surfaceAirTempLower = await dataArray.map((dt: any) => {
             
             const surfaceAirTemp = dt.k4
            
@@ -148,10 +137,11 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
     render() {
         return (
             <>
+               
                 <Grid container spacing={5} >
 
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                        {console.log('data', this.state.data)}
+                        {console.log('STATE', this.props)}
                         <Card sx={{ minWidth: 275 }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -237,3 +227,11 @@ export default class HomePage extends React.Component<LastSevenDaysData> {
         )
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    PWDType: state.data.PWDType,
+    ...state
+  
+})
+
+export default connect(mapStateToProps, { GetPWData })(HomePage);
