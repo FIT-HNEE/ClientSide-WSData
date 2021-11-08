@@ -3,29 +3,26 @@ export const PAST_WEATHER_DATA_FAIL = "PAST_WEATHER_DATA_FAIL";
 export const PAST_WEATHER_DATA_SUCCESS = "PAST_WEATHER_DATA_SUCCESS";
 
 export type PWDType = {
-    data: String[],
-    header: PWDHeader
+    data: {
+        data: {
+            data: string[],
+            header: {
+                k1: '',
+                k2: '',
+                k3: '',
+                k4: ''
+            }
+        }
+    }
 }
-
-export type PWDHeader = {
-    header: {
-        k3: string,        
-        k4: string            
-    }    
-}
-
 export interface PWDLoading {
 
     type: typeof PAST_WEATHER_DATA_LOADING    
 }
-
-
 export interface PWDFail {
 
     type: typeof PAST_WEATHER_DATA_FAIL    
 }
-
-
 export interface PWDSuccess {
 
     type: typeof PAST_WEATHER_DATA_SUCCESS,
