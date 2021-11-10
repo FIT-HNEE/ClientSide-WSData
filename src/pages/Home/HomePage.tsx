@@ -12,15 +12,17 @@ import {GetPWData} from '../../actions/PastWeatherActions'
 
 interface LastSevenDaysWeatherProps {
     GetPWData: Function
-   PWDType: {data: string[]
-    
-    header: {            
-        k1: ''
-        k2: ''
-        k3: ''
-        k4: ''
-    }}
-    
+    loading: boolean
+    error: boolean
+    PWDType: {
+        data: string[]
+        header: {        
+            k1: '' 
+            k2: ''
+            k3: ''
+            k4: ''
+        }
+    }  
 }
 
 const cardStyle = {
@@ -42,6 +44,8 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
         const header = this.props.PWDType.header
         console.log('data', dataArray)
         console.log('header', header)
+        console.log('loading', this.props.loading)
+        console.log('error', this.props.error)
 
         const Date = await dataArray.map((dt: any) => {
             
@@ -53,7 +57,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
             )
         })
 
-        console.log('Date', Date)
+        //console.log('Date', Date)
 
         const surfaceAirTempUpper = await dataArray.map((dt: any) => {
             
@@ -64,7 +68,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
             )
         })
 
-        console.log('surfaceAirTemp', surfaceAirTempUpper)
+        //console.log('surfaceAirTemp', surfaceAirTempUpper)
 
         const surfaceAirTempLower = await dataArray.map((dt: any) => {
             
@@ -75,7 +79,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
             )
         })        
 
-        console.log('surfaceAirTemp1', surfaceAirTempLower)
+        //console.log('surfaceAirTemp1', surfaceAirTempLower)
             
         await new Chart(ctx, {
     
@@ -230,8 +234,9 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
 const mapStateToProps = (state: any) => ({
     PWDType: state.data.PWDType,
-    ...state
-  
+    ...state,
+    loading: state.data.loading,
+    error: state.data.error  
 })
 
 export default connect(mapStateToProps, { GetPWData })(HomePage);
