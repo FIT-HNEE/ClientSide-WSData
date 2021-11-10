@@ -77,13 +77,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
     });
 
     } else {
-      const response = await axios.post("http://localhost:4000/api/weatherData", {
-    
-      StationName: this.state.StationName,      
-      StartDay: this.state.StartDay,    
-      EndDay: this.state.EndDay,    
-      })
-      const data = await response.data
+      
         await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`)
     }    
   };  
