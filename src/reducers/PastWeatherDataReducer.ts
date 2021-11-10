@@ -1,5 +1,4 @@
 import { PAST_WEATHER_DATA_FAIL, PAST_WEATHER_DATA_LOADING, PAST_WEATHER_DATA_SUCCESS, PWDDispatchTypes, PWDType } from "../actions/PastWeatherActionTypes";
-import { Action } from 'redux'
 
 interface  DefaultStateI {
     loading: boolean,
