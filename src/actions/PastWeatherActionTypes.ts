@@ -6,12 +6,7 @@ export type PWDType = {
     data: {
         data: {
             data: string[],
-            header: {
-                k1: '',
-                k2: '',
-                k3: '',
-                k4: ''
-            }
+            header: {}
         }
     }
 }
