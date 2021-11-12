@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Chart from 'chart.js/auto'
 import moment from 'moment'
 import {connect} from "react-redux";
-import {GetPWData} from '../../actions/PastWeatherActions'
+import {GetPWData} from '../../actions/Actions'
 
 interface LastSevenDaysWeatherProps {
     GetPWData: Function
