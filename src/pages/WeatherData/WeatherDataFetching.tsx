@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { RouteComponentProps, withRouter  } from 'react-router-dom';
 import Button from '@mui/material/Button';
@@ -16,14 +15,26 @@ import moment from 'moment'
 import { parseISO } from 'date-fns/esm';
 //import fileDownload from 'js-file-download'
 import { arrayToExcel } from '../../components/ArraytoExcel'
-
-interface WeatherDataCredentials {
-    StationName?: string,
-    StartDay?: any,
-    EndDay?: any
+import { connect } from 'react-redux';
+import { GetQWData } from '../../actions/Actions'
+interface WeatherDataCredentials{  
+  StationName?: string,  
+  StartDay?: any,  
+  EndDay?: any,
+  
 }
- 
-class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDataCredentials> {
+
+interface Props {  
+  dispatch?: any;
+  loading?: boolean
+  error?: boolean  
+  QWDType?: {
+    data: string[]    
+    header: {},
+    error: string        
+    }  
+}
+class WeatherDataFetching extends React.Component<RouteComponentProps&Props, WeatherDataCredentials> {
 
   constructor(props: RouteComponentProps) {
       
@@ -46,17 +57,27 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
   onButtonClick = async (event: React.FormEvent) => {
 
     event.preventDefault();
-    var element = event.target as HTMLElement
+    const { StationName, StartDay, EndDay } = this.state;
+    
+        await this.props.dispatch(GetQWData(StationName, StartDay,EndDay));
+        
+    console.log('Data Error', this.props.QWDType?.error)
+    console.log('Data', this.props.QWDType)
+    console.log('loading', this.props.loading)    
+    console.log('error', this.props.error)
+    const data = this.props.QWDType
+    const error = this.props.error
+    const loading = this.props.loading
+    const dataError = this.props.QWDType?.error
 
-    const response = await axios.post("http://localhost:4000/api/weatherData", {
-    
-      StationName: this.state.StationName,      
-      StartDay: this.state.StartDay,    
-      EndDay: this.state.EndDay,
-    
-    });
-    
-    const data = await response.data
+
+    if (error || dataError ) {
+      console.log(' Error undefined', error, dataError )
+    } else if (loading) {
+      console.log(' Error undefined', loading)
+    } else {
+
+      var element = event.target as HTMLElement    
 
     if (element.id === 'download') {      
 
@@ -76,10 +97,12 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
       },      
     });
 
-    } else {
+    } else {      
+      await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`)      
+      }
       
-        await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`)
-    }    
+    }
+    
   };  
 
   render() {    
@@ -152,4 +175,13 @@ class WeatherDataFetching extends React.Component<RouteComponentProps, WeatherDa
   }  
 }
 
-export default withRouter(WeatherDataFetching)
+const mapStateToProps = (state: any) => ({
+    QWDType: state.dataQWD.QWDType,
+    ...state,
+    loading: state.dataQWD.loading,
+    error: state.dataQWD.error  
+})
+
+const connectedPage = connect(mapStateToProps)(WeatherDataFetching);
+ 
+export default withRouter(connectedPage)
