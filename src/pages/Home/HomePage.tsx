@@ -16,12 +16,13 @@ interface LastSevenDaysWeatherProps {
     error: boolean
     PWDType: {
         data: string[]
+        error: string 
         header: {        
             k1: '' 
             k2: ''
             k3: ''
             k4: ''
-        }
+        }        
     }  
 }
 
@@ -42,103 +43,113 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
         const ctx: any = canvas.getContext('2d');
         const dataArray = this.props.PWDType.data
         const header = this.props.PWDType.header
+        const dataError = this.props.PWDType.error
+        const error = this.props.error
+        const loading = this.props.loading
+        
         console.log('data', dataArray)
         console.log('header', header)
         console.log('loading', this.props.loading)
         console.log('error', this.props.error)
 
-        const Date = await dataArray.map((dt: any) => {
+        if (error || dataError) {
             
-            const str = dt.dateTime
+            console.log(' Error undefined', error, dataError)            
+        } else if (loading) {
+            
+            console.log(' Loading', loading)            
+        } else {
+
+            const Date = await dataArray.map((dt: any) => {
+                const str = dt.dateTime       
             //const dateTime = str.substring(0, str.length-9);
-            const date = moment(str).format('Do MMM YY')
-            return (
-                date
-            )
-        })
+                
+                const date = moment(str).format('Do MMM YY')                
+                return (                
+                    date                    
+                )                
+            })
+            
 
         //console.log('Date', Date)
 
-        const surfaceAirTempUpper = await dataArray.map((dt: any) => {
+            const surfaceAirTempUpper = await dataArray.map((dt: any) => {            
             
-            const surfaceAirTemp = dt.k3
-           
-            return (
-                surfaceAirTemp                
-            )
-        })
+                const surfaceAirTemp = dt.k3    
+                return (                
+                    surfaceAirTemp                    
+                )                
+            })
+            
 
         //console.log('surfaceAirTemp', surfaceAirTempUpper)
 
-        const surfaceAirTempLower = await dataArray.map((dt: any) => {
+            const surfaceAirTempLower = await dataArray.map((dt: any) => {            
             
-            const surfaceAirTemp = dt.k4
-           
-            return (
-                surfaceAirTemp                
-            )
-        })        
+                const surfaceAirTemp = dt.k4 
+                return (                
+                    surfaceAirTemp                    
+                )                
+            })            
 
         //console.log('surfaceAirTemp1', surfaceAirTempLower)
             
-        await new Chart(ctx, {
-    
-            type: 'line',
-            
-            data: {
-        
-                labels: Date,
+            await new Chart(ctx, {
                 
-                datasets: [{
-            
-                    label: `${header.k3}`,
-                    
-                    data: surfaceAirTempUpper,
-
-                    fill: false,
-                    backgroundColor: "#bae755",                    
-
-                },                    
+                type: 'line',    
+                data: {         
+                    labels: Date, 
+                    datasets: [{  
+                        label: `${header.k3}`,   
+                        data: surfaceAirTempUpper,  
+                        fill: false,                    
+                        backgroundColor: "#bae755",    
+                    },
+                        
                     {                                
                         label: `${header.k4}`,                        
                         data: surfaceAirTempLower,
                         backgroundColor: "rgb(255,0,0)"
-                    }]                
-            },
-            
-           options: {
-                        responsive: true,
-                        plugins: {
+
+                        }]                   
+                },               
+                options: {               
+                    responsive: true,                    
+                    plugins: {                            
                         title: {
                             display: true,
                             text: `Chart for ${header.k3} & ${header.k4} `
                         }
-                        },
-                        scales: {
-                            x: {
-                                
-                                grid: {
+                    },
+                    
+                    scales: {                            
+                        x: {                        
+                            grid: {                                    
                                 display: false,
-                                },
-                                ticks: {
-                                    autoSkip: false,
-                                    //maxTicksLimit: 8,
-                                    align: 'start',
-                                    maxRotation: 0,
-                                    minRotation: 0,
-                                    //crossAlign: 'far',
-                                    callback: function (val: any, index) {
+                            },                            
+                            ticks: {                                    
+                                autoSkip: false,                                
+                                    //maxTicksLimit: 8,                                
+                                align: 'start',                                    
+                                maxRotation: 0,                                    
+                                minRotation: 0,                                    
+                                    //crossAlign: 'far',                                
+                                callback: function (val: any, index) {                                        
                                 // show the label of every 95th element in date labels
-                                return index % 96 === 0 ? this.getLabelForValue(val) : '';
-                                    },
-                                    color: 'blue',
-                                }                            
+                                    return index % 96 === 0 ? this.getLabelForValue(val) : '';
+                                    
+                                },                                
+                                color: 'blue',                                    
+                            }                            
                         }
-                        }
-                },           
-        });        
+                    }                    
+                },                
+            });            
+        }        
     }
+
     render() {
+
         return (
             <>
                
@@ -233,10 +244,10 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-    PWDType: state.data.PWDType,
+    PWDType: state.dataPWD.PWDType,
     ...state,
-    loading: state.data.loading,
-    error: state.data.error  
+    loading: state.dataPWD.loading,
+    error: state.dataPWD.error  
 })
 
 export default connect(mapStateToProps, { GetPWData })(HomePage);
