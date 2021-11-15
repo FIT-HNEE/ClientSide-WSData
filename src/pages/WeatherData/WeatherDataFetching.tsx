@@ -74,7 +74,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
     if (error || dataError ) {
       console.log(' Error undefined', error, dataError )
     } else if (loading) {
-      console.log(' Error undefined', loading)
+      console.log(' Loading', loading)
     } else {
 
       var element = event.target as HTMLElement    
