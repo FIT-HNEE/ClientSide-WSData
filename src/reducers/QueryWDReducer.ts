@@ -2,7 +2,7 @@ import {Query_WEATHER_DATA_SUCCESS, Query_WEATHER_DATA_FAIL, Query_WEATHER_DATA_
 
 interface  DefaultStateI {
     loading: boolean,
-    QWD?: any,
+    QWDType?: QWDType,
     error: boolean
 };
 
@@ -11,8 +11,8 @@ const defaultState: DefaultStateI = {
     error: false
 };
 
-const QueryWDReducer = (state: DefaultStateI = defaultState, action: any) : DefaultStateI   => {
-    switch (action) {
+const QueryWDReducer = (state: DefaultStateI = defaultState, action: QWDDispatchTypes) : DefaultStateI   => {
+    switch (action.type) {
         case Query_WEATHER_DATA_FAIL:
             return {
                 loading: false,
@@ -28,7 +28,7 @@ const QueryWDReducer = (state: DefaultStateI = defaultState, action: any) : Defa
             return {
                 loading: false,
                 error: false,
-                QWD: action.payload
+                QWDType: action.payload
             }
 
         default:
