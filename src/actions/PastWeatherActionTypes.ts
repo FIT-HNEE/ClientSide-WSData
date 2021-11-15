@@ -6,7 +6,8 @@ export type PWDType = {
     data: {
         data: {
             data: string[],
-            header: {}
+            header: {},
+            error: string
         }
     }
 }
