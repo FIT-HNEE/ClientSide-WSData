@@ -1,6 +1,8 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom';
 import Chart from 'chart.js/auto'
+import moment from 'moment'
+
 interface IDataProps {
   data: any;
 }
@@ -29,10 +31,10 @@ class Figures extends React.Component <RouteComponentProps,IDataProps >{
 
         const Date = await data.map((dt: any) => {
             
-            const dateTime = dt.dateTime            
-            
+            const str = dt.dateTime            
+             const date = moment(str).format('Do MMM YY, h a')
             return (
-                dateTime
+                date
             )
         })
 
