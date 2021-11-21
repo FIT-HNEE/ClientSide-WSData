@@ -57,10 +57,9 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
   onButtonClick = async (event: React.FormEvent) => {
 
     event.preventDefault();
-    const { StationName, StartDay, EndDay } = this.state;
+    const { StationName, StartDay, EndDay } = this.state;    
+    await this.props.dispatch(GetQWData(StationName, StartDay, EndDay));
     
-        await this.props.dispatch(GetQWData(StationName, StartDay,EndDay));
-        
     console.log('Data Error', this.props.QWDType?.error)
     console.log('Data', this.props.QWDType)
     console.log('loading', this.props.loading)    
