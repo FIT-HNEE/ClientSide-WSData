@@ -78,8 +78,8 @@ export const LogInData = (email: any, password: any) => async (dispatch: Dispatc
           password: password
             }, { withCredentials: true })
         
-        await localStorage.setItem('accessToken', response.data.tokens.accessToken)
-        await localStorage.setItem('refreshToken', response.data.tokens.refreshToken)        
+        //await localStorage.setItem('accessToken', response.data.tokens.accessToken)
+        //await localStorage.setItem('refreshToken', response.data.tokens.refreshToken)        
             
         const data = response.data     
         
