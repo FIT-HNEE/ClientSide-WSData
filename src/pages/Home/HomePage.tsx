@@ -244,10 +244,10 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 }
 
 const mapStateToProps = (state: any) => ({
-    PWDType: state.dataPWD.PWDType,
+    PWDType: state.PWdata.PWDType,
     ...state,
-    loading: state.dataPWD.loading,
-    error: state.dataPWD.error  
+    loading: state.PWdata.loading,
+    error: state.PWdata.error  
 })
 
 export default connect(mapStateToProps, { GetPWData })(HomePage);
