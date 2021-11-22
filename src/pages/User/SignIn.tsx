@@ -43,8 +43,7 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
     const { email, password } = this.state;    
     await this.props.dispatch(LogInData(email, password));
     const data = this.props.LogInType
-    await localStorage.setItem('accessToken', data.tokens.accessToken)
-    await localStorage.setItem('refreshToken', data.tokens.refreshToken)
+   
     console.log('Data', this.props.LogInType)
     console.log('loading', this.props.loading)    
     console.log('error', this.props.error)
@@ -53,11 +52,15 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
     const loading = this.props.loading
 
     if (error ) {
-      console.log(' Error undefined', error )
+      console.log('Error', error )
     } else if (loading) {
       console.log(' Loading', loading)
     } else {
-      this.props.history.push("/me")
+
+      await localStorage.setItem('accessToken', data.tokens.accessToken)      
+      await localStorage.setItem('refreshToken', data.tokens.refreshToken)
+      
+      await this.props.history.push("/me")
     }
 
   }
