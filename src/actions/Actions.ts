@@ -3,6 +3,7 @@ import { PAST_WEATHER_DATA_FAIL, PAST_WEATHER_DATA_LOADING, PAST_WEATHER_DATA_SU
 import { Query_WEATHER_DATA_LOADING, Query_WEATHER_DATA_SUCCESS, QWDDispatchTypes, Query_WEATHER_DATA_FAIL } from './types/QueryWeatherDataTypes';
 import { LOGIN_DATA_LOADING, LOGIN_DATA_SUCCESS, LOGIN_DATA_FAIL, LogInDispatchTypes } from './types/LoginActionTypes';
 import { SIGNUP_DATA_LOADING, SIGNUP_DATA_FAIL, SIGNUP_DATA_SUCCESS, SignUpDispatchTypes } from './types/SignUpActionTypes';
+import { USER_DATA_LOADING, USER_DATA_SUCCESS, USER_DATA_FAIL, UserDataDispatchTypes} from './types/UserDataActionTypes'
 import axios from "axios";
 
 // interface WeatherDataCredentials {
@@ -129,6 +130,33 @@ export const SignUpData = (firstName: any, lastName: any, email:any, password: a
         dispatch({
             type: SIGNUP_DATA_FAIL,
                         
+        })        
+    }    
+}
+
+export const GetUserData = () => async (dispatch: Dispatch<UserDataDispatchTypes>) => {
+    try {
+
+        dispatch({
+            type: USER_DATA_LOADING,            
+        });
+        
+        const accessToken = localStorage.getItem('accessToken');
+
+        const resp = await axios.get('http://localhost:4000/api/users/me',
+            {headers: { Authorization: `JWT ${accessToken}` }});        
+        const data = await resp.data
+        
+        dispatch({                
+            type: USER_DATA_SUCCESS,            
+            payload: data                
+        });
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: USER_DATA_FAIL            
         })        
     }    
 }
