@@ -1,7 +1,8 @@
 import {Dispatch} from "redux";
-import { PAST_WEATHER_DATA_FAIL, PAST_WEATHER_DATA_LOADING, PAST_WEATHER_DATA_SUCCESS, PWDDispatchTypes } from "./PastWeatherActionTypes";
-import { Query_WEATHER_DATA_LOADING, Query_WEATHER_DATA_SUCCESS, QWDDispatchTypes, Query_WEATHER_DATA_FAIL } from './QueryWeatherDataTypes';
-import {LOGIN_DATA_LOADING, LOGIN_DATA_SUCCESS, LOGIN_DATA_FAIL, LogInDispatchTypes} from './LoginActionTypes'
+import { PAST_WEATHER_DATA_FAIL, PAST_WEATHER_DATA_LOADING, PAST_WEATHER_DATA_SUCCESS, PWDDispatchTypes } from "./types/PastWeatherActionTypes";
+import { Query_WEATHER_DATA_LOADING, Query_WEATHER_DATA_SUCCESS, QWDDispatchTypes, Query_WEATHER_DATA_FAIL } from './types/QueryWeatherDataTypes';
+import { LOGIN_DATA_LOADING, LOGIN_DATA_SUCCESS, LOGIN_DATA_FAIL, LogInDispatchTypes } from './types/LoginActionTypes';
+import { SIGNUP_DATA_LOADING, SIGNUP_DATA_FAIL, SIGNUP_DATA_SUCCESS, SignUpDispatchTypes } from './types/SignUpActionTypes';
 import axios from "axios";
 
 // interface WeatherDataCredentials {
@@ -27,7 +28,7 @@ export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
         
     } catch (error) {
 
-        console.log('ERROR', error)
+        console.log('ERROR-ACTION', error)
         dispatch({
             type: PAST_WEATHER_DATA_FAIL            
         })        
@@ -58,7 +59,7 @@ export const GetQWData = (StationName: any, StartDay: any, EndDay: any) => async
         
     } catch (error) {
 
-        console.log('ERROR', error)
+        console.log('ERROR-ACTION', error)
         dispatch({
             type: Query_WEATHER_DATA_FAIL            
         })        
@@ -90,9 +91,43 @@ export const LogInData = (email: any, password: any) => async (dispatch: Dispatc
         
     } catch (error) {
 
-        console.log('ERROR', error)
+        console.log('ERROR-ACTION', error)
         dispatch({
             type: LOGIN_DATA_FAIL,
+                        
+        })        
+    }    
+}
+
+export const SignUpData = (firstName: any, lastName: any, email:any, password: any) => async (dispatch: Dispatch<SignUpDispatchTypes>) => {
+    try {
+
+        dispatch({
+            type: SIGNUP_DATA_LOADING,            
+        });
+        
+        const response = await axios.post('http://localhost:4000/api/users/register',
+        {        
+            firstName: firstName,            
+            lastName: lastName,
+            email: email,
+            password: password
+          
+            }, { withCredentials: true })        
+              
+            
+        const data = response.data     
+        
+        dispatch({                
+            type: SIGNUP_DATA_SUCCESS,            
+            payload: data                
+        });
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: SIGNUP_DATA_FAIL,
                         
         })        
     }    
