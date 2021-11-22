@@ -92,7 +92,8 @@ export const LogInData = (email: any, password: any) => async (dispatch: Dispatc
 
         console.log('ERROR', error)
         dispatch({
-            type: LOGIN_DATA_FAIL            
+            type: LOGIN_DATA_FAIL,
+                        
         })        
     }    
 }

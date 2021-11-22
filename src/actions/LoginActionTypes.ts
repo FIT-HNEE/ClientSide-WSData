@@ -11,7 +11,8 @@ export interface LogInLoading {
 }
 export interface LogInFail {
 
-    type: typeof LOGIN_DATA_FAIL    
+    type: typeof LOGIN_DATA_FAIL
+    
 }
 export interface LogInSuccess {
 
