@@ -22,21 +22,13 @@ interface LogInCredentials {
  
 class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCredentials> {
   
-  constructor(props: RouteComponentProps) {
-      
-    super(props)
-    
-    
-    this.state = {
-          
-      email: '',
-      
-      password: '',  
-        
-    }  
-        
-  }
-   
+  constructor(props: RouteComponentProps) {      
+    super(props)  
+    this.state = {          
+      email: '',      
+      password: '',          
+    }          
+  }  
 
   onButtonClick = async (event: React.FormEvent) => {
       event.preventDefault();
@@ -62,8 +54,8 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
       
       await this.props.history.push("/me")
     }
-
   }
+  
   render() {
       
     return (
@@ -109,10 +101,10 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
 }
 
 const mapStateToProps = (state: any) => ({
-    LogInType: state.dataLogIn.LogInType,
+    LogInType: state.LogIndata.LogInType,
     ...state,
-    loading: state.dataLogIn.loading,
-    error: state.dataLogIn.error  
+    loading: state.LogIndata.loading,
+    error: state.LogIndata.error  
 })
 
 const connectedPage = connect(mapStateToProps)(SignIn);
