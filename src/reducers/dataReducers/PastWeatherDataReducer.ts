@@ -1,4 +1,4 @@
-import { PAST_WEATHER_DATA_FAIL, PAST_WEATHER_DATA_LOADING, PAST_WEATHER_DATA_SUCCESS, PWDDispatchTypes, PWDType } from "../actions/PastWeatherActionTypes";
+import { PAST_WEATHER_DATA_FAIL, PAST_WEATHER_DATA_LOADING, PAST_WEATHER_DATA_SUCCESS, PWDDispatchTypes, PWDType } from "../../actions/types/PastWeatherActionTypes";
 
 interface  DefaultStateI {
     loading: boolean,

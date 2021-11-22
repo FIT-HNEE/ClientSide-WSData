@@ -1,8 +1,8 @@
-import { LOGIN_DATA_LOADING, LOGIN_DATA_SUCCESS, LOGIN_DATA_FAIL, LogInDispatchTypes, LogInType } from '../actions/LoginActionTypes';
+import {Query_WEATHER_DATA_SUCCESS, Query_WEATHER_DATA_FAIL, Query_WEATHER_DATA_LOADING, QWDDispatchTypes, QWDType} from "../../actions/types/QueryWeatherDataTypes";
 
 interface  DefaultStateI {
     loading: boolean,
-    LogInType?: LogInType,
+    QWDType?: QWDType,
     error: boolean
 };
 
@@ -11,24 +11,24 @@ const defaultState: DefaultStateI = {
     error: false
 };
 
-const LogInDataReducer = (state: DefaultStateI = defaultState, action: LogInDispatchTypes) : DefaultStateI   => {
+const QueryWDReducer = (state: DefaultStateI = defaultState, action: QWDDispatchTypes) : DefaultStateI   => {
     switch (action.type) {
-        case LOGIN_DATA_FAIL:
+        case Query_WEATHER_DATA_FAIL:
             return {
                 loading: false,
                 error: true
             }
-        case LOGIN_DATA_LOADING:            
+        case Query_WEATHER_DATA_LOADING:            
             return {
                 loading: true,
                 error: false
             }
-        case LOGIN_DATA_SUCCESS:
+        case Query_WEATHER_DATA_SUCCESS:
             console.log(action.payload)
             return {
                 loading: false,
                 error: false,
-                LogInType: action.payload
+                QWDType: action.payload
             }
 
         default:
@@ -36,4 +36,4 @@ const LogInDataReducer = (state: DefaultStateI = defaultState, action: LogInDisp
     }
 }
 
-export default LogInDataReducer;
+export default QueryWDReducer;
