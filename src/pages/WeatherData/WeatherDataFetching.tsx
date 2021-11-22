@@ -175,10 +175,10 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
 }
 
 const mapStateToProps = (state: any) => ({
-    QWDType: state.dataQWD.QWDType,
+    QWDType: state.QWdata.QWDType,
     ...state,
-    loading: state.dataQWD.loading,
-    error: state.dataQWD.error  
+    loading: state.QWdata.loading,
+    error: state.QWdata.error  
 })
 
 const connectedPage = connect(mapStateToProps)(WeatherDataFetching);
