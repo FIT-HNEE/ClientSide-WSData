@@ -78,11 +78,8 @@ export const LogInData = (email: any, password: any) => async (dispatch: Dispatc
         {        
           email: email,   
           password: password
-            }, { withCredentials: true })
+            }, { withCredentials: true })        
         
-        //await localStorage.setItem('accessToken', response.data.tokens.accessToken)
-        //await localStorage.setItem('refreshToken', response.data.tokens.refreshToken)        
-            
         const data = response.data     
         
         dispatch({                
@@ -141,7 +138,7 @@ export const GetUserData = () => async (dispatch: Dispatch<UserDataDispatchTypes
             type: USER_DATA_LOADING,            
         });
         
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = sessionStorage.getItem('accessToken');
 
         const resp = await axios.get('http://localhost:4000/api/users/me',
             {headers: { Authorization: `JWT ${accessToken}` }});        

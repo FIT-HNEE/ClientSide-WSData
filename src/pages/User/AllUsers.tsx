@@ -21,7 +21,7 @@ export default class AllUsers extends React.Component {
     }
 
     componentDidMount = async () => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = sessionStorage.getItem('accessToken');
         await axios.get('http://localhost:4000/api/users',
             {headers: { Authorization: `JWT ${accessToken}` }})
             .then(response => {

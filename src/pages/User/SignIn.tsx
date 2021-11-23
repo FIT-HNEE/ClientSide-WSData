@@ -49,8 +49,8 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
       console.log(' Loading', loading)
     } else {
 
-      await localStorage.setItem('accessToken', data.tokens.accessToken)      
-      await localStorage.setItem('refreshToken', data.tokens.refreshToken)
+      await sessionStorage.setItem('accessToken', data.tokens.accessToken)      
+      await sessionStorage.setItem('refreshToken', data.tokens.refreshToken)
       
       await this.props.history.push("/me")
     }
