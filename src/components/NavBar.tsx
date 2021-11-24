@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch, RouteComponentProps, withRouter  } from 'react-router-dom';
+import { Route, Switch, RouteComponentProps, withRouter } from 'react-router-dom';
 import AllUsers from '../pages/User/AllUsers';
 import SignIn from '../pages/User/SignIn';
 import SignUp from '../pages/User/SignUp';
@@ -24,6 +24,7 @@ import WeatherDataFetching from "../pages/WeatherData/WeatherDataFetching";
 import WeatherData from "../pages/WeatherData/WeatherData";
 import Figures from "./dataVisualization/Figures";
 import HomePage from "../pages/Home/HomePage";
+import UserDataModification from "../pages/User/UserDataModification";
 
 const useStyles = makeStyles(() => ({  
 
@@ -52,12 +53,15 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
 
           <AppBar position="static">
             
-            <Toolbar>
-              
+            <Toolbar>             
           
               <Avatar alt="Remy Sharp" src={image} />
               <Typography variant="h6" component="div" sx={{ flexGrow: 2 }}>
-                <Button color="inherit" href="/" >Weather Data APP</Button>                
+
+                <Button color="inherit" onClick={() => {             
+                              props.history.push("/");                              
+                }}> Weather Data APP </Button>
+                
               </Typography>              
                             
               {isMatch ? (
@@ -93,8 +97,11 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                       if (accessToken && accessToken !== null) {                  
                         return (                    
                           <>
-                            <Button color="inherit" href="/me" onClick={() => setOpenDrawer(false)}>User</Button>                            
-                            <Button color="inherit" href="/AllUsers" onClick={() => setOpenDrawer(false)}>AllUsers</Button>                            
+                            <Button color="inherit" onClick={async() => {                             
+                              await props.history.push("/sign-in/me")
+                               await setOpenDrawer(false)
+                            }}>User</Button>
+                            {/* <Button color="inherit" href="/sign-in/me/allUsers" onClick={() => setOpenDrawer(false)}>AllUsers</Button> */}                            
                             <Button                              
                               variant='contained'                              
                               color='primary'                              
@@ -108,10 +115,26 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                       } else {                        
                         return (                    
                           <>                            
-                            <Button color="inherit" href="/" onClick={() => setOpenDrawer(false)} >Home</Button>                            
-                            <Button color="inherit" href="/sign-in" onClick={() => setOpenDrawer(false)} >Login</Button>                            
-                            <Button color="inherit" href="/WeatherDataFetching" onClick={() => setOpenDrawer(false)} >SearchWeatherData</Button>                            
-                            <Button color="inherit" href="/sign-up" onClick={() => setOpenDrawer(false)} >Sign up</Button>                            
+                            <Button color="inherit" onClick={async() => {                             
+                              await props.history.push("/")
+                               await setOpenDrawer(false)
+                            }} >Home</Button>
+                            
+                            <Button color="inherit" onClick={async() => {                             
+                              await props.history.push("/sign-in")
+                               await setOpenDrawer(false)
+                            }} >Login</Button>
+                            
+                            <Button color="inherit" onClick={async() => {                             
+                              await props.history.push("/WeatherDataFetching")
+                               await setOpenDrawer(false)
+                            }} >SearchWeatherData</Button>
+                            
+                            <Button color="inherit" onClick={async() => {                             
+                              await props.history.push("/sign-up")
+                               await setOpenDrawer(false)
+                            }} >Sign up</Button>
+                            
                           </>                          
                         )                        
                       }                      
@@ -127,8 +150,13 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                     if (accessToken && accessToken !== null) {                  
                       return (                    
                         <>                          
-                          <Button color="inherit" href="/me" >User</Button>                          
-                          <Button color="inherit" href="/AllUsers" >AllUsers</Button>                          
+                          <Button color="inherit"
+                            onClick={() => {             
+                              props.history.push("/sign-in/me");                              
+                            }}
+                          > User
+                          </Button>
+                          {/* <Button color="inherit" href="/me/allUsers" >AllUsers</Button> */}                          
                           <Button                            
                             variant='contained'                            
                             color='primary'                            
@@ -140,11 +168,27 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                       )                      
                     } else {                      
                       return (                    
-                        <> 
-                          <Button color="inherit" href="/">Home</Button>
-                          <Button color="inherit" href="/sign-in" >Login</Button>
-                          <Button color="inherit" href="/WeatherDataFetching" >SearchWeatherData</Button>                          
-                          <Button color="inherit" href="/sign-up" >Sign up</Button>
+                        <>
+                          
+                          <Button color="inherit" onClick={() => {                            
+                            props.history.push("/");                            
+                          }}> Home </Button>
+                          
+                          
+                          <Button color="inherit" onClick={() => {                            
+                            props.history.push("/sign-in");                            
+                          }}> Login </Button>
+
+                          
+                          <Button color="inherit" onClick={() => {                            
+                            props.history.push("/WeatherDataFetching");                            
+                          }}> SearchWeatherData </Button>
+
+                          <Button color="inherit" onClick={() => {                            
+                            props.history.push("/sign-up");                            
+                          }}> Sign up </Button>
+                          
+                         
                           
                         </>
                         
@@ -158,21 +202,23 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
         </Box>                    
         <Switch>
           
-          <Route exact path='/' component={HomePage} />          
+          <Route exact path='/WeatherDataFetching/figures' component={Figures} /> 
+
+          <Route path="/WeatherDataFetching/WeatherData" component={WeatherData} />
           
-          <Route exact path='/figures' component={Figures} />
-                
-          <Route path="/sign-in" component={SignIn} />          
-                
-          <Route path="/sign-up" component={SignUp} />          
-                
-          <Route path="/me" component={User} />
-
           <Route path="/WeatherDataFetching" component={WeatherDataFetching} />
+          
+          <Route path="/sign-in/me/allUsers/:id" component={UserDataModification} />
 
-          <Route path="/WeatherData" component={WeatherData} />
-                
-          <Route path="/allUsers" component={AllUsers} />          
+          <Route path="/sign-in/me/allUsers" component={AllUsers} />
+
+          <Route path="/sign-in/me" component={User} />
+
+          <Route path="/sign-in" component={SignIn} />
+
+          <Route path="/sign-up" component={SignUp} />          
+
+          <Route exact path='/' component={HomePage} /> 
                 
         </Switch>
         
