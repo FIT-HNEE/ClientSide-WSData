@@ -101,12 +101,11 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
   }  
 }
 
-const mapStateToProps = (state: any, dispatch:any) => ({
+const mapStateToProps = (state: any) => ({
     LogInType: state.LogIndata.LogInType,
     ...state,
     loading: state.LogIndata.loading,
-  error: state.LogIndata.error,
-    dispatch
+  error: state.LogIndata.error,    
 })
 
 const connectedPage = connect(mapStateToProps)(SignIn);
