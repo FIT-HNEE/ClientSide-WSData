@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { RouteComponentProps, withRouter  } from 'react-router-dom';
 import Button from '@mui/material/Button';
@@ -53,7 +52,7 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
       await sessionStorage.setItem('accessToken', data.tokens.accessToken)      
       await sessionStorage.setItem('refreshToken', data.tokens.refreshToken)
       
-      await this.props.history.push("/me")
+      await this.props.history.push("/sign-in/me")
     }
   }
   
