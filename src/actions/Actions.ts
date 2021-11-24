@@ -76,7 +76,7 @@ export const LogInData = (email: any, password: any) => async (dispatch: Dispatc
           password: password
             }, { withCredentials: true })        
         
-        const data = response.data     
+        const data = await response.data     
         
         dispatch({                
             type: LOGIN_DATA_SUCCESS,            
@@ -110,7 +110,7 @@ export const SignUpData = (firstName: any, lastName: any, email:any, password: a
             }, { withCredentials: true })        
               
             
-        const data = response.data     
+        const data = await response.data     
         
         dispatch({                
             type: SIGNUP_DATA_SUCCESS,            
@@ -161,7 +161,7 @@ export const GetUsersData = () => async (dispatch: Dispatch<UsersDataDispatchTyp
             type: USERS_DATA_LOADING,            
         });
         
-        const accessToken = sessionStorage.getItem('accessToken');
+        const accessToken = await sessionStorage.getItem('accessToken');
 
         const resp = await axios.get('http://localhost:4000/api/users',
             {headers: { Authorization: `JWT ${accessToken}` }});        
