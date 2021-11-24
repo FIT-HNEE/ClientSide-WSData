@@ -1,5 +1,5 @@
 import React from 'react';
-//import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
@@ -9,26 +9,37 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { GetUsersData } from '../../actions/Actions';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 interface Props {
     GetUsersData: Function    
     UsersDataType: []
     loading: boolean
     error: boolean
+    
 }
 
-class AllUsers extends React.Component <Props> {
+interface filteredValues {
+   filteredRows:string[]  
+}
 
-    state = {       
-        filteredRows: this.props.UsersDataType,
-        searched: ''
+class AllUsers extends React.Component<Props, filteredValues> {
+    
+    constructor(props: Props) {      
+    super(props)  
+    this.state = {          
+      filteredRows: []         
+    }          
     }
     
-
     componentDidMount = async () => {
         await this.props.GetUsersData()
-         await this.props.UsersDataType
-        console.log('data', this.props.UsersDataType)        
+        this.setState({
+             filteredRows: this.props.UsersDataType 
+        })
+        //await this.props.UsersDataType                 
+        console.log('data', this.props.UsersDataType)
+        console.log('filteredRows', this.state.filteredRows)
         console.log('loading', this.props.loading)
         console.log('error', this.props.error)
     }
@@ -50,7 +61,6 @@ class AllUsers extends React.Component <Props> {
             filteredRows
 
         })
-
   };
 
     render() {
@@ -76,27 +86,25 @@ class AllUsers extends React.Component <Props> {
                             </TableHead>
                             <TableBody>
                             {this.state.filteredRows&&this.state.filteredRows.map((row: any) => {
-                    return (
-                        <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.firstName}
-                  </TableCell>
-                  <TableCell align="right">{row.lastName}</TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  {/* <TableCell align="right">{row.isAdmin}</TableCell>
-                  <TableCell align="right">{row.confirmation}</TableCell> */}
-                </TableRow>)
-                    
-                })}
-                            </TableBody>
+                                return (                        
+                                    <TableRow key={row.id}>
+                                        <TableCell component="th" scope="row">
+                                            {row.firstName}
+                                        </TableCell>
+                                        <TableCell align="right">{row.lastName}</TableCell>
+                                        <TableCell align="right">{row.email}</TableCell>
+                                        <Button variant='contained' color='primary'><Link className="btn btn-info" to={`/sign-in/me/allUsers/${row.id}`}>Show</Link></Button>
+                                        
+                                        {/* <TableCell align="right">{row.isAdmin}</TableCell>
+                                        <TableCell align="right">{row.confirmation}</TableCell> */}
+                                    </TableRow>)
+                            })}
+                                
+                            </TableBody> 
                         </Table>
-                        </TableContainer>
-                </Paper> 
-                
-              
-            
-            </div>
-            
+                    </TableContainer>                    
+                </Paper>
+            </div> 
         )
     }
 }
@@ -111,4 +119,4 @@ const mapStateToProps = (state: any) => ({
 
 const connectedPage = connect(mapStateToProps, { GetUsersData })(AllUsers);
 
-export default connectedPage
+export default connectedPage;
