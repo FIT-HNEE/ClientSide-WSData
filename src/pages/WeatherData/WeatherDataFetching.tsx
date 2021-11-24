@@ -81,7 +81,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
     if (element.id === 'download') {      
 
     this.props.history.push({    
-      pathname: "/WeatherData",      
+      pathname: "/WeatherDataFetching/WeatherData",      
       state: {      
         WeatherData: data,        
       },      
@@ -90,7 +90,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
     } else if (element.id === 'charts') {
 
       this.props.history.push({    
-      pathname: "/figures",      
+      pathname: "/WeatherDataFetching/figures",      
       state: {      
         WeatherData: data,        
       },      
