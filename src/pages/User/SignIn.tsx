@@ -39,6 +39,7 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
     console.log('Data', this.props.LogInType)
     console.log('loading', this.props.loading)    
     console.log('error', this.props.error)
+    console.log('PROPS', this.props)
     
     const error = this.props.error
     const loading = this.props.loading
@@ -100,11 +101,12 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
   }  
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: any, dispatch:any) => ({
     LogInType: state.LogIndata.LogInType,
     ...state,
     loading: state.LogIndata.loading,
-    error: state.LogIndata.error  
+  error: state.LogIndata.error,
+    dispatch
 })
 
 const connectedPage = connect(mapStateToProps)(SignIn);
