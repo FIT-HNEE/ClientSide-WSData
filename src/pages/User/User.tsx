@@ -30,7 +30,7 @@ class User extends React.Component<RouteComponentProps<any>&IUserProp > {
         console.log('loading', this.props.loading)
         console.log('error', this.props.error)
     }
-    onClick =  () => (this.props.history.push("/allUsers"))
+    onClick =  () => (this.props.history.push("/sign-in/me/allUsers"))
     render() {
         return (
 
