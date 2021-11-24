@@ -5,35 +5,58 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
+import { connect } from 'react-redux';
+import { LogInData } from '../../actions/Actions'
+interface Props {
+   dispatch?: any;
+  loading?: boolean
+  error?: boolean
+  LogInType?: any
+}
 
-interface LoginCredentials {
-    email?: string,
-    password?: string
+interface LogInCredentials {
+   email?: string;
+  password?: string
+  
 }
  
-class SignIn extends React.Component<LoginCredentials&RouteComponentProps<any>> {
-    state: LoginCredentials = {
-        email: '',
-        password: ''
-    }
+class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCredentials> {
+  
+  constructor(props: RouteComponentProps) {      
+    super(props)  
+    this.state = {          
+      email: '',      
+      password: '',          
+    }          
+  }  
 
   onButtonClick = async (event: React.FormEvent) => {
       event.preventDefault();
-      await axios.post('http://localhost:4000/api/users/login',
-        {        
-          email: this.state.email,   
-          password: this.state.password
-        }, { withCredentials: true })
-        .then(response => {
-          console.log('Data', response)
-          localStorage.setItem('accessToken', response.data.tokens.accessToken)
-          localStorage.setItem('refreshToken', response.data.tokens.refreshToken)
-          if (response) {
-             this.props.history.push("/me");  
-          }    
-        }          
-    )    
+    const { email, password } = this.state;    
+    await this.props.dispatch(LogInData(email, password));
+    const data = this.props.LogInType
+   
+    console.log('Data', this.props.LogInType)
+    console.log('loading', this.props.loading)    
+    console.log('error', this.props.error)
+    console.log('PROPS', this.props)
+    
+    const error = this.props.error
+    const loading = this.props.loading
+
+    if (error ) {
+      console.log('Error', error )
+    } else if (loading) {
+      console.log(' Loading', loading)
+    } else {
+
+      await sessionStorage.setItem('accessToken', data.tokens.accessToken)      
+      await sessionStorage.setItem('refreshToken', data.tokens.refreshToken)
+      
+      await this.props.history.push("/me")
+    }
   }
+  
   render() {
       
     return (
@@ -78,4 +101,13 @@ class SignIn extends React.Component<LoginCredentials&RouteComponentProps<any>> 
   }  
 }
 
-export default withRouter(SignIn)
+const mapStateToProps = (state: any) => ({
+    LogInType: state.LogIndata.LogInType,
+    ...state,
+    loading: state.LogIndata.loading,
+  error: state.LogIndata.error,    
+})
+
+const connectedPage = connect(mapStateToProps)(SignIn);
+
+export default withRouter(connectedPage)

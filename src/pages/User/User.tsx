@@ -1,61 +1,60 @@
 import React from 'react';
-import axios from 'axios';
 import { RouteComponentProps, withRouter  } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { connect } from 'react-redux';
+import { GetUserData } from '../../actions/Actions'
 
-interface IUSER {
-    id?: string,
-    firstName?: string,
-    lastName?: string,
-    email?: string,
-    password?: string,
-    isAdmin?: boolean,
-    confirmation?: boolean,
-    createdAt?: Date,
-    updatedAt?: Date
+interface IUserProp {
+
+    GetUserData: Function
+    loading: boolean
+    error: boolean
+    UserDataType?: {
+        id: string,
+        firstName: string,    
+        lastName: string,    
+        email: string,    
+        password: string,    
+        isAdmin: boolean,    
+        confirmation: boolean,    
+        createdAt: Date,    
+        updatedAt: Date    
+    }  
 }
 
-class User extends React.Component<IUSER&RouteComponentProps<any>> {
-    state: IUSER = {
-        id: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        isAdmin: false,
-        confirmation: false,
-    }
 
+class User extends React.Component<RouteComponentProps<any>&IUserProp > {    
+    
     componentDidMount = async () => {
-        const accessToken = localStorage.getItem('accessToken');
-        await axios.get('http://localhost:4000/api/users/me',
-            {headers: { Authorization: `JWT ${accessToken}` }})
-            .then(response => {
-                console.log('getData', response)
-                this.setState({
-                    firstName: response.data.firstName,
-                    email: response.data.email
-                })
-            })
+        await this.props.GetUserData()       
+        console.log('loading', this.props.loading)
+        console.log('error', this.props.error)
     }
     onClick =  () => (this.props.history.push("/allUsers"))
     render() {
         return (
+
             <div>
-            <h1> {this.state.email} </h1>
-                <h2> {this.state.firstName} </h2>
-                { this.state.isAdmin && this.state.isAdmin === true}{
-                    <Button variant='contained' color='primary' onClick = {this.onClick} >
-                        All Users Data
-                       {/*  <li className="nav-item">
-                            <Link className="nav-link" to={"/allUsers"}>AllUsers</Link>                            
-                        </li>                  */}       
+                <h1> {this.props.UserDataType?.email} </h1>                
+                <h2> {this.props.UserDataType?.firstName} </h2>
+                {this.props.UserDataType?.isAdmin && this.props.UserDataType?.isAdmin === true}{
+                    
+                    <Button variant='contained' color='primary' onClick={this.onClick} >                        
+                        All Users Data                            
                     </Button >
-                }
-                
-                </div>
+                }                
+            </div>            
         )
     }
 }
 
-export default withRouter(User)
+const mapStateToProps = (state: any) => ({
+    UserDataType: state.UserData.UserDataType,
+    ...state,
+    loading: state.UserData.loading,
+    error: state.UserData.error  
+})
+
+const connectedPage = connect(mapStateToProps, { GetUserData })(User);
+
+export default withRouter(connectedPage)

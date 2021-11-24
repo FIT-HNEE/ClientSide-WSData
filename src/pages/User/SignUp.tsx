@@ -5,50 +5,57 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
-
-interface signUpData {   
+import { connect } from 'react-redux';
+import { SignUpData } from '../../actions/Actions'
+interface signUpCredentials {   
     firstName?: string,
     lastName?:string,
     email?: string,
     password?: string,
    
 }
+interface Props {
+   dispatch?: any;
+  loading?: boolean
+  error?: boolean
+  SignUpType?: any
+}
 
-class SignUp extends Component <signUpData&RouteComponentProps<any>> {
-    state: signUpData = {        
-        firstName: '',
+class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials> {
+    
+    constructor(props: RouteComponentProps) {      
+    super(props)       
+    this.state = {
+          
+        firstName: '',        
         lastName:'',
         email: '',
-        password: ''        
-    }
+        password: ''          
+    }          
+  }    
 
     onSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
 
-        await axios.post('http://localhost:4000/api/users/register',            
-            {
-                firstName: this.state.firstName,
-                
-                lastName: this.state.lastName,
-        
-                email: this.state.email,
-          
-                password: this.state.password
-          
-            }, { withCredentials: true })
-            
-            .then(response => {
-            
-                console.log('Data', response)
-                
-                if (response) {
-              
-                    this.props.history.push("/sign-in");
-                    
-                }                
-            }                
-        )        
+        const { firstName, lastName, email, password } = this.state;        
+        await this.props.dispatch(SignUpData(firstName, lastName, email, password));        
+   
+        console.log('Data', this.props.SignUpType)        
+        console.log('loading', this.props.loading)        
+        console.log('error', this.props.error)        
+    
+        const error = this.props.error        
+        const loading = this.props.loading        
+
+        if (error) {        
+            console.log('Error', error)            
+        } else if (loading) {            
+            console.log(' Loading', loading)            
+        } else {            
+            await this.props.history.push("/sign-in");            
+        }        
     }
+
 
     render() {
         return (
@@ -160,4 +167,14 @@ class SignUp extends Component <signUpData&RouteComponentProps<any>> {
     }
 }
 
-export default withRouter(SignUp)
+const mapStateToProps = (state: any) => ({
+    SignUpType: state.SignUpdata.SignUpType,
+    ...state,
+    loading: state.SignUpdata.loading,
+    error: state.SignUpdata.error  
+})
+
+const connectedPage = connect(mapStateToProps)(SignUp);
+
+export default withRouter(connectedPage)
+

@@ -88,7 +88,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                     onClick={() => setOpenDrawer(true)}>                    
                       
                     {(() => {                      
-                      const accessToken = localStorage.getItem('accessToken');                      
+                      const accessToken = sessionStorage.getItem('accessToken');                      
                       console.log('Access Token here', accessToken)
                       if (accessToken && accessToken !== null) {                  
                         return (                    
@@ -99,7 +99,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                               variant='contained'                              
                               color='primary'                              
                               onClick={async () => {                          
-                                await localStorage.clear()                                
+                                await sessionStorage.clear()                                
                                 await props.history.push("/sign-in")                                
                                 await setOpenDrawer(false);                                
                               }}> LOGOUT </Button>                            
@@ -121,7 +121,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                 </>) : (
                   
                   (() => {
-                    const accessToken = localStorage.getItem('accessToken');                    
+                    const accessToken = sessionStorage.getItem('accessToken');                    
                     console.log('Access Token here', accessToken)                   
 
                     if (accessToken && accessToken !== null) {                  
@@ -133,7 +133,7 @@ const NavBar: React.FC<RouteComponentProps> = (props) => {
                             variant='contained'                            
                             color='primary'                            
                             onClick={() => {                          
-                              localStorage.clear()                              
+                              sessionStorage.clear()                              
                               props.history.push("/sign-in");                              
                             }} > LOGOUT </Button>                          
                         </>                        

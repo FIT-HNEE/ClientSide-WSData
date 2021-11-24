@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 //import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import TableContainer from '@mui/material/TableContainer';
@@ -8,38 +7,37 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { GetUsersData } from '../../actions/Actions';
+import { connect } from 'react-redux';
 
-/* interface IUSERS {
-    data?: Array<any>
-} */
+interface Props {
+    GetUsersData: Function    
+    UsersDataType: []
+    loading: boolean
+    error: boolean
+}
 
-export default class AllUsers extends React.Component {
-    state = {
-        data: [],
-        filteredRows: [],
+class AllUsers extends React.Component <Props> {
+
+    state = {       
+        filteredRows: this.props.UsersDataType,
         searched: ''
     }
+    
 
     componentDidMount = async () => {
-        const accessToken = localStorage.getItem('accessToken');
-        await axios.get('http://localhost:4000/api/users',
-            {headers: { Authorization: `JWT ${accessToken}` }})
-            .then(response => {
-                console.log('AllUsersData', response)               
-                this.setState({                         
-                    data: response.data,
-                    filteredRows: response.data
-                })
-                
-               
-            })
+        await this.props.GetUsersData()
+         await this.props.UsersDataType
+        console.log('data', this.props.UsersDataType)        
+        console.log('loading', this.props.loading)
+        console.log('error', this.props.error)
     }
-
+    
     requestSearch = (event: any) => {
 
         let value = event.target.value.toLowerCase();
         
-        const filteredRows = this.state.data && this.state.data.filter((row: any) => {
+        const filteredRows = this.props.UsersDataType && this.props.UsersDataType.filter((row: any) => {
         
             return row.firstName.toLowerCase().includes(value) || row.lastName.toLowerCase().includes(value) || row.email.toLowerCase().includes(value)
             
@@ -54,13 +52,6 @@ export default class AllUsers extends React.Component {
         })
 
   };
-
-    /* cancelSearch = () => {
-        this.setState({
-           searched: ""
-       })   
-    this.requestSearch(this.state.searched);
-  }; */
 
     render() {
         
@@ -84,7 +75,7 @@ export default class AllUsers extends React.Component {
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {this.state.filteredRows &&this.state.filteredRows.map((row: any) => {
+                            {this.state.filteredRows&&this.state.filteredRows.map((row: any) => {
                     return (
                         <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
@@ -109,3 +100,15 @@ export default class AllUsers extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state: any) => ({    
+   UsersDataType: state.UsersData.UsersDataType,
+    ...state,
+    loading: state.UsersData.loading,
+    error: state.UsersData.error                    
+    
+})
+
+const connectedPage = connect(mapStateToProps, { GetUsersData })(AllUsers);
+
+export default connectedPage
