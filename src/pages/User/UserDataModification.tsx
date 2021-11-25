@@ -4,6 +4,10 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 import { connect } from 'react-redux';
 import { GetUserDataToModify } from '../../actions/Actions'
 
@@ -37,38 +41,87 @@ class UserDataModification extends React.Component<RouteComponentProps<any> & IU
         console.log('error', this.props.error)
     }
     //onClick =  () => (this.props.history.push("/allUsers"))
-    render() {
-        return (
-
-            <Box
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
+  render() {
+      
+    return (          
+          <Box            
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+          >            
+            <div>              
           <h3>User Data Modification</h3>
-          <FormGroup >
-            <TextField      
-              value={this.props.UserDataModifyType?.email}              
-                            
-            />            
-            <TextField  
-              value={this.props.UserDataModifyType?.firstName}              
-              onChange={(event) => this.setState({              
-                password: event.target.value                
-              })}              
-            />
-            <Button variant='contained' color='primary'>Submit</Button>            
-                       
           
+          <FormGroup >
+            
+            <TextField              
+              value={this.props.UserDataModifyType?.firstName}             
+                                
+            />
+            <TextField      
+              value={this.props.UserDataModifyType?.lastName} 
+
+            />
+            
+            <TextField              
+              value={this.props.UserDataModifyType?.email}
+                            
+            />
+            <TextField              
+              value={this.props.UserDataModifyType?.isAdmin}
+                            
+            />
+            <TextField              
+              value={this.props.UserDataModifyType?.confirmation}
+                            
+            />
+
+            <FormLabel component="legend">Admin Role</FormLabel>
+
+            <RadioGroup              
+              aria-label="Admin Role"
+              name="controlled-radio-buttons-group"
+              value={this.props.UserDataModifyType?.isAdmin ?? " "}
+              //onChange={handleChange}
+            >
+
+              <FormControlLabel value={true} control={<Radio />} label="Admin" />
+
+              <FormControlLabel value={false} control={<Radio />} label="No Admin" />
+
+            </RadioGroup>
+
+            <FormLabel component="legend">Email Confirmation</FormLabel>
+
+            <RadioGroup              
+              aria-label="Email Confirmation"
+              name="controlled-radio-buttons-group"
+              value={this.props.UserDataModifyType?.confirmation ?? " "}
+              //onChange={handleChange}
+            >
+
+              <FormControlLabel value={true} control={<Radio />} label="Confirmed" />
+
+              <FormControlLabel value={false} control={<Radio />} label="Not Confirmed" />
+
+            </RadioGroup>
+
+            <Button variant='contained' color='primary'>Submit</Button>
+            
+              
           </FormGroup>
-        </div>        
-      </Box>                  
-        )
-    }
+          
+        </div>
+        
+      </Box>
+      
+    )
+    
+  }
+  
 }
 
 const mapStateToProps = (state: any) => ({
