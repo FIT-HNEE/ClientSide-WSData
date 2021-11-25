@@ -4,7 +4,9 @@ import { Query_WEATHER_DATA_LOADING, Query_WEATHER_DATA_SUCCESS, QWDDispatchType
 import { LOGIN_DATA_LOADING, LOGIN_DATA_SUCCESS, LOGIN_DATA_FAIL, LogInDispatchTypes } from './types/LoginActionTypes';
 import { SIGNUP_DATA_LOADING, SIGNUP_DATA_FAIL, SIGNUP_DATA_SUCCESS, SignUpDispatchTypes } from './types/SignUpActionTypes';
 import { USER_DATA_LOADING, USER_DATA_SUCCESS, USER_DATA_FAIL, UserDataDispatchTypes} from './types/UserDataActionTypes'
-import { USERS_DATA_LOADING, USERS_DATA_SUCCESS, USERS_DATA_FAIL, UsersDataDispatchTypes} from './types/UsersDataActionTypes'
+import { USERS_DATA_LOADING, USERS_DATA_SUCCESS, USERS_DATA_FAIL, UsersDataDispatchTypes } from './types/UsersDataActionTypes';
+import { USER_DATA_Modify_LOADING, USER_DATA_Modify_SUCCESS, USER_DATA_Modify_FAIL, UserDataModifyDispatchTypes } from './types/UserDataModificationActionTypes';
+
 import axios from "axios";
 
 
@@ -182,6 +184,61 @@ export const GetUsersData = () => async (dispatch: Dispatch<UsersDataDispatchTyp
     }    
 }
 
+export const GetUserDataToModify = (id: any) => async ( dispatch:Dispatch<UserDataModifyDispatchTypes>) => {
+    
+    try {                
+
+        dispatch({
+            type: USER_DATA_Modify_LOADING,            
+        });
+        const accessToken = await sessionStorage.getItem('accessToken');
+
+        const response = await axios.get(`http://localhost:4000/api/users/${id}`,
+            {headers: { Authorization: `JWT ${accessToken}` }})
+    
+    const data = await response.data
+        
+        dispatch({                
+            type: USER_DATA_Modify_SUCCESS,            
+            payload: data                
+        });
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: USER_DATA_Modify_FAIL            
+        })        
+    }    
+}
+
+export const UserDataModification = (id: any, objData: any) => async ( dispatch:Dispatch<UserDataModifyDispatchTypes>) => {
+    
+    try {                
+
+        dispatch({
+            type: USER_DATA_Modify_LOADING,            
+        });
+        const accessToken = await sessionStorage.getItem('accessToken');
+
+        const response = await axios.put(`http://localhost:4000/api/users/${id}`, objData,
+            {headers: { Authorization: `JWT ${accessToken}` }})
+    
+    const data = await response.data
+        
+        dispatch({                
+            type: USER_DATA_Modify_SUCCESS,            
+            payload: data                
+        });
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: USER_DATA_Modify_FAIL            
+        })        
+    }    
+}
 
 
 
