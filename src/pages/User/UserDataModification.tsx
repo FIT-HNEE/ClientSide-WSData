@@ -83,7 +83,8 @@ class UserDataModification extends React.Component<RouteComponentProps<any> & IU
 
             <RadioGroup              
               aria-label="Admin Role"
-              name="controlled-radio-buttons-group"
+              row 
+              name="row-radio-buttons-group"
               value={this.props.UserDataModifyType?.isAdmin ?? " "}
               //onChange={handleChange}
             >
@@ -98,7 +99,8 @@ class UserDataModification extends React.Component<RouteComponentProps<any> & IU
 
             <RadioGroup              
               aria-label="Email Confirmation"
-              name="controlled-radio-buttons-group"
+              row 
+              name="row-radio-buttons-group"
               value={this.props.UserDataModifyType?.confirmation ?? " "}
               //onChange={handleChange}
             >
