@@ -5,6 +5,8 @@ import LogInDataReducer from "./dataReducers/LogInDataReducer";
 import SignUpDataReducer from './dataReducers/SignUpDataReducer';
 import UserDataReducer from "./dataReducers/UserDataReducer";
 import UsersDataReducer from "./dataReducers/UsersDataReducer";
+import GetUserDataToModifyReducer from "./dataReducers/GetUserDataToModifyReducer";
+import UserDataModificationReducer from "./dataReducers/UserDataModificationReducer";
 
 const RootReducer = combineReducers({
   PWdata: PastWeatherDataReducer,
@@ -12,7 +14,9 @@ const RootReducer = combineReducers({
   LogIndata: LogInDataReducer,
   SignUpdata: SignUpDataReducer,
   UserData: UserDataReducer,
-  UsersData: UsersDataReducer
+  UsersData: UsersDataReducer,
+  UserDataToModify: GetUserDataToModifyReducer,
+  UserDataModification: UserDataModificationReducer
 });
 
 export default RootReducer;
