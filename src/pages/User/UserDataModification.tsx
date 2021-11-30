@@ -9,37 +9,73 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import { connect } from 'react-redux';
-import { GetUserDataToModify } from '../../actions/Actions'
+import { GetUserDataToModify, UserDataModification } from '../../actions/Actions'
 
 interface IUserProp {
-    GetUserDataToModify: Function
-    loading: boolean
-    error: boolean
-    UserDataModifyType?: {
-        id: string,
-        firstName: string,    
-        lastName: string,    
-        email: string,    
-        password: string,    
-        isAdmin: boolean,    
-        confirmation: boolean,    
-        createdAt: Date,    
-        updatedAt: Date    
-    }  
+  GetUserDataToModify: Function
+  UserDataModification: Function
+  UserDataModifyType?: {      
+    id: string,    
+    firstName: string,        
+    lastName: string,        
+    email: string,        
+    password: string,        
+    isAdmin: boolean,        
+    confirmation: boolean,
+    createdAt: Date,        
+    updatedAt: Date      
+  }
+  loading: boolean
+  error: boolean 
 }
 
-
-class UserDataModification extends React.Component<RouteComponentProps<any> & IUserProp> {
-   // class UserDataModification extends React.Component{
+interface InputUserData{
+  firstName?: string
+  lastName?: string
+  email?: string  
+}
+class UserDataEdit extends React.Component<RouteComponentProps<any>&IUserProp,InputUserData > {
+private stepInput: React.RefObject<HTMLInputElement>;
+constructor(props:any) {
+  super(props);
+  this.stepInput = React.createRef(); 
+  this.state = {   
+    firstName: '',    
+    lastName: '',                
+    email: ''              
+  }  
+  }  
+ 
+    handleInputChange = (e: any) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+  
     
     componentDidMount = async () => {
-        const { id } = await this.props.match.params;
-        await this.props.GetUserDataToModify(id)
+      const { id } = await this.props.match.params;      
+      await this.props.GetUserDataToModify(id)     
+      this.setState({       
+        firstName: this.props.UserDataModifyType?.firstName,
+        lastName: this.props.UserDataModifyType?.lastName,
+        email: this.props.UserDataModifyType?.email
+      }, () => {
+        console.log('STATE',this.state);
+      });
         console.log('UserDataModifyType', this.props.UserDataModifyType)
         console.log('id', id)
         console.log('loading', this.props.loading)
         console.log('error', this.props.error)
-    }
+  }
+  onSubmit = async (e: any) => {
+    e.preventDefault();    
+   const { email, lastName, firstName } = this.state;
+    const { id } = await this.props.match.params;
+    console.log('newUser', email, lastName, firstName)
+    await this.props.UserDataModification(id, email, lastName, firstName);
+    this.props.history.push("/sign-in/me/allUsers")
+  }
     //onClick =  () => (this.props.history.push("/allUsers"))
   render() {
       
@@ -58,17 +94,21 @@ class UserDataModification extends React.Component<RouteComponentProps<any> & IU
           <FormGroup >
             
             <TextField              
-              value={this.props.UserDataModifyType?.firstName}             
-                                
+              value={this.state.firstName}
+              name="firstName"
+              onChange={this.handleInputChange}
+              ref={this.stepInput}
             />
             <TextField      
-              value={this.props.UserDataModifyType?.lastName} 
-
+              value={this.state.lastName} 
+              onChange={this.handleInputChange}
+              name="lastName"
             />
             
             <TextField              
-              value={this.props.UserDataModifyType?.email}
-                            
+              value={this.state.email}
+              onChange={this.handleInputChange}
+              name="email"     
             />
             <TextField              
               value={this.props.UserDataModifyType?.isAdmin}
@@ -111,7 +151,7 @@ class UserDataModification extends React.Component<RouteComponentProps<any> & IU
 
             </RadioGroup>
 
-            <Button variant='contained' color='primary'>Submit</Button>
+            <Button variant='contained' onClick={this.onSubmit} color='primary'>Submit</Button>
             
               
           </FormGroup>
@@ -133,7 +173,7 @@ const mapStateToProps = (state: any) => ({
     error: state.UserDataToModify.error  
 })
 
-const connectedPage = connect(mapStateToProps, { GetUserDataToModify })(UserDataModification);
+const connectedPage = connect(mapStateToProps, { GetUserDataToModify,UserDataModification })(UserDataEdit);
 
 export default withRouter(connectedPage)
 //export default UserDataModification
