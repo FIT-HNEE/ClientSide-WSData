@@ -212,7 +212,7 @@ export const GetUserDataToModify = (id: any) => async ( dispatch:Dispatch<UserDa
     }    
 }
 
-export const UserDataModification = (id: any, firstName: any, lastName: any, email:any) => async ( dispatch:Dispatch<UserDataModifyDispatchTypes>) => {
+export const UserDataModification = (id: any, firstName: any, lastName: any, email:any, confirmation: any, isAdmin: any) => async ( dispatch:Dispatch<UserDataModifyDispatchTypes>) => {
     
     try {                
 
@@ -224,11 +224,13 @@ export const UserDataModification = (id: any, firstName: any, lastName: any, ema
         const response = await axios.put(`http://localhost:4000/api/users/${id}`, {        
             firstName: firstName,            
             lastName: lastName,
-            email: email,          
-            },
-            {headers: { Authorization: `JWT ${accessToken}` }})
+            email: email,
+            confirmation: confirmation,
+            isAdmin:isAdmin
+        },            
+            { headers: { Authorization: `JWT ${accessToken}` } })        
     
-    const data = await response.data
+        const data = await response.data       
         
         dispatch({                
             type: USER_DATA_Modify_SUCCESS,            
