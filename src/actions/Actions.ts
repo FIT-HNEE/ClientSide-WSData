@@ -212,7 +212,7 @@ export const GetUserDataToModify = (id: any) => async ( dispatch:Dispatch<UserDa
     }    
 }
 
-export const UserDataModification = (id: any, objData: any) => async ( dispatch:Dispatch<UserDataModifyDispatchTypes>) => {
+export const UserDataModification = (id: any, firstName: any, lastName: any, email:any) => async ( dispatch:Dispatch<UserDataModifyDispatchTypes>) => {
     
     try {                
 
@@ -221,7 +221,11 @@ export const UserDataModification = (id: any, objData: any) => async ( dispatch:
         });
         const accessToken = await sessionStorage.getItem('accessToken');
 
-        const response = await axios.put(`http://localhost:4000/api/users/${id}`, objData,
+        const response = await axios.put(`http://localhost:4000/api/users/${id}`, {        
+            firstName: firstName,            
+            lastName: lastName,
+            email: email,          
+            },
             {headers: { Authorization: `JWT ${accessToken}` }})
     
     const data = await response.data
