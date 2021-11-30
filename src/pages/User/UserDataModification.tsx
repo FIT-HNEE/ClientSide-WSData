@@ -32,26 +32,37 @@ interface IUserProp {
 interface InputUserData{
   firstName?: string
   lastName?: string
-  email?: string  
+  email?: string
+  isAdmin?: boolean      
+  confirmation?: boolean  
 }
-class UserDataEdit extends React.Component<RouteComponentProps<any>&IUserProp,InputUserData > {
-private stepInput: React.RefObject<HTMLInputElement>;
-constructor(props:any) {
-  super(props);
-  this.stepInput = React.createRef(); 
-  this.state = {   
-    firstName: '',    
-    lastName: '',                
-    email: ''              
-  }  
-  }  
+class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp, InputUserData> {
+  
+  private stepInput: React.RefObject<HTMLInputElement>;
+  
+  constructor(props:any) {
+    super(props);
+    this.stepInput = React.createRef(); 
+    this.state = {   
+      firstName: '',    
+      lastName: '',                
+      email: '',
+      isAdmin: false,        
+      confirmation: false,
+    }  
+    }  
  
     handleInputChange = (e: any) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    }
-  
+      const target = e.target;      
+      const value = target.value;      
+      const name = target.name;     
+
+      this.setState({        
+        ...this.state,        
+        [name]: value        
+      });
+      
+    }  
     
     componentDidMount = async () => {
       const { id } = await this.props.match.params;      
@@ -59,7 +70,9 @@ constructor(props:any) {
       this.setState({       
         firstName: this.props.UserDataModifyType?.firstName,
         lastName: this.props.UserDataModifyType?.lastName,
-        email: this.props.UserDataModifyType?.email
+        email: this.props.UserDataModifyType?.email,
+        isAdmin: this.props.UserDataModifyType?.isAdmin,        
+        confirmation: this.props.UserDataModifyType?.confirmation,      
       }, () => {
         console.log('STATE',this.state);
       });
@@ -70,10 +83,10 @@ constructor(props:any) {
   }
   onSubmit = async (e: any) => {
     e.preventDefault();    
-   const { email, lastName, firstName } = this.state;
+   const { email, lastName, firstName, isAdmin, confirmation } = this.state;
     const { id } = await this.props.match.params;
     console.log('newUser', email, lastName, firstName)
-    await this.props.UserDataModification(id, email, lastName, firstName);
+    await this.props.UserDataModification(id, email, lastName, firstName, isAdmin, confirmation);
     this.props.history.push("/sign-in/me/allUsers")
   }
     //onClick =  () => (this.props.history.push("/allUsers"))
@@ -111,11 +124,11 @@ constructor(props:any) {
               name="email"     
             />
             <TextField              
-              value={this.props.UserDataModifyType?.isAdmin}
+              value={this.state.isAdmin}
                             
             />
             <TextField              
-              value={this.props.UserDataModifyType?.confirmation}
+              value={this.state.confirmation}
                             
             />
 
@@ -124,9 +137,9 @@ constructor(props:any) {
             <RadioGroup              
               aria-label="Admin Role"
               row 
-              name="row-radio-buttons-group"
-              value={this.props.UserDataModifyType?.isAdmin ?? " "}
-              //onChange={handleChange}
+              name="isAdmin"
+              value={this.state.isAdmin ?? " "}
+              onChange={this.handleInputChange}
             >
 
               <FormControlLabel value={true} control={<Radio />} label="Admin" />
@@ -140,9 +153,9 @@ constructor(props:any) {
             <RadioGroup              
               aria-label="Email Confirmation"
               row 
-              name="row-radio-buttons-group"
-              value={this.props.UserDataModifyType?.confirmation ?? " "}
-              //onChange={handleChange}
+              name="confirmation"
+              value={this.state.confirmation ?? " "}
+              onChange={this.handleInputChange}
             >
 
               <FormControlLabel value={true} control={<Radio />} label="Confirmed" />
