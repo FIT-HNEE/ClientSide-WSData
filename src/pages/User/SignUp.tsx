@@ -6,6 +6,12 @@ import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import { connect } from 'react-redux';
 import { SignUpData } from '../../actions/Actions'
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 interface signUpCredentials {   
     firstName?: string,
     lastName?:string,
@@ -19,19 +25,27 @@ interface Props {
   error?: boolean
   SignUpType?: any
 }
+ const theme = createTheme();
 
-class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials> {
+class SignUp extends Component<RouteComponentProps<any> & Props, signUpCredentials> {    
     
-    constructor(props: RouteComponentProps) {      
-    super(props)       
-    this.state = {
-          
-        firstName: '',        
-        lastName:'',
-        email: '',
-        password: ''          
-    }          
-  }    
+    constructor(props: RouteComponentProps) {        
+        
+        super(props)        
+        
+        this.state = {
+        
+            firstName: '',
+            
+            lastName: '',
+        
+            email: '',
+        
+            password: ''
+        
+        }
+        
+    }    
 
     onSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
@@ -58,25 +72,34 @@ class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials
 
     render() {
         return (
-            <Box   
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },                    
-                }}
+             <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />  
+      <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 
-                noValidate
-
-                autoComplete="off"
-
-            >
-                <div>
-                    <h3>Sign Up</h3>
-                    
-                    <FormGroup >
-
+              <LockOutlinedIcon />
+              
+          </Avatar>
+          
+          <Typography component="h1" variant="h5">
+            Sign Up
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
                         <TextField
                             
-                            required
+                            margin="normal"                
+                                required
+                                
+                                fullWidth
+                                
                             
                             label="First Name"
                             
@@ -94,7 +117,10 @@ class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials
 
                         <TextField
                             
-                            required
+                            margin="normal"                
+                                required
+                                
+                                fullWidth                                
                             
                             label="Last Name"
                             
@@ -112,7 +138,10 @@ class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials
                         
                         <TextField
                             
-                            required
+                            margin="normal"                
+                                required
+                                
+                                fullWidth                                
                             
                             label="Email"
                             
@@ -130,7 +159,11 @@ class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials
 
                         <TextField
                             
-                            required
+                            margin="normal"                
+                                required
+                                
+                                fullWidth
+                                
                             
                             label="Password"
                             
@@ -146,7 +179,7 @@ class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials
                             
                         />
                         
-                        <Button onClick={this.onSubmit} variant='contained' color='primary'>Submit</Button>
+                        <Button onClick={this.onSubmit} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Submit</Button>
                         
                         <p className="forgot-password text-right">
                             
@@ -155,11 +188,10 @@ class SignUp extends Component<RouteComponentProps<any>&Props, signUpCredentials
                         </p>
                         
                 
-                    </FormGroup>
-                    
-                </div>
-                
-            </Box>
+                    </Box>
+        </Box>
+        </Container>
+        </ThemeProvider>
             
         );
 
