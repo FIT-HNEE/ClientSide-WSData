@@ -5,7 +5,14 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import { connect } from 'react-redux';
-import { LogInData } from '../../actions/Actions'
+import { LogInData } from '../../actions/Actions';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+
 interface Props {
    dispatch?: any;
   loading?: boolean
@@ -18,7 +25,7 @@ interface LogInCredentials {
   password?: string
   
 }
- 
+ const theme = createTheme();
 class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCredentials> {
   
   constructor(props: RouteComponentProps) {      
@@ -59,43 +66,60 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
   render() {
       
     return (
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />  
       <Box
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <h3>Sign In</h3>
-          <FormGroup >
-            <TextField        
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+
+              <LockOutlinedIcon />
+              
+          </Avatar>
+          
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"                
               required
+              fullWidth 
               label="Email"
               type="email"                
               value={this.state.email}              
               onChange={(event) => this.setState({              
                 email: event.target.value                
-              })}              
+              })}
+                
             />            
-            <TextField              
+              <TextField
+                margin="normal"               
+              fullWidth
               required              
               label="Password"              
               type="password"          
               value={this.state.password}              
               onChange={(event) => this.setState({              
                 password: event.target.value                
-              })}              
+              })}
+  
             />
-            <Button onClick={this.onButtonClick} variant='contained' color='primary'>Submit</Button>            
+            <Button onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Submit</Button>            
             <p className="forgot-password text-right">              
               Forgot <a href="#">password?</a>              
             </p>            
           
-          </FormGroup>
-        </div>        
-      </Box>      
+          </Box>
+        </Box>
+        </Container>
+        </ThemeProvider>
     )
   }  
 }
