@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import FormGroup from '@mui/material/FormGroup';
+import SearchIcon from '@mui/icons-material/Search';
 import Select from '@mui/material/Select';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -17,6 +17,12 @@ import { parseISO } from 'date-fns/esm';
 import { arrayToExcel } from '../../components/ArraytoExcel'
 import { connect } from 'react-redux';
 import { GetQWData } from '../../actions/Actions'
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+
 interface WeatherDataCredentials{  
   StationName?: string,  
   StartDay?: any,  
@@ -34,6 +40,9 @@ interface Props {
     error: string        
     }  
 }
+
+ const theme = createTheme();
+
 class WeatherDataFetching extends React.Component<RouteComponentProps&Props, WeatherDataCredentials> {
 
   constructor(props: RouteComponentProps) {
@@ -104,72 +113,89 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
     
   };  
 
-  render() {    
+  render() { 
+    
     return (
-      <Box        
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-      >        
-        <div>
-          <h3>Weather Data Search</h3>
-          
-          <FormGroup >            
-            <InputLabel id="demo-simple-select-label">Station Name</InputLabel>
-            <Select              
-              value={this.state.StationName}              
-              label="Station Name"              
-              onChange={(event) => this.setState({      
-                StationName: event.target.value                
-              })}
-            >              
-              <MenuItem value="Buche">Buche</MenuItem>    
-            </Select>
 
-            <LocalizationProvider dateAdapter={DateAdapter}>
-              <Stack spacing={3}>
-                <DesktopDatePicker                  
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">  
+          <CssBaseline />
+          <Box                 
+            sx={{        
+              marginTop: 8, 
+              display: 'flex',                            
+              flexDirection: 'column',                            
+              alignItems: 'center',                            
+            }}            
+          >           
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>               
+              <SearchIcon />              
+            </Avatar>
+
+            <Typography component="h1" variant="h5"> 
+              Weather Station Data Search               
+            </Typography>            
+                        
+            <Box component="form" noValidate sx={{ mt: 1 }}> 
+              
+              <Box sx={{ mb: 2 }}>
+              <InputLabel id="demo-simple-select-label">Station Name</InputLabel>
+              <Select                
+                fullWidth   
+                value={this.state.StationName}   
+                label="Station Name" 
+                onChange={(event) => this.setState({      
+                  StationName: event.target.value                
+                })}
+              >              
+                <MenuItem value="Buche">Buche</MenuItem>                 
+              </Select> 
+              </Box>
+
+              <LocalizationProvider dateAdapter={DateAdapter}>                
+                <Stack spacing={3}>                  
+                  <DesktopDatePicker                     
                   //openTo="year"
                   //views={["year", "month", "day"]}
-                  label="Start Date"
+                    label="Start Date"                    
                   //inputFormat="dd/MM/yyyy"
-                  value={this.state.StartDay}
-                  disableFuture={true}
-                  onChange={(date: any) => {
-                  this.setState({
-                    StartDay: moment(date).format('YYYY-MM-DD')   
-                  });  
-                  }}                  
-                  renderInput={(params) => <TextField {...params} />}
-                />
-                <DesktopDatePicker                  
-                  //openTo="year"
-                  //views={["year", "month", "day"]}
-                  label="End Date"                  
-                  //inputFormat="MM/dd/yyyy"                  
-                  disableFuture={true}
-                  value={this.state.EndDay}
-                  onChange= {(date: any) => {
-                  this.setState({                   
-                    EndDay: moment(date).format('YYYY-MM-DD')
-                    
-                  });                    
-                  }}
-                  minDate= {parseISO(this.state.StartDay)}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-               </Stack>
-            </LocalizationProvider>   
-            <Button id="download" onClick={this.onButtonClick} variant='contained' color='primary'>Search Data</Button>
-
-            <Button onClick={this.onButtonClick} variant='contained' color='primary'>Download Data</Button>
-            <Button id="charts" onClick={this.onButtonClick} variant='contained' color='primary'>Figures</Button>
-          </FormGroup>
-        </div>        
-      </Box>      
+                    value={this.state.StartDay}                    
+                    disableFuture={true}                    
+                    onChange={(date: any) => {
+                    this.setState({
+                      StartDay: moment(date).format('YYYY-MM-DD')   
+                    });  
+                    }}                  
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                  
+                  <DesktopDatePicker                  
+                    //openTo="year"
+                    //views={["year", "month", "day"]}
+                    label="End Date"                  
+                    //inputFormat="MM/dd/yyyy"                  
+                    disableFuture={true}
+                    value={this.state.EndDay}
+                    onChange= {(date: any) => {
+                    this.setState({                   
+                      EndDay: moment(date).format('YYYY-MM-DD')
+                      
+                    });                    
+                    }}
+                    minDate= {parseISO(this.state.StartDay)}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>                
+              </LocalizationProvider>   
+              
+              <Button id="download" onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Search Data</Button>
+              <Button onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Download Data</Button>              
+              <Button id="charts" onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Figures</Button>
+              
+            </Box>                                    
+          </Box>                      
+        </Container>                  
+      </ThemeProvider>         
     )
   }  
 }
