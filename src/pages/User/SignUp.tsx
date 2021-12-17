@@ -3,12 +3,11 @@ import { RouteComponentProps, withRouter  } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import FormGroup from '@mui/material/FormGroup';
 import { connect } from 'react-redux';
 import { SignUpData } from '../../actions/Actions'
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -71,132 +70,89 @@ class SignUp extends Component<RouteComponentProps<any> & Props, signUpCredentia
 
 
     render() {
+
         return (
-             <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />  
-      <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 
-              <LockOutlinedIcon />
-              
-          </Avatar>
-          
-          <Typography component="h1" variant="h5">
-            Sign Up
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-                        <TextField
-                            
-                            margin="normal"                
-                                required
-                                
-                                fullWidth
-                                
-                            
-                            label="First Name"
-                            
-                            type="text"
-                            
-                            value={this.state.firstName}
-                            
-                            onChange={(event) => this.setState({
-                        
-                                firstName: event.target.value
-                                
-                            })}
-                            
-                        />
-
-                        <TextField
-                            
-                            margin="normal"                
-                                required
-                                
-                                fullWidth                                
-                            
-                            label="Last Name"
-                            
-                            type="text"
-                            
-                            value={this.state.lastName}
-                            
-                            onChange={(event) => this.setState({
-                        
-                                lastName: event.target.value
-                                
-                            })}
-                            
-                        />
-                        
-                        <TextField
-                            
-                            margin="normal"                
-                                required
-                                
-                                fullWidth                                
-                            
-                            label="Email"
-                            
-                            type="email"
-                            
-                            value={this.state.email}
-                            
-                            onChange={(event) => this.setState({
-                        
-                                email: event.target.value
-                                
-                            })}
-                            
-                        />                        
-
-                        <TextField
-                            
-                            margin="normal"                
-                                required
-                                
-                                fullWidth
-                                
-                            
-                            label="Password"
-                            
-                            type="password"
-                            
-                            value={this.state.password}
-                            
-                            onChange={(event) => this.setState({
-                        
-                                password: event.target.value
-                                
-                            })}
-                            
-                        />
-                        
-                        <Button onClick={this.onSubmit} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Submit</Button>
-                        
-                        <p className="forgot-password text-right">
-                            
-                            Forgot <a href="#">password?</a>
-                            
-                        </p>
-                        
+            <ThemeProvider theme={theme}>
                 
-                    </Box>
-        </Box>
-        </Container>
-        </ThemeProvider>
-            
-        );
+                <Container component="main" maxWidth="xs">                    
+                    <CssBaseline />                      
+                    <Box                        
+                        sx={{              
+                            marginTop: 8,                            
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >                      
+                        
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>  
+                            <PersonAddAltIcon />
+                        </Avatar>
+                        
+          
+                        <Typography component="h1" variant="h5">                            
+                            Sign Up                            
+                        </Typography>
+                        
+                        <Box component="form" noValidate sx={{ mt: 1 }}>
+                            <TextField   
+                                margin="normal" 
+                                required
+                                fullWidth                            
+                                label="First Name"                                
+                                type="text"                                
+                                value={this.state.firstName}                                
+                                onChange={(event) => this.setState({                            
+                                    firstName: event.target.value                                    
+                                })}                            
+                            />                            
 
+                            <TextField                                
+                                margin="normal"                                
+                                required
+                                fullWidth
+                                label="Last Name"
+                                type="text"
+                                value={this.state.lastName}
+                                onChange={(event) => this.setState({                            
+                                    lastName: event.target.value                                    
+                                })}                                
+                            />                            
+                        
+                            <TextField                                
+                                margin="normal"                
+                                required   
+                                fullWidth  
+                                label="Email"                                
+                                type="email"                                
+                                value={this.state.email}                                
+                                onChange={(event) => this.setState({                            
+                                    email: event.target.value                                    
+                                })}                                
+                            />                        
+
+                            <TextField
+                                margin="normal"                                
+                                required                                    
+                                fullWidth
+                                label="Password"                                
+                                type="password"                                
+                                value={this.state.password}                                
+                                onChange={(event) => this.setState({                            
+                                    password: event.target.value                                    
+                                })}                                
+                            />
+                            
+                            <Button onClick={this.onSubmit} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Submit</Button>
+                        </Box>                        
+                    </Box>                    
+                </Container>                
+            </ThemeProvider>  
+        );
     }
 }
+
 
 const mapStateToProps = (state: any) => ({
     SignUpType: state.SignUpdata.SignUpType,
