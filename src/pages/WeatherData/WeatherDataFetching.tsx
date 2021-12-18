@@ -22,7 +22,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-
+import TimelineIcon from '@mui/icons-material/Timeline';
 interface WeatherDataCredentials{  
   StationName?: string,  
   StartDay?: any,  
@@ -139,15 +139,18 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
             <Box component="form" noValidate sx={{ mt: 1 }}> 
               
               <Box sx={{ mb: 2 }}>
-              <InputLabel id="demo-simple-select-label">Station Name</InputLabel>
+              <InputLabel >Station Name</InputLabel>
               <Select                
                 fullWidth   
                 value={this.state.StationName}   
-                label="Station Name" 
+                displayEmpty 
                 onChange={(event) => this.setState({      
                   StationName: event.target.value                
                 })}
-              >              
+                >    
+                  <MenuItem value="">
+                    <em>Please Select</em>
+                  </MenuItem>                  
                 <MenuItem value="Buche">Buche</MenuItem>                 
               </Select> 
               </Box>
@@ -188,9 +191,24 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
                 </Stack>                
               </LocalizationProvider>   
               
-              <Button id="download" onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Search Data</Button>
-              <Button onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Download Data</Button>              
-              <Button id="charts" onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Figures</Button>
+              <Button id="download" onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
+                Data Search
+              </Button>
+              <Button onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
+                Download Data
+              </Button> 
+              
+              <Box 
+              display="flex" 
+              alignItems="center"
+              justifyContent="center">
+                <Button id="charts" onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
+                  Figures
+                  <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>               
+                    <TimelineIcon />              
+                  </Avatar>
+                </Button>
+               </Box>              
               
             </Box>                                    
           </Box>                      
