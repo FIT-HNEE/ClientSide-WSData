@@ -7,15 +7,34 @@ const API_KEY = '880f9563f0dbc01b527c700210129732'
 const UNITS = "Metric"
 const LANG = "en"
 
-export default class WeatherAPI extends Component {
+interface Props {  
+  
+  weatherReport?: {
+    daily: string[]    
+    header: {}
+      lat: string   
+      lon: string
+      timezone: string
+      current: {
+        weather:any[]
+    }
+    }  
+}
+
+export default class WeatherAPI extends Component<Props> {
+    
+    
+
     state = {
         weatherReport: {
             lat: "",
             lon: "",
-            timezone: ""
+            timezone: "",
+            daily: [],            
             },
-            isLoading : true,
-            error : null
+        isLoading : true,
+        error: null,        
+        weather: []
     }  
     
     componentDidMount() {
@@ -23,9 +42,16 @@ export default class WeatherAPI extends Component {
     fetch(URL).then(response =>{
         if(response.ok) {return response.json() }
         else { throw new Error("SOMETHING WENT WRONG")}})
-            .then(data => this.setState(
-                { weatherReport : data,
-                    isLoading: false }))
+        .then(data =>{
+            console.log('Data', data)
+            
+            this.setState(
+                {
+                    weatherReport: data,
+                    weather: data.current.weather,
+                    isLoading: false
+                })}
+        )
             .catch(error => this.setState( {error, isLoading : true }));
     }
     render() {
@@ -39,7 +65,7 @@ export default class WeatherAPI extends Component {
                         </Typography>
                         <Typography variant="caption" color="textSecondary">
                         {this.state.weatherReport.lat}, {this.state.weatherReport.lon}
-                        </Typography>
+                            </Typography>                            
                     </Box>
                     </Box>
                 </CardContent>
@@ -52,6 +78,23 @@ export default class WeatherAPI extends Component {
                             <span>&#176;</span>
                             {"C"}
                             </Typography>
+                           {this.state.weather.map((item: any, j) =>
+                                 <img
+                                    src={`https://openweathermap.org/img/w/${item.icon}.png`}                                   
+                                    loading="lazy"
+                                    alt=''
+                                />                                
+                      
+                            )}
+                            
+                            {this.state.weatherReport.daily.slice(1, 7).map((item: any, j) =>
+                                 <img
+                                    src={`https://openweathermap.org/img/w/${item.weather[0].icon}.png`}                                   
+                                    loading="lazy"
+                                    alt=''
+                                />                                
+                      
+                    )}
                         </Box>
                         </Box>
                     </CardContent>
