@@ -1,9 +1,41 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+
+import {
+  createTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from '@mui/material/styles';
+
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
+
+const useStyles = makeStyles(() => ({
+  WeatherIcon : {
+  //display: 'block',
+  height: '70px',
+  width: '70px',
+  margin: '0 auto'
+  },
+  Wrapper: {
+    flexShrink: 0,
+    padding: '0px',
+    margin: '0px',
+    borderRadius: '6px',
+    backgroundColor: '#343a40',
+    "&:first-child": {
+         marginLeft: 0
+    },
+    "&:last-child": {
+         marginRight: 0
+    }    
+  },
+
+  
+}));
 
 type WeatherProps = {
   today: any;
@@ -22,25 +54,35 @@ type WeatherProps = {
  
 
 const DailyItems: React.FC<WeatherProps> = (props) => {
+      const classes = useStyles();
+
   const iconUrl = `https://openweathermap.org/img/w/${props.image}.png`
 
   return (
       <React.Fragment>
-       
-      <Container maxWidth="sm">
-        <h4 style={{ textAlign: 'center', color: '#FFF', paddingTop: '5px' }} >{props.city}</h4>
-      <Typography fontSize="10px" align='center' >{props.today}</Typography>
-      
-          <Typography fontSize="10px">Sunrise: {props.todaysunrise} AM</Typography>
-          <Typography fontSize="10px">Sunset: {props.todaysunset} PM</Typography>
-      
-          <Typography fontSize="16px" color='#0000FF' > {props.todaydescription} </Typography>
+      <ThemeProvider theme={theme}>        
+        <Typography variant="h5" align='center'>Eberswalde,{props.today}</Typography>
         
-          <img src={iconUrl} alt='' />
+        <Grid container spacing={2}>          
+          <Grid item xs={8}>         
+      
+          <Typography sx={{ mb: 0, pb:0 }} variant="body2" color="text.secondary">Sunrise: {props.todaysunrise} AM</Typography>
+          <Typography sx={{ mb: 1.5, pt:0 }} variant="body2" color="text.secondary">Sunset: {props.todaysunset} PM</Typography>
+      
+          <Typography variant="h5" color='#0000FF' > {props.todaydescription} </Typography>
+        
+          
           <Typography align="center" color='#FFF'>{props.todaytemp}&deg;C</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <img className={classes.WeatherIcon} src={iconUrl} alt='' />
+          </Grid>
+          
+        
 
         
-        </Container>
+        </Grid>
+        </ThemeProvider>
      </React.Fragment>
 
   )
