@@ -185,10 +185,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                         <Card sx={{ minWidth: 275 }}>
                             <CardContent>
                                <WeatherAPI />
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small">Learn More</Button>
-                            </CardActions>
+                            </CardContent>                            
                             </Card>
                     </Grid>
 
