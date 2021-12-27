@@ -37,12 +37,15 @@ class User extends React.Component<RouteComponentProps<any>&IUserProp > {
             <div>
                 <h1> {this.props.UserDataType?.email} </h1>                
                 <h2> {this.props.UserDataType?.firstName} </h2>
-                {this.props.UserDataType?.isAdmin && this.props.UserDataType?.isAdmin === true}{
-                    
-                    <Button variant='contained' color='primary' onClick={this.onClick} >                        
+                {
+                    this.props.UserDataType?.isAdmin && this.props.UserDataType?.isAdmin === true ? (
+                        <Button variant='contained' color='primary' onClick={this.onClick} >                        
                         All Users Data                            
                     </Button >
-                }                
+
+                    ) : ("")
+                
+                }             
             </div>            
         )
     }
