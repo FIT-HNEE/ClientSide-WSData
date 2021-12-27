@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DailyItems from './DailyItems';
 import moment from "moment";
+import { makeStyles } from '@mui/styles';
 
 
 export default class WeatherAPI extends Component {      
@@ -11,7 +12,6 @@ export default class WeatherAPI extends Component {
         error: null,        
         
     }  
-    
     componentDidMount() {
     var URL = "http://localhost:4000/api/weatherData/forecast"
     fetch(URL).then(response =>{
