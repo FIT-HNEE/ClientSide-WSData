@@ -6,7 +6,7 @@ import { SIGNUP_DATA_LOADING, SIGNUP_DATA_FAIL, SIGNUP_DATA_SUCCESS, SignUpDispa
 import { USER_DATA_LOADING, USER_DATA_SUCCESS, USER_DATA_FAIL, UserDataDispatchTypes} from './types/UserDataActionTypes'
 import { USERS_DATA_LOADING, USERS_DATA_SUCCESS, USERS_DATA_FAIL, UsersDataDispatchTypes } from './types/UsersDataActionTypes';
 import { USER_DATA_Modify_LOADING, USER_DATA_Modify_SUCCESS, USER_DATA_Modify_FAIL, UserDataModifyDispatchTypes } from './types/UserDataModificationActionTypes';
-
+import { Weather_Forecast_FAIL, Weather_Forecast_LOADING, Weather_Forecast_SUCCESS, FWDDispatchTypes } from "./types/WeatherForecastActionTypes"
 import axios from "axios";
 
 
@@ -30,6 +30,31 @@ export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
         console.log('ERROR-ACTION', error)
         dispatch({
             type: PAST_WEATHER_DATA_FAIL            
+        })        
+    }    
+}
+
+//Weather Forecast using Weather API
+export const GetFWData = () => async (dispatch: Dispatch<FWDDispatchTypes>) => {
+    try {
+
+        dispatch({
+            type: Weather_Forecast_LOADING,            
+        });        
+
+        const resp = await axios.get("http://localhost:4000/api/weatherData/forecast");        
+        const data = await resp.data
+        
+        dispatch({                
+            type: Weather_Forecast_SUCCESS,            
+            payload: data                
+        });
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: Weather_Forecast_FAIL            
         })        
     }    
 }
