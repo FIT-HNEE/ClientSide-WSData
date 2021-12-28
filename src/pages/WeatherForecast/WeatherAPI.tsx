@@ -1,39 +1,44 @@
 import React, { Component } from 'react';
 import DailyItems from './DailyItems';
 import moment from "moment";
+import Forecast from './Forecast';
 import { makeStyles } from '@mui/styles';
+import { connect } from 'react-redux';
+import { GetFWData } from '../../actions/Actions'
 
+const useStyles = makeStyles(() => ({
 
-export default class WeatherAPI extends Component {      
+   
+    ForecastWrapper: {
+        position: 'relative',
+        display: 'flex',
+        overflowY: 'hidden',
+        marginTop: '20px',
+        paddingBottom: '20px'
+    },
+   
+    
+}));
 
-    state = {
-        weatherReport: [],
-        isLoading : true,
-        error: null,        
-        
-    }  
-    componentDidMount() {
-    var URL = "http://localhost:4000/api/weatherData/forecast"
-    fetch(URL).then(response =>{
-        if(response.ok) {return response.json() }
-        else { throw new Error("SOMETHING WENT WRONG")}})
-        .then(data =>{
-            console.log('Data', data)
-            
-            this.setState(
-                {
-                    weatherReport: data,
-                    isLoading: false
-                })
-        console.log('weatherReport', this.state.weatherReport)
-        }
-        )
-            .catch(error => this.setState( {error, isLoading : true }));
+interface Props {  
+    GetFWData: Function  
+  loading?: boolean
+  error?: boolean  
+  FWDType?: []
+}
+class WeatherAPI extends React.Component<Props> {  
+    
+    componentDidMount = async () => {
+        await this.props.GetFWData()        
+       
+    console.log('Forecast Data', this.props.FWDType)
+    console.log('Forecast loading', this.props.loading)    
+    console.log('Forecast error', this.props.error)
     }
     render() {
         return (
             <>  
-                {this.state.weatherReport.map((report: any, i: any) => {
+                {this.props.FWDType?.map((report: any, i: any) => {
                                 
                     return (                                    
                         <React.Fragment>                               
@@ -49,7 +54,17 @@ export default class WeatherAPI extends Component {
                                 todayhighestTemp={Math.floor(report.current.temp * 1) / 1}
                                 todaylowestTemp={Math.floor(report.current.temp * 1) / 1}
                                 todayhumidity={report.current.sunset}                               
-                            />                              
+                            />   
+                            {report.daily.slice(1, 7).map((item: any, j: any) =>
+                                <Forecast
+                                    key={j}                                    
+                                    day={moment.unix(item.dt).format("ddd")}
+                                    icon={item.weather[0].icon}
+                                    temp={Math.floor(item.temp.day * 1) / 1}
+                                >
+                                </Forecast>
+                            )}
+                            
                         </React.Fragment>                        
                     )                   
                 })                    
@@ -58,3 +73,12 @@ export default class WeatherAPI extends Component {
         )
     }
 }
+
+const mapStateToProps = (state: any) => ({
+    FWDType: state.FWdata.FWDType,
+    ...state,
+    loading: state.FWdata.loading,
+    error: state.FWdata.error  
+})
+
+export default connect(mapStateToProps, { GetFWData })(WeatherAPI);
