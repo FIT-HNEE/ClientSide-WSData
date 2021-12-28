@@ -48,10 +48,7 @@ type WeatherProps = {
   todayhighestTemp: any
   todaylowestTemp: any
   todayhumidity: any
-}
-
-
- 
+} 
 
 const DailyItems: React.FC<WeatherProps> = (props) => {
       const classes = useStyles();
@@ -64,27 +61,20 @@ const DailyItems: React.FC<WeatherProps> = (props) => {
         <Typography variant="h5" align='center'>Eberswalde,{props.today}</Typography>
         
         <Grid container spacing={2}>          
-          <Grid item xs={8}>         
-      
-          <Typography sx={{ mb: 0, pb:0 }} variant="body2" color="text.secondary">Sunrise: {props.todaysunrise} AM</Typography>
-          <Typography sx={{ mb: 1.5, pt:0 }} variant="body2" color="text.secondary">Sunset: {props.todaysunset} PM</Typography>
-      
-          <Typography variant="h5" color='#0000FF' > {props.todaydescription} </Typography>
-        
+          <Grid item xs={8}>        
+            <Typography sx={{ mb: 0, pb:0 }} variant="body2" color="text.secondary">Sunrise: {props.todaysunrise} AM</Typography>
+            <Typography sx={{ mb: 1.5, pt:0 }} variant="body2" color="text.secondary">Sunset: {props.todaysunset} PM</Typography>      
+            <Typography variant="h5" color='#0000FF' > {props.todaydescription} </Typography>      
+          </Grid>  
           
-          <Typography align="center" color='#FFF'>{props.todaytemp}&deg;C</Typography>
+          <Grid item xs={4}>            
+            <img className={classes.WeatherIcon} src={iconUrl} alt='' />
+             <Typography align="center" >{props.todaytemp}&deg;C</Typography>
+          </Grid>          
         </Grid>
-        <Grid item xs={4}>
-          <img className={classes.WeatherIcon} src={iconUrl} alt='' />
-          </Grid>
-          
-        
 
-        
-        </Grid>
         </ThemeProvider>
      </React.Fragment>
-
   )
 };
 
