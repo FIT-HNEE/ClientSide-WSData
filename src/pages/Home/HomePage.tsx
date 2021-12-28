@@ -8,11 +8,12 @@ import Typography from '@mui/material/Typography';
 import Chart from 'chart.js/auto'
 import moment from 'moment'
 import {connect} from "react-redux";
-import {GetPWData} from '../../actions/Actions'
+import {GetPWData, GetFWData} from '../../actions/Actions'
 import WeatherAPI from '../WeatherForecast/WeatherAPI';
 
 interface LastSevenDaysWeatherProps {
     GetPWData: Function
+    GetFWData?: Function
     loading: boolean
     error: boolean
     PWDType: {
@@ -24,7 +25,10 @@ interface LastSevenDaysWeatherProps {
             k3: ''
             k4: ''
         }        
-    }  
+    } 
+    FWDType?: {
+    weatherReport: string[],   
+}
 }
 
 const cardStyle = {
@@ -184,7 +188,9 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         <Card sx={{ minWidth: 275 }}>
                             <CardContent>
-                               <WeatherAPI />
+                                <WeatherAPI
+                               GetFWData = {GetFWData}
+                                />
                             </CardContent>                            
                             </Card>
                     </Grid>
