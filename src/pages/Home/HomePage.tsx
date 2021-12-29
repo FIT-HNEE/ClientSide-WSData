@@ -10,10 +10,11 @@ import moment from 'moment'
 import {connect} from "react-redux";
 import {GetPWData, GetFWData} from '../../actions/Actions'
 import WeatherAPI from '../WeatherForecast/WeatherAPI';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface LastSevenDaysWeatherProps {
     GetPWData: Function
-    GetFWData?: Function
+    GetFWData: Function
     loading: boolean
     error: boolean
     PWDType: {
@@ -26,9 +27,7 @@ interface LastSevenDaysWeatherProps {
             k4: ''
         }        
     } 
-    FWDType?: {
-    weatherReport: string[],   
-}
+    FWDType?: []
 }
 
 const cardStyle = {
@@ -39,67 +38,57 @@ const cardStyle = {
 class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
     componentDidMount = async () => {
-        await this.props.GetPWData()        
-        await this.chart()
+        await this.props.GetPWData()       
+        await this.props.GetFWData()    
+
+        if (this.props.error || this.props.PWDType.error) {
+            
+            //console.log(' Error undefined', this.props.error, this.props.PWDType.error)            
+        } else if (this.props.loading) {
+            <CircularProgress variant="determinate" value={75} />
+           // console.log('Loading', this.props.loading)            
+        } else {  await this.chart() }      
     }
     
-    chart = async () => {
-        const canvas = document.getElementById('myChart') as HTMLCanvasElement;        
-        const ctx: any = canvas.getContext('2d');
-        const dataArray = this.props.PWDType.data
+    chart = async () => {              
+                         
+        const dataArray = this.props.PWDType.data        
         const header = this.props.PWDType.header
-        const dataError = this.props.PWDType.error
-        const error = this.props.error
-        const loading = this.props.loading
-        
-        console.log('data', dataArray)
-        console.log('header', header)
-        console.log('loading', this.props.loading)
-        console.log('error', this.props.error)
 
-        if (error || dataError) {
-            
-            console.log(' Error undefined', error, dataError)            
-        } else if (loading) {
-            
-            console.log(' Loading', loading)            
-        } else {
-
-            const Date = await dataArray.map((dt: any) => {
-                const str = dt.dateTime       
-            //const dateTime = str.substring(0, str.length-9);
-                
-                const date = moment(str).format('Do MMM YY')                
-                return (                
-                    date                    
-                )                
-            })
-            
-
+        const Date = await dataArray.map((dt: any) => {                
+            const str = dt.dateTime     
+            //const dateTime = str.substring(0, str.length-9);                
+            const date = moment(str).format('Do MMM YY')            
+            return (                                 
+                date                            
+            )                         
+        })        
         //console.log('Date', Date)
 
-            const surfaceAirTempUpper = await dataArray.map((dt: any) => {            
-            
-                const surfaceAirTemp = dt.k3    
-                return (                
-                    surfaceAirTemp                    
-                )                
-            })
-            
+        const surfaceAirTempUpper = await dataArray.map((dt: any) => {  
+
+            const surfaceAirTemp = dt.k3                
+            return (                                    
+                surfaceAirTemp                         
+            )                            
+        })
 
         //console.log('surfaceAirTemp', surfaceAirTempUpper)
 
-            const surfaceAirTempLower = await dataArray.map((dt: any) => {            
+        const surfaceAirTempLower = await dataArray.map((dt: any) => {
             
-                const surfaceAirTemp = dt.k4 
-                return (                
-                    surfaceAirTemp                    
-                )                
-            })            
+            const surfaceAirTemp = dt.k4             
+            return (                                    
+                surfaceAirTemp             
+            )                            
+        })            
+        
 
         //console.log('surfaceAirTemp1', surfaceAirTempLower)
+        const canvas = document.getElementById('myChart') as HTMLCanvasElement;         
+        const ctx: any = canvas.getContext('2d');        
             
-            await new Chart(ctx, {
+        await new Chart(ctx, {                
                 
                 type: 'line',    
                 data: {         
@@ -150,10 +139,10 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                     }                    
                 },                
             });            
-        }        
-    }
+                
+    }    
 
-    render() {
+    render() {        
 
         return (
             <>
@@ -188,8 +177,9 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         <Card sx={{ minWidth: 275 }}>
                             <CardContent>
+                                {console.log('FWDType', this.props.FWDType)}
                                 <WeatherAPI
-                               GetFWData = {GetFWData}
+                               FWDType = {this.props.FWDType ? this.props.FWDType: []}
                                 />
                             </CardContent>                            
                             </Card>
@@ -197,9 +187,11 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Card style={cardStyle}>
-                            <div className="chart-container" style={{position: "relative", height: '40vh', width: '80vw'}}  >            
+                           
+                            {this.props.PWDType ? <div className="chart-container" style={{position: "relative", height: '40vh', width: '80vw'}}  >            
                                     <canvas id="myChart"></canvas>
-                                </div>
+                                </div> : 'A problem Occured' }
+                            
                             </Card>
                     </Grid>
 
@@ -226,9 +218,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                             </CardActions>
                             </Card>
                     </Grid>
-
-                </Grid>
-                
+                </Grid>                
             </>            
         )
     }
@@ -236,9 +226,10 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
 const mapStateToProps = (state: any) => ({
     PWDType: state.PWdata.PWDType,
+    FWDType: state.FWdata.FWDType,
     ...state,
     loading: state.PWdata.loading,
     error: state.PWdata.error  
 })
 
-export default connect(mapStateToProps, { GetPWData })(HomePage);
+export default connect(mapStateToProps, {GetFWData, GetPWData })(HomePage);
