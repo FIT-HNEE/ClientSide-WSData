@@ -4,44 +4,33 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles(() => ({
 
     WeatherIcon : {
-  //display: 'block',
+        display: 'block',        
         height: '25px',
         width: '25px',
-        margin: '0 auto'
+        margin: '0 auto',
+        alignContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
     },    
 
     Wrapper: {      
-        display: 'block',
+        //display: 'block',
         flexShrink: 0,        
-        flexBasis: '14%',      
+        flexBasis: '10%',      
         padding: '10px',
         margin: '0px 5px',
         borderRadius: '6px',
-        backgroundColor: '#343a40',
+        backgroundColor: '#8a807e',
         "&:first-child": {
             marginLeft: 0
         },
         "&:last-child": {
             marginRight: 0
         }    
-    },
-    Results: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        padding: '40px 0',
-        position: 'relative',
-        top: '20px'
-    },
-    ForecastWrapper: {
-        position: 'relative',
-        display: 'flex',
-        overflowY: 'hidden',
-        marginTop: '20px',
-        paddingBottom: '20px'
-    },
+    },    
     Text: {
-        color: '#FFF',
+        //color: '#FFF',
         display: 'block',
         fontSize: '10px',
         textAlign: 'center',
@@ -65,13 +54,13 @@ const Forecast: React.FC<WeatherForecastProps> = (props) => {
 
   return (
       <React.Fragment>
-         <div className={classes.ForecastWrapper}>
+        
               <div className={classes.Wrapper} >
                   <span className={classes.Text}>{props.day}</span> 
                   <img className={classes.WeatherIcon} src={iconUrl} alt='' />   
                   <span className={classes.Text}>{props.temp}&deg;C</span>
               </div>              
-        </div>
+        
      </React.Fragment>
 
   )
