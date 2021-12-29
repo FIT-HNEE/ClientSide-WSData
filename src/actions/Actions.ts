@@ -17,13 +17,19 @@ export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
             type: PAST_WEATHER_DATA_LOADING,            
         });        
 
-        const resp = await axios.get("http://localhost:4000/api/weatherData/lastSevenDays");        
+        const resp = await axios.get("http://localhost:4000/api/weatherData/lastSevenDays");
+       
         const data = await resp.data
-        
-        dispatch({                
-            type: PAST_WEATHER_DATA_SUCCESS,            
-            payload: data                
-        });
+        if (!data) {
+             dispatch({
+            type: PAST_WEATHER_DATA_FAIL            
+        })  
+        } else {
+            dispatch({                
+                        type: PAST_WEATHER_DATA_SUCCESS,            
+                        payload: data                
+                    })
+        }       
         
     } catch (error) {
 
@@ -44,11 +50,23 @@ export const GetFWData = () => async (dispatch: Dispatch<FWDDispatchTypes>) => {
 
         const resp = await axios.get("http://localhost:4000/api/weatherData/forecast");        
         const data = await resp.data
+
         
-        dispatch({                
-            type: Weather_Forecast_SUCCESS,            
-            payload: data                
-        });
+        
+        if (data) {
+             dispatch({                
+                        type: Weather_Forecast_SUCCESS,            
+                        payload: data                
+         });
+        } else if (data[0].cod = 429) {
+            dispatch({
+            type: Weather_Forecast_FAIL            
+        }) 
+        } else {
+             dispatch({
+            type: Weather_Forecast_FAIL            
+        }) 
+        }   
         
     } catch (error) {
 
