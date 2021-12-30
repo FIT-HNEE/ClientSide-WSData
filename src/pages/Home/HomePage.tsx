@@ -11,12 +11,17 @@ import {connect} from "react-redux";
 import {GetPWData, GetFWData} from '../../actions/Actions'
 import WeatherAPI from '../WeatherForecast/WeatherAPI';
 import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Box from '@mui/material/Box';
 
 interface LastSevenDaysWeatherProps {
     GetPWData: Function
     GetFWData: Function
-    loading: boolean
-    error: boolean
+    PWDloading: boolean
+    PWDerror: boolean
+    FWDError: boolean
+    FWDLoading: boolean
     PWDType: {
         data: string[]
         error: string 
@@ -27,7 +32,7 @@ interface LastSevenDaysWeatherProps {
             k4: ''
         }        
     } 
-    FWDType?: []
+    FWDType: []
 }
 
 const cardStyle = {
@@ -39,21 +44,15 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
     componentDidMount = async () => {
         await this.props.GetPWData()       
-        await this.props.GetFWData()    
-
-        if (this.props.error || this.props.PWDType.error) {
-            
-            //console.log(' Error undefined', this.props.error, this.props.PWDType.error)            
-        } else if (this.props.loading) {
-            <CircularProgress variant="determinate" value={75} />
-           // console.log('Loading', this.props.loading)            
-        } else {  await this.chart() }      
+        await this.props.GetFWData() 
+        await this.chart()        
     }
     
     chart = async () => {              
                          
-        const dataArray = this.props.PWDType.data        
-        const header = this.props.PWDType.header
+        const dataArray = this.props.PWDType ?  this.props.PWDType.data : []       
+        const k3 = this.props.PWDType ? this.props.PWDType.header.k3 : ''
+        const k4 = this.props.PWDType ? this.props.PWDType.header.k4 : ''
 
         const Date = await dataArray.map((dt: any) => {                
             const str = dt.dateTime     
@@ -86,7 +85,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
         //console.log('surfaceAirTemp1', surfaceAirTempLower)
         const canvas = document.getElementById('myChart') as HTMLCanvasElement;         
-        const ctx: any = canvas.getContext('2d');        
+        const ctx: any = canvas ? canvas.getContext('2d') : undefined;        
             
         await new Chart(ctx, {                
                 
@@ -94,14 +93,14 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                 data: {         
                     labels: Date, 
                     datasets: [{  
-                        label: `${header.k3}`,   
+                        label: `${k3}`,   
                         data: surfaceAirTempUpper,  
                         fill: false,                    
                         backgroundColor: "#bae755",    
                     },
                         
                     {                                
-                        label: `${header.k4}`,                        
+                        label: `${k4}`,                        
                         data: surfaceAirTempLower,
                         backgroundColor: "rgb(255,0,0)"
 
@@ -112,7 +111,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                     plugins: {                            
                         title: {
                             display: true,
-                            text: `Chart for ${header.k3} & ${header.k4} `
+                            text: `Chart for ${k3} & ${k4} `
                         }
                     },
                     
@@ -145,10 +144,8 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
     render() {        
 
         return (
-            <>
-               
+            <>               
                 <Grid container spacing={5} >
-
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         {console.log('STATE', this.props)}
                         <Card sx={{ minWidth: 275 }}>
@@ -173,26 +170,62 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                             </CardActions>
                         </Card>                        
                     </Grid>
-
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         <Card sx={{ minWidth: 275 }}>
                             <CardContent>
                                 {console.log('FWDType', this.props.FWDType)}
                                 <WeatherAPI
-                               FWDType = {this.props.FWDType ? this.props.FWDType: []}
+                                    FWDType={this.props.FWDType ? this.props.FWDType : []}
+                                    loading={this.props.FWDLoading}
+                                    error={this.props.FWDError}                                    
                                 />
                             </CardContent>                            
                             </Card>
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <Card style={cardStyle}>
-                           
-                            {this.props.PWDType ? <div className="chart-container" style={{position: "relative", height: '40vh', width: '80vw'}}  >            
+
+                        <Card style={cardStyle}>                           
+                            {this.props.PWDloading ?
+                                <Grid                        
+                                    container                        
+                                    spacing={0}                        
+                                    direction="column"                        
+                                    alignItems="center"                        
+                                    justifyContent="center"
+                                >                        
+                                    <Box>                            
+                                        <CircularProgress size={50} />                              
+                                    </Box>                        
+                                </Grid>
+                                : (this.props.PWDType ? <div className="chart-container" style={{ position: "relative", height: '40vh', width: '80vw' }}  >            
                                     <canvas id="myChart"></canvas>
-                                </div> : 'A problem Occured' }
-                            
-                            </Card>
+                            </div> :
+                                <Grid
+                                    container
+                                    spacing={0}
+                                    direction="column"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    style={{ minHeight: '100vh' }}
+                                >
+                                    <Box
+                                        sx={{ height: '100vh', m: '10%', fontWeight: 500 }}                                          
+                                    >
+                                        <Alert severity="error">                                          
+                                    
+                                            <AlertTitle>Error</AlertTitle> 
+                                            
+                                            <Typography variant="body2">
+                                                This is an error alert <br></br><br></br> <strong>As the data is coming from the https://logstar-online.de <br></br>                                        
+                                                So there might be problem in API key or any other thing. <br></br>
+                                                Please contact the Admin for more information</strong><br></br><br></br>
+                                            </Typography> 
+                                        </Alert>                                        
+                                    </Box>
+                                </Grid>)
+                                }                            
+                        </Card>                        
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -228,8 +261,10 @@ const mapStateToProps = (state: any) => ({
     PWDType: state.PWdata.PWDType,
     FWDType: state.FWdata.FWDType,
     ...state,
-    loading: state.PWdata.loading,
-    error: state.PWdata.error  
+    PWDloading: state.PWdata.loading,
+    PWDerror: state.PWdata.error, 
+    FWDError: state.FWdata.error,
+    FWDLoading:state.FWdata.loading
 })
 
 export default connect(mapStateToProps, {GetFWData, GetPWData })(HomePage);
