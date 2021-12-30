@@ -11,7 +11,7 @@ const defaultState: DefaultStateI = {
     error: false
 };
 
-const PastWeatherDataReducer = (state: DefaultStateI = defaultState, action: FWDDispatchTypes) : DefaultStateI   => {
+const WeatherForecastReducer = (state: DefaultStateI = defaultState, action: FWDDispatchTypes) : DefaultStateI   => {
     switch (action.type) {
         case Weather_Forecast_FAIL:
             return {
@@ -36,4 +36,4 @@ const PastWeatherDataReducer = (state: DefaultStateI = defaultState, action: FWD
     }
 }
 
-export default PastWeatherDataReducer;
+export default WeatherForecastReducer;
