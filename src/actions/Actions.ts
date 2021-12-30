@@ -9,17 +9,16 @@ import { USER_DATA_Modify_LOADING, USER_DATA_Modify_SUCCESS, USER_DATA_Modify_FA
 import { Weather_Forecast_FAIL, Weather_Forecast_LOADING, Weather_Forecast_SUCCESS, FWDDispatchTypes } from "./types/WeatherForecastActionTypes"
 import axios from "axios";
 
-
 export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
-    try {
 
+    try {
         dispatch({
             type: PAST_WEATHER_DATA_LOADING,            
         });        
 
-        const resp = await axios.get("http://localhost:4000/api/weatherData/lastSevenDays");
-       
+        const resp = await axios.get("http://localhost:4000/api/weatherData/lastSevenDays");       
         const data = await resp.data
+
         if (!data) {
              dispatch({
             type: PAST_WEATHER_DATA_FAIL            
@@ -39,19 +38,16 @@ export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
         })        
     }    
 }
-
 //Weather Forecast using Weather API
 export const GetFWData = () => async (dispatch: Dispatch<FWDDispatchTypes>) => {
-    try {
 
+    try {
         dispatch({
             type: Weather_Forecast_LOADING,            
         });        
 
         const resp = await axios.get("http://localhost:4000/api/weatherData/forecast");        
-        const data = await resp.data
-
-        
+        const data = await resp.data        
         
         if (data) {
              dispatch({                
