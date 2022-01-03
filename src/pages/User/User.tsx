@@ -1,9 +1,13 @@
 import React from 'react';
 import { RouteComponentProps, withRouter  } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import { connect } from 'react-redux';
 import { GetUserData } from '../../actions/Actions'
-
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 interface IUserProp {
 
     GetUserData: Function
@@ -34,19 +38,43 @@ class User extends React.Component<RouteComponentProps<any>&IUserProp > {
     render() {
         return (
 
-            <div>
-                <h1> {this.props.UserDataType?.email} </h1>                
-                <h2> {this.props.UserDataType?.firstName} </h2>
-                {
-                    this.props.UserDataType?.isAdmin && this.props.UserDataType?.isAdmin === true ? (
-                        <Button variant='contained' color='primary' onClick={this.onClick} >                        
-                        All Users Data                            
-                    </Button >
-
-                    ) : ("")
+            <React.Fragment>
+                <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          >
+                    
+                <CardContent>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>                        
+                        Email:&nbsp;&nbsp;&nbsp;{this.props.UserDataType?.email}                        
+                    </Typography>
+                    
+                    <Typography variant="h5" component="div">                        
+                        Welcome&nbsp;&nbsp;&nbsp;{this.props.UserDataType?.lastName}&nbsp;{this.props.UserDataType?.firstName}                        
+                    </Typography>
+                    
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">                        
+                                                
+                    </Typography>     
+                    
+                </CardContent>
                 
-                }             
-            </div>            
+                <CardActions>                    
+                    {  
+                        this.props.UserDataType?.isAdmin && this.props.UserDataType?.isAdmin === true ? (                            
+                            <Button variant='contained' color='primary' onClick={this.onClick} >                                
+                                All Users Data                                      
+                            </Button > 
+                        ) : ("")         
+                    }                        
+                    </CardActions>
+                </Box>                
+            </React.Fragment>      
+            
         )
     }
 }
