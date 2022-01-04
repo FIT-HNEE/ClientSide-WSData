@@ -5,10 +5,9 @@ import Forecast from './Forecast';
 import { makeStyles } from '@mui/styles';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
+import Loading from '../../components/Loading';
+import ErrorComponent from '../../components/ErrorComponent';
 
 const useStyles = makeStyles(() => ({   
     ForecastWrapper: {
@@ -32,26 +31,12 @@ const WeatherAPI: React.FC<IProps> = ({ FWDType, loading, error }) => {
         return (
             <>                  
                 {loading ?                    
-                    <Grid                        
-                        container                        
-                        spacing={0}                        
-                        direction="column"                        
-                        alignItems="center"                        
-                        justifyContent="center"
-                    >                        
-                        <Box>                            
-                            <CircularProgress size={50} />                              
-                        </Box>                        
-                    </Grid>                        
+                   <Loading />                        
                     : (error ?                        
-                        <Alert severity="error">                             
-                            <AlertTitle>Error</AlertTitle>                              
-                            <Typography variant="body2">   
-                                This is an error alert <br></br><br></br> <strong>As the data is coming from the https://openweathermap.org/api <br></br>                                    
+                        <ErrorComponent
+                            ErrorText={` This is an error alert <br></br><br></br> <strong>As the data is coming from the https://openweathermap.org/api <br></br>                                    
                                     So there might be problem in API key or any other thing. <br></br>                                     
-                                    Please contact the Admin for more information</strong><br></br><br></br>                                   
-                            </Typography>                                   
-                        </Alert>
+                                    Please contact the Admin for more information</strong><br></br><br></br> `} /> 
                         : (FWDType.map((report: any, i: any) => {                            
                                 
                             return (                    
