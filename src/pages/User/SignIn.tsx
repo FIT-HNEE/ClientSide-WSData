@@ -3,7 +3,6 @@ import { RouteComponentProps, withRouter  } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import FormGroup from '@mui/material/FormGroup';
 import { connect } from 'react-redux';
 import { LogInData } from '../../actions/Actions';
 import Container from '@mui/material/Container';
@@ -12,7 +11,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
+import ErrorComponent from '../../components/ErrorComponent';
 interface Props {
    dispatch?: any;
   loading?: boolean
@@ -36,6 +39,8 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
     }          
   }  
 
+
+
   onButtonClick = async (event: React.FormEvent) => {
       event.preventDefault();
     const { email, password } = this.state;    
@@ -50,9 +55,21 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
     const error = this.props.error
     const loading = this.props.loading
 
-    if (error ) {
-      console.log('Error', error )
+    if (error) {       
+      console.log('Error', error)
+      //alert("User is not found")
     } else if (loading) {
+      <Grid                        
+                        container                        
+                        spacing={0}                        
+                        direction="column"                        
+                        alignItems="center"                        
+                        justifyContent="center"
+                    >                        
+                        <Box>                            
+                            <CircularProgress size={50} />                              
+                        </Box>                        
+                    </Grid>   
       console.log(' Loading', loading)
     } else {
 
@@ -66,6 +83,7 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
   render() {
       
     return (
+
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />  
@@ -111,11 +129,16 @@ class SignIn extends React.Component<RouteComponentProps<any>&Props, LogInCreden
               })}
   
             />
-            <Button onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>Submit</Button>            
+              <Button onClick={this.onButtonClick} variant='contained' sx={{ mt: 3, mb: 2 }} color='primary'>
+                
+                Submit
+              </Button>            
             <p className="forgot-password text-right">              
               Forgot <a href="#">password?</a>              
             </p>            
-          
+          {this.props.error ? <ErrorComponent
+     ErrorText={'Either email, password is incorrect or the user is not confirmed yet. '} />
+       : null }
           </Box>
         </Box>
         </Container>
