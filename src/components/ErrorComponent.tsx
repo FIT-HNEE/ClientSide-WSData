@@ -18,15 +18,15 @@ const ErrorComponent: React.FC<ErrorProps> = (props) => {
           <Grid
               
               container
-              spacing={0}
+              //spacing={0}
               direction="column"
               alignItems="center"
               justifyContent="center"
-              style={{ minHeight: '100vh' }}
+              //style={{ minHeight: '100vh' }}
           >
               
               <Box                  
-                  sx={{ height: '100vh', m: '10%', fontWeight: 500 }}                    
+                  sx={{ m: '5%', fontWeight: 500 }}                    
               >
                   
                   <Alert severity="error">     
