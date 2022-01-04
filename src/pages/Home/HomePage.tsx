@@ -14,6 +14,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';
+import Loading from '../../components/Loading';
+import ErrorComponent from '../../components/ErrorComponent';
 
 interface LastSevenDaysWeatherProps {
     GetPWData: Function
@@ -187,44 +189,17 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
 
                         <Card style={cardStyle}>                           
                             {this.props.PWDloading ?
-                                <Grid                        
-                                    container                        
-                                    spacing={0}                        
-                                    direction="column"                        
-                                    alignItems="center"                        
-                                    justifyContent="center"
-                                >                        
-                                    <Box>                            
-                                        <CircularProgress size={50} />                              
-                                    </Box>                        
-                                </Grid>
+                                <Loading />
                                 : (this.props.PWDType ? <div className="chart-container" style={{ position: "relative", height: '40vh', width: '80vw' }}  >            
                                     <canvas id="myChart"></canvas>
                             </div> :
-                                <Grid
-                                    container
-                                    spacing={0}
-                                    direction="column"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    style={{ minHeight: '100vh' }}
-                                >
-                                    <Box
-                                        sx={{ height: '100vh', m: '10%', fontWeight: 500 }}                                          
-                                    >
-                                        <Alert severity="error">                                          
-                                    
-                                            <AlertTitle>Error</AlertTitle> 
-                                            
-                                            <Typography variant="body2">
-                                                This is an error alert <br></br><br></br> <strong>As the data is coming from the https://logstar-online.de <br></br>                                        
+                                    <ErrorComponent
+                                        ErrorText={` This is an error alert <br></br><br></br> <strong>As the data is coming from the https://logstar-online.de <br></br>                                        
                                                 So there might be problem in API key or any other thing. <br></br>
-                                                Please contact the Admin for more information</strong><br></br><br></br>
-                                            </Typography> 
-                                        </Alert>                                        
-                                    </Box>
-                                </Grid>)
-                                }                            
+                                                Please contact the Admin for more information</strong><br></br><br></br>`} />                                    
+                                )
+                            }  
+                            
                         </Card>                        
                     </Grid>
 
