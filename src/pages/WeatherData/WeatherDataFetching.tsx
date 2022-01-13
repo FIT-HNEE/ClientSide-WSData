@@ -23,6 +23,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import exportFromJSON from 'export-from-json';
+import FormControl from '@mui/material/FormControl';
+
 interface WeatherDataCredentials{  
   StationName?: string,  
   StartDay?: any,  
@@ -35,7 +38,7 @@ interface Props {
   loading?: boolean
   error?: boolean  
   QWDType?: {
-    data: string[]    
+    data: any[]    
     header: {},
     error: string        
     }  
@@ -62,7 +65,10 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
         
   }
   
-    
+    ExportToExcel = (data: any, fileName: any, exportType: any) => {  
+    exportFromJSON({ data, fileName, exportType })  
+  }  
+  
   onButtonClick = async (event: React.FormEvent) => {
 
     event.preventDefault();
@@ -105,8 +111,26 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
       },      
     });
 
-    } else {      
-      await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`)      
+    } else {               
+      
+      if (element.id === 'xls') {
+        const data1 = this.props.QWDType?.data
+        const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
+        const exportType = 'xls'        
+        await this.ExportToExcel(data1, fileName, exportType)
+
+        //await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`) 
+      } else if (element.id === 'csv') {
+        const data1 = this.props.QWDType?.data
+        const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
+        const exportType = 'csv'        
+        await this.ExportToExcel(data1, fileName, exportType)        
+      } else {
+        const data1 = this.props.QWDType?.data
+        const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
+        const exportType = 'txt'        
+        await this.ExportToExcel(data1, fileName, exportType)
+      }
       }
       
     }
@@ -195,7 +219,15 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
                 Data Search
               </Button>
               <Button onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
-                Download Data
+                Download                  
+                  <Select                    
+                    sx={{ m:0, p:0, fontSize: 12, maxHeight: 10 }}
+                  >                    
+                    <MenuItem id='xls'>xls</MenuItem>
+                    <MenuItem id='csv'>csv</MenuItem>
+                    <MenuItem id='txt'>txt</MenuItem>
+                  </Select>
+                                
               </Button> 
               
               <Box 
