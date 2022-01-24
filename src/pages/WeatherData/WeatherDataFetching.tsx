@@ -93,7 +93,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
 
       var element = event.target as HTMLElement    
 
-    if (element.id === 'download') {      
+    if (element.id === 'viewdata') {      
 
     this.props.history.push({    
       pathname: "/WeatherDataFetching/WeatherData",      
@@ -111,15 +111,13 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
       },      
     });
 
-    } else {               
-      
-      if (element.id === 'xls') {
+    } else if (element.id === 'xls') {    
         const data1 = this.props.QWDType?.data
         const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
         const exportType = 'xls'        
-        await this.ExportToExcel(data1, fileName, exportType)
+        //await this.ExportToExcel(data1, fileName, exportType)
 
-        //await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`) 
+        await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`) 
       } else if (element.id === 'csv') {
         const data1 = this.props.QWDType?.data
         const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
@@ -130,11 +128,8 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
         const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
         const exportType = 'txt'        
         await this.ExportToExcel(data1, fileName, exportType)
-      }
-      }
-      
+      }     
     }
-    
   };  
 
   render() { 
@@ -215,7 +210,7 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
                 </Stack>                
               </LocalizationProvider>   
               
-              <Button id="download" onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
+              <Button id="viewdata" onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
                 Data Search
               </Button>
               <Button onClick={this.onButtonClick} variant='contained' sx={{ m: 3 }} color='primary'>
