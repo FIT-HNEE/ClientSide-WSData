@@ -6,7 +6,8 @@ import { SIGNUP_DATA_LOADING, SIGNUP_DATA_FAIL, SIGNUP_DATA_SUCCESS, SignUpDispa
 import { USER_DATA_LOADING, USER_DATA_SUCCESS, USER_DATA_FAIL, UserDataDispatchTypes} from './types/UserDataActionTypes'
 import { USERS_DATA_LOADING, USERS_DATA_SUCCESS, USERS_DATA_FAIL, UsersDataDispatchTypes } from './types/UsersDataActionTypes';
 import { USER_DATA_Modify_LOADING, USER_DATA_Modify_SUCCESS, USER_DATA_Modify_FAIL, UserDataModifyDispatchTypes } from './types/UserDataModificationActionTypes';
-import { Weather_Forecast_FAIL, Weather_Forecast_LOADING, Weather_Forecast_SUCCESS, FWDDispatchTypes } from "./types/WeatherForecastActionTypes"
+import { Weather_Forecast_FAIL, Weather_Forecast_LOADING, Weather_Forecast_SUCCESS, FWDDispatchTypes } from "./types/WeatherForecastActionTypes";
+import { USER_DATA_DELETE_LOADING, USER_DATA_DELETE_SUCCESS, USER_DATA_DELETE_FAIL, UserDataDELETEDispatchTypes } from './types/UserDataDeleteTypes';
 import axios from "axios";
 
 export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
@@ -285,6 +286,34 @@ export const UserDataModification = (id: any, firstName: any, lastName: any, ema
     }    
 }
 
+export const UserDataDeletion = (id: any) => async ( dispatch:Dispatch<UserDataDELETEDispatchTypes>) => {
+    
+    try {                
+
+        dispatch({
+            type: USER_DATA_DELETE_LOADING,            
+        });
+        const accessToken = await sessionStorage.getItem('accessToken');
+
+        const response = await axios.put(`http://localhost:4000/api/users/${id}`,            
+            { headers: { Authorization: `JWT ${accessToken}` } })        
+    
+        const data = await response.data       
+        console.warn(data)
+        await GetUsersData()
+        
+        dispatch({                
+            type: USER_DATA_DELETE_SUCCESS,
+        });
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: USER_DATA_DELETE_FAIL            
+        })        
+    }    
+}
 
 
 
