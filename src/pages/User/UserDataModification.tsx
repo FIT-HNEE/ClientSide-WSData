@@ -86,7 +86,7 @@ class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp,
    const { email, lastName, firstName, isAdmin, confirmation } = this.state;
     const { id } = await this.props.match.params;
     console.log('newUser', email, lastName, firstName)
-    await this.props.UserDataModification(id, email, lastName, firstName, isAdmin, confirmation);
+    await this.props.UserDataModification(id, email, lastName, firstName, confirmation, isAdmin );
     this.props.history.push("/sign-in/me/allUsers")
   }
     //onClick =  () => (this.props.history.push("/allUsers"))
