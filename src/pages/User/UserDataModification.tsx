@@ -9,11 +9,12 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import { connect } from 'react-redux';
-import { GetUserDataToModify, UserDataModification } from '../../actions/Actions'
+import { GetUserDataToModify, UserDataModification, UserDataDeletion } from '../../actions/Actions'
 
 interface IUserProp {
   GetUserDataToModify: Function
   UserDataModification: Function
+  UserDataDeletion:Function
   UserDataModifyType?: {      
     id: string,    
     firstName: string,        
@@ -89,7 +90,10 @@ class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp,
     await this.props.UserDataModification(id, email, lastName, firstName, confirmation, isAdmin );
     this.props.history.push("/sign-in/me/allUsers")
   }
-    //onClick =  () => (this.props.history.push("/allUsers"))
+     deleteUser = async (id: any) => {
+        await this.props.UserDataDeletion(id)       
+       this.props.history.push("/sign-in/me/allUsers")
+    }
   render() {
       
     return (          
@@ -164,7 +168,8 @@ class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp,
 
             </RadioGroup>
 
-            <Button variant='contained' onClick={this.onSubmit} color='primary'>Submit</Button>
+            <Button variant='contained' onClick={this.onSubmit} color='primary'>Edit</Button>
+            <Button variant='contained' onClick={()=> this.deleteUser(this.props.match.params.id)} color='primary'>Delete</Button>
             
               
           </FormGroup>
@@ -186,7 +191,7 @@ const mapStateToProps = (state: any) => ({
     error: state.UserDataToModify.error  
 })
 
-const connectedPage = connect(mapStateToProps, { GetUserDataToModify,UserDataModification })(UserDataEdit);
+const connectedPage = connect(mapStateToProps, { GetUserDataToModify,UserDataModification, UserDataDeletion })(UserDataEdit);
 
 export default withRouter(connectedPage)
 //export default UserDataModification
