@@ -8,6 +8,7 @@ import UsersDataReducer from "./dataReducers/UsersDataReducer";
 import GetUserDataToModifyReducer from "./dataReducers/GetUserDataToModifyReducer";
 import UserDataModificationReducer from "./dataReducers/UserDataModificationReducer";
 import WeatherForecastReducer from "./dataReducers/WeatherForecastReducer";
+import UserDataDeleteReducer from "./dataReducers/UserDataDeleteReducer";
 
 
 const RootReducer = combineReducers({
@@ -19,7 +20,8 @@ const RootReducer = combineReducers({
   UsersData: UsersDataReducer,
   UserDataToModify: GetUserDataToModifyReducer,
   UserDataModification: UserDataModificationReducer,
-  FWdata: WeatherForecastReducer
+  FWdata: WeatherForecastReducer,
+  Delete: UserDataDeleteReducer
 });
 
 export default RootReducer;
