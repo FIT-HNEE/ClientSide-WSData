@@ -295,12 +295,11 @@ export const UserDataDeletion = (id: any) => async ( dispatch:Dispatch<UserDataD
         });
         const accessToken = await sessionStorage.getItem('accessToken');
 
-        const response = await axios.put(`http://localhost:4000/api/users/${id}`,            
+        const response = await axios.delete(`http://localhost:4000/api/users/${id}`,            
             { headers: { Authorization: `JWT ${accessToken}` } })        
     
         const data = await response.data       
         console.warn(data)
-        await GetUsersData()
         
         dispatch({                
             type: USER_DATA_DELETE_SUCCESS,
