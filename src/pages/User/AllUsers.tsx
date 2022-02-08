@@ -12,7 +12,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 interface Props {
-    GetUsersData: Function    
+    GetUsersData: Function
+    UserDataDeletion:Function
     UsersDataType: []
     loading: boolean
     error: boolean
@@ -44,7 +45,7 @@ class AllUsers extends React.Component<Props, filteredValues> {
         console.log('error', this.props.error)
     }
     
-    requestSearch = (event: any) => {
+   requestSearch = (event: any) => {
 
         let value = event.target.value.toLowerCase();
         
@@ -80,7 +81,8 @@ class AllUsers extends React.Component<Props, filteredValues> {
                             <TableRow>
                                 <TableCell>firstName</TableCell>
                                 <TableCell align="right">Last Name</TableCell>
-                                <TableCell align="right">email</TableCell>
+                                    <TableCell align="right">email</TableCell>
+                                    <TableCell align="right">User Data Modification</TableCell>
                                 
                             </TableRow>
                             </TableHead>
@@ -93,8 +95,13 @@ class AllUsers extends React.Component<Props, filteredValues> {
                                         </TableCell>
                                         <TableCell align="right">{row.lastName}</TableCell>
                                         <TableCell align="right">{row.email}</TableCell>
-                                        <Button variant='contained' color='primary'><Link className="btn btn-info" to={`/sign-in/me/allUsers/${row.id}`}>Show</Link></Button>
-                                        <Button variant='contained' color='primary'>Delete</Button>
+                                        <TableCell align="right">
+                                            <Button>
+                                                <Link to={`/sign-in/me/allUsers/${row.id}`}>
+                                                    View
+                                                </Link>
+                                            </Button>
+                                        </TableCell>
                                         {/* <TableCell align="right">{row.isAdmin}</TableCell>
                                         <TableCell align="right">{row.confirmation}</TableCell> */}
                                     </TableRow>)
