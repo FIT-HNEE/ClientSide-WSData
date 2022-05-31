@@ -8,6 +8,7 @@ import { USERS_DATA_LOADING, USERS_DATA_SUCCESS, USERS_DATA_FAIL, UsersDataDispa
 import { USER_DATA_Modify_LOADING, USER_DATA_Modify_SUCCESS, USER_DATA_Modify_FAIL, UserDataModifyDispatchTypes } from './types/UserDataModificationActionTypes';
 import { Weather_Forecast_FAIL, Weather_Forecast_LOADING, Weather_Forecast_SUCCESS, FWDDispatchTypes } from "./types/WeatherForecastActionTypes";
 import { USER_DATA_DELETE_LOADING, USER_DATA_DELETE_SUCCESS, USER_DATA_DELETE_FAIL, UserDataDELETEDispatchTypes } from './types/UserDataDeleteTypes';
+import { LOCATION_DATA_LOADING, LOCATION_DATA_SUCCESS, LOCATION_DATA_FAIL, LocationDispatchTypes } from "./types/LocationActionTypes";
 import axios from "axios";
 
 export const GetPWData = () => async (dispatch: Dispatch<PWDDispatchTypes>) => {
@@ -314,5 +315,31 @@ export const UserDataDeletion = (id: any) => async ( dispatch:Dispatch<UserDataD
     }    
 }
 
+export const GetLocationData = () => async (dispatch: Dispatch<LocationDispatchTypes>) => {
+
+    try {
+        dispatch({
+            type: LOCATION_DATA_LOADING,            
+        });        
+
+        const resp = await axios.get("http://localhost:4000/api/weatherData/stationLocation");        
+        const data = await resp.data        
+        
+        if (data) {
+             dispatch({                
+                        type: LOCATION_DATA_SUCCESS,            
+                        payload: data                
+         });
+        } 
+          
+        
+    } catch (error) {
+
+        console.log('ERROR-ACTION', error)
+        dispatch({
+            type: LOCATION_DATA_FAIL            
+        })        
+    }    
+}
 
 
