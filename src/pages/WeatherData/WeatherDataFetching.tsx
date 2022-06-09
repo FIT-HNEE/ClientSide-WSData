@@ -24,6 +24,8 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import exportFromJSON from 'export-from-json';
+import { arrayToExcel } from '../../components/ArraytoExcel';
+import { ExportToCSV } from '../../components/ExportToCSV';
 
 //import FormControl from '@mui/material/FormControl';
 
@@ -114,11 +116,13 @@ class WeatherDataFetching extends React.Component<RouteComponentProps&Props, Wea
     });
 
     } else if (element.id === 'xls') {    
-        const data1 = this.props.QWDType?.data
+       /*  const data1 = this.props.QWDType?.data
         const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  
         const exportType = 'xls'        
-        await this.ExportToExcel(data1, fileName, exportType)
+        await this.ExportToExcel(data1, fileName, exportType) */
         //await arrayToExcel.convertArrayToTable(data, `${this.state.StartDay}TO${this.state.EndDay}`) 
+      const fileName = `${this.state.StartDay}TO${this.state.EndDay}`
+      await ExportToCSV(data?.data,fileName, data?.header)
       } else if (element.id === 'csv') {
         const data1 = this.props.QWDType?.data
         const fileName = `${this.state.StartDay}TO${this.state.EndDay}`  

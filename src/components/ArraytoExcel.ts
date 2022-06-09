@@ -3,32 +3,21 @@ export const arrayToExcel = (function () {
     //STEP 2: Append Table data to Spreadsheet XML Template.
     const createXMLTable = (table: any, fileName: any) => {
         const xmlTable = `
-        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"
-            xmlns="http://www.w3.org/TR/REC-html40"
-        >
-           <meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"/>
-           <head>
-              <xml>
-                <x:ExcelWorkbook>
-                    <x:ExcelWorksheets>
-                        <x:ExcelWorksheet>
-                            <x:Name>${fileName}</x:Name>
-                            <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
-                        </x:ExcelWorksheet>
-                    </x:ExcelWorksheets>
-                </x:ExcelWorkbook>
-              </xml>
-           </head>
-           <body>
-             ${table}
-           </body>
-        </html> `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>${fileName}</x:Name>
+        <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+        </head>
+        <body>
+        ${table}
+        </body>
+        </html>`
         return xmlTable;
     }
 
     //STEP 3: Create fileURL from XML template for download
     const createFileUrl = (xmlTable: any) => {
         const tableBlob = new Blob([xmlTable], { type: 'application/vnd.ms-excel;base64,' });
+        console.log('BLOB', tableBlob)
         const downloadURL = URL.createObjectURL(tableBlob);
         return downloadURL;
     }
@@ -75,15 +64,15 @@ export const arrayToExcel = (function () {
             <td>${apiArray.header.dateTime}</td>
             </tr>`
             const tableHeaders = `<tr>${Object.keys(apiArray.data[0]).map(key => `<td>${key}</td>`).join('')}</tr>`
+            console.log('tableHeaders', tableHeaders)
             //now loop through all array objects to form table rows
             const tableRows = apiArray.data.map((obj: any) =>
-                [`<tr>
-              ${Object.keys(obj).map(key => `<td>${obj[key] === null || obj[key] === '' ? '' : obj[key]}</td>`).join('')}
-            <tr/>`]
-            ).join('');
-
+                [`<tr>${Object.keys(obj).map(key => `<td>${obj[key] === null || obj[key] === '' ? '' : obj[key]}</td>`).join('')}<tr/>`]).join('');
+            console.log('tableRows', tableRows)
             const table = `<table>${headersExplanation}${tableHeaders}${tableRows}</table>`.trim();
+            console.log('table', table)
             const xmlTable = createXMLTable(table, fileName);
+            console.log('xmlTable', xmlTable)
             const downloadURL = createFileUrl(xmlTable);
             downloadFile(downloadURL, fileName);
 
