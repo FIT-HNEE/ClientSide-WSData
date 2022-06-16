@@ -31,7 +31,7 @@ export const ExportToCSV = (function () {
   }
 
   const ConvertToCSV = (objArray: any, headerList: any) =>{
-    let array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
+    let array = objArray;
     let str = "";
       let row = "S.No,";
       

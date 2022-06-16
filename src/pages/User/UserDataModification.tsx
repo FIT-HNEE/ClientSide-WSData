@@ -10,6 +10,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import { connect } from 'react-redux';
 import { GetUserDataToModify, UserDataModification, UserDataDeletion } from '../../actions/Actions'
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 interface IUserProp {
   GetUserDataToModify: Function
@@ -37,6 +41,7 @@ interface InputUserData{
   isAdmin?: boolean      
   confirmation?: boolean  
 }
+const theme = createTheme();
 class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp, InputUserData> {
   
   private stepInput: React.RefObject<HTMLInputElement>;
@@ -96,45 +101,65 @@ class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp,
     }
   render() {
       
-    return (          
+    return (     
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />  
+      <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          >
           <Box            
             component="form"
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
+           sx={{ mt: 1 }}
             noValidate
             autoComplete="off"
           >            
             <div>              
-          <h3>User Data Modification</h3>
-          
+          <Typography component="h1" variant="h5">
+            User Data Modification
+          </Typography>
+          <br></br>
           <FormGroup >
             
             <TextField              
               value={this.state.firstName}
-              name="firstName"
+                    name="firstName"
+                    label="First Name"
               onChange={this.handleInputChange}
-              ref={this.stepInput}
+                
+                fullWidth
             />
             <TextField      
-              value={this.state.lastName} 
+                    value={this.state.lastName}
+              label="Last Name"      
               onChange={this.handleInputChange}
-              name="lastName"
+                    name="lastName"
+                    
+                fullWidth
             />
             
             <TextField              
-              value={this.state.email}
+                    value={this.state.email}
+                    label="Email"
               onChange={this.handleInputChange}
-              name="email"     
+                    name="email"    
+                    
+                fullWidth
+                  />
+                  
+            {/* <TextField              
+              value={this.state.isAdmin}                            
             />
             <TextField              
-              value={this.state.isAdmin}
-                            
-            />
-            <TextField              
-              value={this.state.confirmation}
-                            
-            />
+                value={this.state.confirmation}
+                fullWidth                            
+            /> */}
+                  <br></br>
 
             <FormLabel component="legend">Admin Role</FormLabel>
 
@@ -166,9 +191,11 @@ class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp,
 
               <FormControlLabel value={false} control={<Radio />} label="Not Confirmed" />
 
-            </RadioGroup>
+                  </RadioGroup>
+                  <br></br>
 
-            <Button variant='contained' onClick={this.onSubmit} color='primary'>Edit</Button>
+              <Button variant='contained' onClick={this.onSubmit} color='primary'>Edit</Button>
+              <br></br>
             <Button variant='contained' onClick={()=> this.deleteUser(this.props.match.params.id)} color='primary'>Delete</Button>
             
               
@@ -176,8 +203,10 @@ class UserDataEdit extends React.Component<RouteComponentProps<any> & IUserProp,
           
         </div>
         
-      </Box>
-      
+            </Box>
+            </Box>
+        </Container>
+        </ThemeProvider>
     )
     
   }

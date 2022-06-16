@@ -58,6 +58,9 @@ const DailyItems: React.FC<WeatherProps> = (props) => {
       <React.Fragment>
       <ThemeProvider theme={theme}>        
         <Typography variant="h5" align='center'>Eberswalde,{props.today}</Typography>
+       <br></br> 
+        <br></br>
+        <br></br> 
         
         <Grid container spacing={2}>          
           <Grid item xs={8}>        

@@ -55,7 +55,7 @@ interface LastSevenDaysWeatherProps {
 const cardStyle = {
     display: 'block',    
     transitionDuration: '0.3s',
-    height: '45vw',
+    height: '46vw',
     margin: '20px'
 }
 
@@ -100,7 +100,8 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
         const theta = await new Chart(ctx, {    
             type: 'line',            
             data: {        
-                labels: Date,                
+                labels: Date,
+                
                 datasets: [
                     {       
                         label: k11,                        
@@ -127,12 +128,65 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                 ]                
             },
             options: {
-                scales: {
-                    y: {                
-                        beginAtZero: false                        
-                    }                    
-                }                
-            }            
+                responsive: true,
+                layout: {
+                    padding: {
+                        bottom: 0
+                    }
+                    },
+                    plugins: {                            
+                        title: {
+                            display: true,
+                            text: `Soil Moisture Chart at ${k11} ${k12} ${k13} & ${k14} `,
+                            font: {
+                                size: 30
+                            }                            
+                        }
+                        
+                },
+                scales: {                    
+                    x: {
+                            title: {
+                            display: true,
+                            text: `Last Seven Days Data` ,
+                            font: {
+                                size: 15
+                            }
+                        },
+                            grid: {                                    
+                                display: false,
+                            },                            
+                            ticks: {                                    
+                                autoSkip: false,                                
+                                    //maxTicksLimit: 8,                                
+                                align: 'start',                                    
+                                maxRotation: 0,                                    
+                                minRotation: 0,                                    
+                                    //crossAlign: 'far',                                
+                                callback: function (val: any, index) {                                        
+                                // show the label of every 95th element in date labels
+                                    return index % 96 === 0 ? this.getLabelForValue(val) : '';
+
+                                },                                
+                                color: 'blue',                                    
+                            }                     
+                    },
+                    yAxes: {
+                        title: {
+                            display: true,
+                            text: 'Soil Moisture %',
+                            font: {
+                                size: 15
+                            }
+                        },
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                    
+                    
+                }
+            }
         });
         return (theta)
 
@@ -152,7 +206,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                         {/* {console.log('STATE', this.props)} */}
                         <Card sx={{ minWidth: 275 }}>                            
                                 <div className="map">
-                                    <h2 style={{textAlign:'center'}}>Micro Climatic Weather Station</h2>
+                                    <h2 style={{textAlign:'center'}}>Micro Climatic Weather Station Location</h2>
 
                                     <div className="google-map">
                                     <Map Location = {this.props.Location} />
@@ -161,7 +215,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                         </Card>                        
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                        <Card sx={{ minWidth: 275 }} style={{ height: '370px', paddingBottom: '0px', marginTop: '0px'}}>
+                        <Card sx={{ minWidth: 275 }} style={{ height: '446px', paddingBottom: '0px', marginTop: '0px'}}>
                             
                             <CardContent>
                                 {console.log('FWDType', this.props.FWDType)}
@@ -171,7 +225,7 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                                     error={this.props.FWDError}                                    
                                 />
                             </CardContent>
-                            <CardActions style={{ paddingBottom: '0px', marginTop: '35px', marginBottom: '0px'}}>                                
+                            <CardActions style={{ paddingBottom: '0px', marginTop: '50px', marginBottom: '0px'}}>                                
                                 <p style={{ textAlign: 'center' }}>
                                     SOURCE:                                    
                                     <a target="_blank" rel="noopener noreferrer" href="https://openweathermap.org/api">
@@ -189,8 +243,13 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                             {this.props.PWDloading ?
                                 <Loading /> :
                                 (this.props.PWDType ?
-                                    <div className="chart-container" style={{ position: "relative", height: '40vh', width: '80vw' }}  >            
-                                    <canvas id="myChart"></canvas>
+                                    <div className="chart-container" style={{ position: "relative", width: '80vw'}}>            
+                                        <canvas id="myChart"></canvas>
+                                        <h4 style={{ textAlign: 'center'}}>SOURCE:                                    
+                                    <a target="_blank" rel="noopener noreferrer" href="https://www.upgmbh.com/">
+                                        UP Umweltanalytische Produkte GmbH - Weather Station API
+                                    </a>                                    
+                                </h4>
                                     </div> :                                        
                                     <ErrorComponent                                        
                                         ErrorText={` This is an error alert <br></br><br></br> <strong>As the data is coming from the https://logstar-online.de <br></br>                                        
@@ -199,36 +258,28 @@ class HomePage extends React.Component<LastSevenDaysWeatherProps> {
                                 )
                             }  
                             
-                        </Card>
-                        <CardActions>                                
-                                    <h4 style={{ textAlign: 'center' }}>SOURCE:                                    
-                                    <a target="_blank" rel="noopener noreferrer" href="https://www.upgmbh.com/">
-                                        UP Umweltanalytische Produkte GmbH - Weather Station API
-                                    </a>                                    
-                                </h4>
-                            </CardActions>
+                        </Card>                        
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         <Card sx={{ minWidth: 275 }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                Word of the Day
+                                .......
                                 </Typography>
                                 <Typography variant="h5" component="div">
-                                BBBBBB
+                                 Title......
                                 </Typography>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                adjective
+                                ........
                                 </Typography>
                                 <Typography variant="body2">
-                                well meaning and kindly.
-                                <br />
-                                {'"a benevolent smile"'}
+                                Information......
+                                
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button size="small">Learn More</Button>
+                                <Button size="small">Link.....</Button>
                             </CardActions>
                             </Card>
                     </Grid>

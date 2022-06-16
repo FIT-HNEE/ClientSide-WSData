@@ -68,13 +68,12 @@ class AllUsers extends React.Component<Props, filteredValues> {
         
         return (
             <div>
-                <Paper>
-                    <div className="App">
-                        <div style={{ margin: '0 auto', marginTop: '10%' }}>
+                    <h2 style={{ textAlign: 'center' }}> All Users Data</h2>
+                        <div style={{ margin: '0 auto', marginTop: '1%' }}>
                         <label>Search:</label>
                         <input type="text" onChange={this.requestSearch} />
                         </div>
-                    </div>
+                    
                     <TableContainer>
                         <Table aria-label="simple table">
                             <TableHead>
@@ -110,7 +109,7 @@ class AllUsers extends React.Component<Props, filteredValues> {
                             </TableBody> 
                         </Table>
                     </TableContainer>                    
-                </Paper>
+                
             </div> 
         )
     }
