@@ -1,7 +1,6 @@
 import "./style.css";
 import React, { useEffect } from 'react';
 import { GetLocationData } from '../../actions/Actions'
-import { GoogleMapsAPI } from "../../key/keys";
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet'
 import {Icon} from 'leaflet'
@@ -33,31 +32,7 @@ const Map = ({Location, ...props}:Props) =>{
     //console.log(Location, 'PROPS')
   }, [GetLocationData]);
 
-  //const mapRef = React.useRef<any>(null);
   
-  /* const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: GoogleMapsAPI
-  });
-  const onLoad = React.useCallback(
-    (mapInstance) => {
-      const bounds = new google.maps.LatLngBounds();      
-        bounds.extend(
-          new google.maps.LatLng(
-            Number(Location.LocationType ? Location.LocationType.latitude : 52.824270),
-            Number(Location.LocationType ? Location.LocationType.longitude : 13.791780 )
-            
-          )
-        );
-      
-      mapRef.current = mapInstance;
-      mapInstance.fitBounds(bounds);
-    },
-    [Location]
-  ); */
-  /* const onClickMarker = (officeId: string) => {
-    setSelectedOffice(offices.find((office) => office.id === officeId));
-  }; */
 
   return (
     <>     
@@ -80,35 +55,7 @@ const Map = ({Location, ...props}:Props) =>{
           </MapContainer>,
           
 
-          {/* <GoogleMap
-            mapContainerClassName="c-office-overview__map"
-           center={center}
-            zoom={12}
-            onLoad={onLoad}    
-          >
-            <Marker
-                key={Location.LocationType ? Location.LocationType.latitude : 52.824270}
-                //onClick={() => onClickMarker(office.id)}
-                position={{
-                  lat: Number(Location.LocationType ? Location.LocationType.latitude : 52.824270 ),
-                  lng: Number(Location.LocationType ? Location.LocationType.longitude : 13.791780)
-              }}
-              label={Location.LocationType ? `${Location.LocationType.locationName} ` : ' '}
-              
-              />
-            <InfoWindow
-                position={{
-                  lat: Number(Location.LocationType ? Location.LocationType.latitude : 52.824270 ),
-                  lng: Number(Location.LocationType ? Location.LocationType.longitude : 13.791780)
-                }} 
-              >
-                <p>
-                  {Location.LocationType ? Location.LocationType.locationName : ' '}
-                  
-                </p>
-              </InfoWindow>
-           
-          </GoogleMap> */}
+         
         </>
     
     </>
